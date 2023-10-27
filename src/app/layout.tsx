@@ -4,9 +4,14 @@ import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
+import { PROJECT_NAME, PROJECT_DESCRIPTION } from "@/constants";
+
+// components
+import Header from "@/components/features/Header";
+
 export const metadata: Metadata = {
-  title: "AI Trello Board",
-  description: "Use of AI to help with Trello boards",
+  title: PROJECT_NAME,
+  description: PROJECT_DESCRIPTION,
 };
 
 export default function RootLayout({
@@ -16,7 +21,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
