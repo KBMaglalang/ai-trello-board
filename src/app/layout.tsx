@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 import { PROJECT_NAME, PROJECT_DESCRIPTION } from "@/constants";
 
 // components
-import Header from "@/components/features/Header";
+import Layout from "@/components/features/Layout";
 
 export const metadata: Metadata = {
   title: PROJECT_NAME,
@@ -22,8 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Header />
-        {children}
+        <Layout>{children}</Layout>
       </body>
     </html>
   );
