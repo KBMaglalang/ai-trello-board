@@ -99,7 +99,7 @@ export default function Column({ id, todos, index }: Props) {
                   <div className="flex items-end justify-end p-2">
                     <button
                       onClick={handleAddTodo}
-                      className="text-green-500 hover:text-green-600"
+                      className="btn glass w-full text-gray-700"
                     >
                       <PlusCircleIcon className="w-10 h-10" />
                     </button>
