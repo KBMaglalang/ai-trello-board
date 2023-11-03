@@ -8,6 +8,7 @@ import Image from "next/image";
 // components
 import TaskTypeRadioGroup from "./TaskTypeRadioGroup";
 import TaskPriorityGroup from "./TaskPriorityGroup";
+import TaskDatePicker from "./TaskDatePicker";
 
 import { useModalStore } from "@/store/ModalStore";
 import { useBoardStore } from "@/store/BoardStore";
@@ -26,7 +27,8 @@ function Modal() {
     newTaskDescription,
     setNewTaskDescription,
     newTaskPriority,
-    setNewTaskPriority,
+    newTaskStartDate,
+    newTaskEndDate,
     addTask,
     newTaskType,
     setImage,
@@ -37,7 +39,8 @@ function Modal() {
     state.newTaskDescription,
     state.setNewTaskDescription,
     state.newTaskPriority,
-    state.setNewTaskPriority,
+    state.newTaskStartDate,
+    state.newTaskEndDate,
     state.addTask,
     state.newTaskType,
     state.setImage,
@@ -53,7 +56,9 @@ function Modal() {
       newTaskDescription,
       newTaskPriority,
       newTaskType,
-      image
+      image,
+      newTaskStartDate,
+      newTaskEndDate
     );
     setImage(null);
     closeModal();
@@ -97,6 +102,7 @@ function Modal() {
                 >
                   Add a Task
                 </Dialog.Title>
+
                 {/* task title input */}
                 <div className="mt-2">
                   <input
@@ -117,6 +123,9 @@ function Modal() {
                     className="w-full p-5 border border-gray-300 rounded-md outline-none"
                   />
                 </div>
+
+                {/* start and end date */}
+                <TaskDatePicker />
 
                 {/* radio group: null, low, medium, high */}
                 <TaskPriorityGroup />
