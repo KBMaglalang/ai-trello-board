@@ -57,7 +57,7 @@ export default function Card({
           <p>{todo.title}</p>
           <button
             onClick={() => deleteTask(index, todo, id)}
-            className="text-red-500 hover:text-red-600"
+            className="text-gray-200 hover:text-red-600"
           >
             <XCircleIcon className="w-8 h-8 ml-5" />
           </button>
