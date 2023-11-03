@@ -28,7 +28,6 @@ export default function Card({
   draggableProps,
   dragHandleProps,
 }: Props) {
-  console.log("🚀 ~ file: Card.tsx:31 ~ todo:", todo);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const deleteTask = useBoardStore((state) => state.deleteTask);
