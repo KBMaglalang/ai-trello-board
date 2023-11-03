@@ -13,11 +13,13 @@ interface Image {
 interface Todo {
   $id: string;
   $createdAt: string;
-  description: string;
-  title: string;
   status: TypedColumn;
+  title: string;
+  description?: string;
   image?: Image;
   priority?: PriorityStatus;
+  startDate?: string;
+  endDate?: string;
 }
 
 interface Column {
