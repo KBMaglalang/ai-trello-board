@@ -3,6 +3,7 @@ interface Board {
 }
 
 type TypedColumn = "todo" | "inprogress" | "done";
+type PriorityStatus = null | "low" | "medium" | "high";
 
 interface Image {
   bucketId: string;
@@ -12,10 +13,11 @@ interface Image {
 interface Todo {
   $id: string;
   $createdAt: string;
-  // description: string;
+  description: string;
   title: string;
   status: TypedColumn;
   image?: Image;
+  priority?: PriorityStatus;
 }
 
 interface Column {
