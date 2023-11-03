@@ -9,17 +9,27 @@ interface BoardState {
   getBoard: () => void;
   newTaskType: TypedColumn;
   newTaskInput: string;
+  newTaskDescription: string;
+  newTaskPriority: PriorityStatus;
   image: File | null;
   searchString: string;
 
   countTodos: (columnId: TypedColumn) => number;
   setBoardState: (board: Board) => void;
-  addTask: (todo: string, columnId: TypedColumn, image?: File | null) => void;
+  addTask: (
+    todo: string,
+    description: string,
+    priority: PriorityStatus,
+    columnId: TypedColumn,
+    image?: File | null
+  ) => void;
   deleteTask: (taskIndex: number, todoId: Todo, id: TypedColumn) => void;
   updateTodoInDB: (todo: Todo, columnId: TypedColumn) => void;
 
   setNewTaskType: (columnId: TypedColumn) => void;
   setNewTaskInput: (input: string) => void;
+  setNewTaskDescription: (description: string) => void;
+  setNewTaskPriority: (priority: PriorityStatus) => void;
   setImage: (image: File | null) => void;
   setSearchString: (searchString: string) => void;
 }
@@ -35,12 +45,19 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
   },
   newTaskType: "todo",
   newTaskInput: "",
+  newTaskDescription: "",
+  newTaskPriority: null,
   image: null,
   searchString: "",
 
-  setImage: (image: File | null) => set({ image }),
   setNewTaskType: (columnId: TypedColumn) => set({ newTaskType: columnId }),
   setNewTaskInput: (input: string) => set({ newTaskInput: input }),
+  setNewTaskDescription: (description: string) =>
+    set({ newTaskDescription: description }),
+  setNewTaskPriority: (priority: PriorityStatus) =>
+    set({ newTaskPriority: priority }),
+  setImage: (image: File | null) => set({ image }),
+
   setSearchString: (searchString: string) => set({ searchString }),
 
   updateTodoInDB: async (todo: Todo, columnId: TypedColumn) => {
@@ -50,6 +67,8 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
       todo.$id,
       {
         title: todo.title,
+        // description: todo.description,
+        // priority: todo.priority,
         status: columnId,
       }
     );
@@ -81,7 +100,13 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
     );
   },
 
-  addTask: async (todo: string, columnId: TypedColumn, image?: File | null) => {
+  addTask: async (
+    todo: string,
+    description: string,
+    priority: PriorityStatus,
+    columnId: TypedColumn,
+    image?: File | null
+  ) => {
     let file: Image | undefined;
 
     if (image) {
@@ -100,13 +125,18 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
       ID.unique(),
       {
         title: todo,
+        description: description,
+        priority: priority,
         status: columnId,
         // include image if it exists
         ...(file && { image: JSON.stringify(file) }),
       }
     );
 
+    // reset fields
     set({ newTaskInput: "" });
+    set({ newTaskDescription: "" });
+    set({ newTaskPriority: null });
 
     set((state) => {
       const newColumns = new Map(state.board.columns);
@@ -114,6 +144,8 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
         $id,
         $createdAt: new Date().toISOString(),
         title: todo,
+        description: description,
+        priority: priority,
         status: columnId,
         // include image if it exists
         ...(file && { image: file }),
