@@ -11,6 +11,8 @@ interface BoardState {
   newTaskInput: string;
   newTaskDescription: string;
   newTaskPriority: PriorityStatus;
+  newTaskStartDate: string;
+  newTaskEndDate: string;
   image: File | null;
   searchString: string;
 
@@ -21,7 +23,9 @@ interface BoardState {
     description: string,
     priority: PriorityStatus,
     columnId: TypedColumn,
-    image?: File | null
+    image?: File | null,
+    startDate?: string,
+    endDate?: string
   ) => void;
   deleteTask: (taskIndex: number, todoId: Todo, id: TypedColumn) => void;
   updateTodoInDB: (todo: Todo, columnId: TypedColumn) => void;
@@ -30,6 +34,8 @@ interface BoardState {
   setNewTaskInput: (input: string) => void;
   setNewTaskDescription: (description: string) => void;
   setNewTaskPriority: (priority: PriorityStatus) => void;
+  setNewTaskStartDate: (startDate: string) => void;
+  setNewTaskEndDate: (endDate: string) => void;
   setImage: (image: File | null) => void;
   setSearchString: (searchString: string) => void;
 }
@@ -47,6 +53,8 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
   newTaskInput: "",
   newTaskDescription: "",
   newTaskPriority: null,
+  newTaskStartDate: "",
+  newTaskEndDate: "",
   image: null,
   searchString: "",
 
@@ -56,6 +64,9 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
     set({ newTaskDescription: description }),
   setNewTaskPriority: (priority: PriorityStatus) =>
     set({ newTaskPriority: priority }),
+  setNewTaskStartDate: (startDate: string) =>
+    set({ newTaskStartDate: startDate }),
+  setNewTaskEndDate: (endDate: string) => set({ newTaskEndDate: endDate }),
   setImage: (image: File | null) => set({ image }),
 
   setSearchString: (searchString: string) => set({ searchString }),
@@ -105,7 +116,9 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
     description: string,
     priority: PriorityStatus,
     columnId: TypedColumn,
-    image?: File | null
+    image?: File | null,
+    startDate?: string,
+    endDate?: string
   ) => {
     let file: Image | undefined;
 
@@ -128,6 +141,8 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
         description: description,
         priority: priority,
         status: columnId,
+        startDate: startDate,
+        endDate: endDate,
         // include image if it exists
         ...(file && { image: JSON.stringify(file) }),
       }
@@ -137,6 +152,8 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
     set({ newTaskInput: "" });
     set({ newTaskDescription: "" });
     set({ newTaskPriority: null });
+    set({ newTaskStartDate: "" });
+    set({ newTaskEndDate: "" });
 
     set((state) => {
       const newColumns = new Map(state.board.columns);
@@ -147,6 +164,8 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
         description: description,
         priority: priority,
         status: columnId,
+        startDate: startDate,
+        endDate: endDate,
         // include image if it exists
         ...(file && { image: file }),
       };
