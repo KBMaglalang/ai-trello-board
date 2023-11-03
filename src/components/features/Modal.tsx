@@ -7,6 +7,8 @@ import Image from "next/image";
 
 // components
 import TaskTypeRadioGroup from "./TaskTypeRadioGroup";
+import TaskPriorityGroup from "./TaskPriorityGroup";
+
 import { useModalStore } from "@/store/ModalStore";
 import { useBoardStore } from "@/store/BoardStore";
 
@@ -18,21 +20,41 @@ function Modal() {
     state.closeModal,
   ]);
 
-  const [newTaskInput, setNewTaskInput, addTask, newTaskType, setImage, image] =
-    useBoardStore((state) => [
-      state.newTaskInput,
-      state.setNewTaskInput,
-      state.addTask,
-      state.newTaskType,
-      state.setImage,
-      state.image,
-    ]);
+  const [
+    newTaskInput,
+    setNewTaskInput,
+    newTaskDescription,
+    setNewTaskDescription,
+    newTaskPriority,
+    setNewTaskPriority,
+    addTask,
+    newTaskType,
+    setImage,
+    image,
+  ] = useBoardStore((state) => [
+    state.newTaskInput,
+    state.setNewTaskInput,
+    state.newTaskDescription,
+    state.setNewTaskDescription,
+    state.newTaskPriority,
+    state.setNewTaskPriority,
+    state.addTask,
+    state.newTaskType,
+    state.setImage,
+    state.image,
+  ]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newTaskInput) return;
 
-    addTask(newTaskInput, newTaskType, image);
+    addTask(
+      newTaskInput,
+      newTaskDescription,
+      newTaskPriority,
+      newTaskType,
+      image
+    );
     setImage(null);
     closeModal();
   };
@@ -71,10 +93,11 @@ function Modal() {
               <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <Dialog.Title
                   as="h3"
-                  className="pb-2 text-lg font-medium leading-6 text-gray-900"
+                  className="pb-2 text-lg font-medium leading-6 text-gray-900 text-center"
                 >
                   Add a Task
                 </Dialog.Title>
+                {/* task title input */}
                 <div className="mt-2">
                   <input
                     type="text"
@@ -85,6 +108,20 @@ function Modal() {
                   />
                 </div>
 
+                {/* task description input */}
+                <div className="mt-2">
+                  <textarea
+                    value={newTaskDescription}
+                    onChange={(e) => setNewTaskDescription(e.target.value)}
+                    placeholder="Enter a description here..."
+                    className="w-full p-5 border border-gray-300 rounded-md outline-none"
+                  />
+                </div>
+
+                {/* radio group: null, low, medium, high */}
+                <TaskPriorityGroup />
+
+                {/* column type: todo, in progress, or done */}
                 <TaskTypeRadioGroup />
 
                 {/* File Input goes here... */}
@@ -128,7 +165,7 @@ function Modal() {
                   <button
                     type="submit"
                     disabled={!newTaskInput}
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:bg-gray-100 disabled:text-gray-300 disabled:cursor-not-allowed"
+                    className="w-full inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:bg-gray-100 disabled:text-gray-300 disabled:cursor-not-allowed"
                   >
                     Add Task
                   </button>
