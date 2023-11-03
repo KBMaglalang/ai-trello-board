@@ -23,7 +23,7 @@ export default function TaskPriorityGroup() {
 
   return (
     <select
-      className="select select-bordered w-full border-gray-300 rounded-md"
+      className="select select-bordered w-full border-gray-300 rounded-md mt-2"
       onChange={handleSelect}
     >
       <option disabled selected>
