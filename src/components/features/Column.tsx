@@ -48,14 +48,12 @@ export default function Column({ id, todos, index }: Props) {
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                className={`pb-2
-                ${snapshot.isDraggingOver ? "bg-green-200" : "bg-white/50"}
-                  p-2 rounded-2xl shadow-sm
+                className={`pb-2 bg-white/50 p-2 rounded-2xl shadow-sm
                 `}
               >
                 <h2 className="flex justify-between p-2 text-xl font-bold">
                   {idToColumnText[id]}
-                  <span className="px-2 py-1 text-sm font-normal text-gray-500 bg-gray-200 rounded-full">
+                  {/* <span className="px-2 py-1 text-sm font-normal text-gray-500 bg-gray-200 rounded-full">
                     {!searchString
                       ? todos.length
                       : todos.filter((todo) =>
@@ -63,7 +61,7 @@ export default function Column({ id, todos, index }: Props) {
                             .toLowerCase()
                             .includes(searchString.toLowerCase())
                         ).length}
-                  </span>
+                  </span> */}
                 </h2>
                 <div className="space-y-2">
                   {todos.map((todo, index) => {
