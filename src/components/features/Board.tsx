@@ -94,7 +94,7 @@ export default function Board() {
   };
 
   return (
-    <div className="w-full h-full bg-red-600">
+    <div className="w-full h-full">
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="board" direction="horizontal" type="column">
           {(provided) => (
