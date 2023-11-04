@@ -6,10 +6,11 @@ import {
   DraggableProvidedDraggableProps,
 } from "react-beautiful-dnd";
 import Image from "next/image";
-import { XCircleIcon } from "@heroicons/react/24/solid";
+import { XCircleIcon, PencilIcon } from "@heroicons/react/24/solid";
 
 import getUrl from "@/lib/getUrl";
 import { useBoardStore } from "@/store/BoardStore";
+import { useModalStore } from "@/store/ModalStore";
 
 type Props = {
   todo: Todo;
@@ -30,6 +31,12 @@ export default function Card({
 }: Props) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
+  // stores
+  const [openModal, isOpen, isEditModal] = useModalStore((state) => [
+    state.openModal,
+    state.isOpen,
+    state.isEditModal,
+  ]);
   const deleteTask = useBoardStore((state) => state.deleteTask);
 
   useEffect(() => {
@@ -52,19 +59,29 @@ export default function Card({
       ref={innerRef}
     >
       <div className="flex flex-col">
-        {/* title */}
-        <div className="flex items-center justify-between p-5">
-          <p>{todo.title}</p>
+        <div className="flex items-center justify-end mt-4 mr-4">
+          <button
+            onClick={() => openModal(true, todo, id)}
+            className="text-gray-200 hover:text-blue-600"
+          >
+            <PencilIcon className="w-6 h-6" />
+          </button>
+
           <button
             onClick={() => deleteTask(index, todo, id)}
             className="text-gray-200 hover:text-red-600"
           >
-            <XCircleIcon className="w-8 h-8 ml-5" />
+            <XCircleIcon className="w-6 h-6 ml-2" />
           </button>
         </div>
 
+        {/* title */}
+        <div className="flex items-center justify-between p-5">
+          <p className="text-xl font-bold">{todo.title}</p>
+        </div>
+
         {/* image */}
-        {imageUrl && (
+        {/* {imageUrl && (
           <div className="relative w-full h-full rounded-b-md">
             <Image
               src={imageUrl}
@@ -74,7 +91,7 @@ export default function Card({
               className="object-contain w-full rounded-b-md"
             />
           </div>
-        )}
+        )} */}
 
         {/* created at */}
         <div className="">
