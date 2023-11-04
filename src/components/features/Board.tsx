@@ -5,6 +5,7 @@ import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 
 // components
 import Column from "./Column";
+
 import { useBoardStore } from "@/store/BoardStore";
 
 export default function Board() {
