@@ -2,6 +2,8 @@ import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { RadioGroup } from "@headlessui/react";
 
 import { useBoardStore } from "@/store/BoardStore";
+import { useModalStore } from "@/store/ModalStore";
+import { useEffect } from "react";
 
 const types = [
   {
@@ -25,10 +27,22 @@ const types = [
 ];
 
 export default function Example() {
-  const [setNewTaskType, newTaskType] = useBoardStore((state) => [
-    state.setNewTaskType,
-    state.newTaskType,
+  const [isEditModal, cardInfo] = useModalStore((state) => [
+    // states
+    state.isEditModal,
+    state.cardInfo,
   ]);
+  const [newTaskType, setNewTaskType] = useBoardStore((state) => [
+    state.newTaskType,
+
+    state.setNewTaskType,
+  ]);
+
+  useEffect(() => {
+    if (isEditModal) {
+      setNewTaskType(cardInfo?.todo?.status);
+    }
+  }, [isEditModal, cardInfo?.todo?.status, setNewTaskType]);
 
   return (
     <div className="w-full py-5">
