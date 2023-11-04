@@ -57,6 +57,7 @@ export default function Card({
       {...draggableProps}
       {...dragHandleProps}
       ref={innerRef}
+      onDoubleClick={() => openModal(true, todo, id)}
     >
       <div className="flex flex-col">
         <div className="flex items-center justify-end mt-4 mr-4">
