@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, Fragment, useRef, useState } from "react";
+import { FormEvent, Fragment, useRef, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
@@ -12,56 +12,123 @@ import TaskDatePicker from "./TaskDatePicker";
 
 import { useModalStore } from "@/store/ModalStore";
 import { useBoardStore } from "@/store/BoardStore";
+import getUrl from "@/lib/getUrl";
 
 function Modal() {
   const imagePickerRef = useRef<HTMLInputElement>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  const [isOpen, closeModal] = useModalStore((state) => [
-    state.isOpen,
-    state.closeModal,
-  ]);
+  const [isOpen, isEditModal, cardInfo, closeModal, clearCardInfo] =
+    useModalStore((state) => [
+      // states
+      state.isOpen,
+      state.isEditModal,
+      state.cardInfo,
+
+      // getters
+      state.closeModal,
+      state.clearCardInfo,
+    ]);
 
   const [
     newTaskInput,
-    setNewTaskInput,
     newTaskDescription,
-    setNewTaskDescription,
     newTaskPriority,
     newTaskStartDate,
     newTaskEndDate,
-    addTask,
     newTaskType,
-    setImage,
     image,
+
+    setNewTaskInput,
+    setNewTaskDescription,
+    addTask,
+    setImage,
+    updateTodoInDB,
+    clearNewTaskStates,
   ] = useBoardStore((state) => [
     state.newTaskInput,
-    state.setNewTaskInput,
     state.newTaskDescription,
-    state.setNewTaskDescription,
     state.newTaskPriority,
     state.newTaskStartDate,
     state.newTaskEndDate,
-    state.addTask,
     state.newTaskType,
-    state.setImage,
     state.image,
+
+    state.setNewTaskInput,
+    state.setNewTaskDescription,
+    state.addTask,
+    state.setImage,
+    state.updateTodoInDB,
+    state.clearNewTaskStates,
   ]);
+
+  useEffect(() => {
+    if (isEditModal) {
+      setNewTaskInput(cardInfo?.todo?.title);
+      setNewTaskDescription(cardInfo?.todo?.description);
+      setImage(cardInfo?.todo?.image);
+    }
+
+    // if (image) {
+    //   const fetchImage = async () => {
+    //     const url = await getUrl(image!);
+    //     if (url) {
+    //       setImageUrl(url.toString());
+    //     }
+    //   };
+    //   fetchImage();
+    // }
+  }, [
+    isEditModal,
+    cardInfo?.todo?.description,
+    cardInfo?.todo?.image,
+    cardInfo?.todo?.title,
+    // image,
+    setImage,
+    setNewTaskDescription,
+    setNewTaskInput,
+  ]);
+
+  const handleOnClose = () => {
+    closeModal();
+    setImage(null);
+    clearCardInfo();
+    clearNewTaskStates();
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newTaskInput) return;
 
-    addTask(
-      newTaskInput,
-      newTaskDescription,
-      newTaskPriority,
-      newTaskType,
-      image,
-      newTaskStartDate,
-      newTaskEndDate
-    );
-    setImage(null);
-    closeModal();
+    if (isEditModal) {
+      // update the todo fields in the db
+      updateTodoInDB(
+        {
+          ...cardInfo.todo!,
+
+          title: newTaskInput,
+          description: newTaskDescription,
+          priority: newTaskPriority,
+          status: newTaskType,
+          image,
+          startDate: newTaskStartDate,
+          endDate: newTaskEndDate,
+        },
+        newTaskType
+      );
+    } else {
+      addTask(
+        newTaskInput,
+        newTaskDescription,
+        newTaskPriority,
+        newTaskType,
+        image,
+        newTaskStartDate,
+        newTaskEndDate
+      );
+    }
+
+    handleOnClose();
   };
 
   return (
@@ -70,7 +137,7 @@ function Modal() {
         as="form"
         onSubmit={handleSubmit}
         className="relative z-10"
-        onClose={closeModal}
+        onClose={handleOnClose}
       >
         <Transition.Child
           as={Fragment}
@@ -100,7 +167,7 @@ function Modal() {
                   as="h3"
                   className="pb-2 text-lg font-medium leading-6 text-gray-900 text-center"
                 >
-                  Add a Task
+                  {isEditModal ? "Edit Task" : "Add a Task"}
                 </Dialog.Title>
 
                 {/* task title input */}
@@ -134,19 +201,10 @@ function Modal() {
                 <TaskTypeRadioGroup />
 
                 {/* File Input goes here... */}
-                <div className="mt-2">
-                  <button
-                    onClick={() => {
-                      imagePickerRef.current?.click();
-                    }}
-                    type="button"
-                    className="w-full p-5 border border-gray-300 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  >
-                    <PhotoIcon className="inline-block w-6 h-6 mr-2" />
-                    Upload Image
-                  </button>
-                  {image && (
+                {/* <div className="mt-2">
+                  {image ? (
                     <Image
+                      priority
                       alt="Uploaded Image"
                       width={200}
                       height={200}
@@ -154,21 +212,35 @@ function Modal() {
                       onClick={() => {
                         setImage(null);
                       }}
-                      src={URL.createObjectURL(image)}
+                      src={isEditModal ? imageUrl : URL?.createObjectURL(image)}
                     />
-                  )}
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => {
+                          imagePickerRef.current?.click();
+                        }}
+                        type="button"
+                        className="w-full p-5 border border-gray-300 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      >
+                        <PhotoIcon className="inline-block w-6 h-6 mr-2" />
+                        Upload Image
+                      </button>
 
-                  <input
-                    type="file"
-                    ref={imagePickerRef}
-                    hidden
-                    onChange={(e) => {
-                      // check e is an image
-                      if (!e.target.files![0].type.startsWith("image/")) return;
-                      setImage(e.target.files![0]);
-                    }}
-                  />
-                </div>
+                      <input
+                        type="file"
+                        ref={imagePickerRef}
+                        hidden
+                        onChange={(e) => {
+                          // check e is an image
+                          if (!e.target.files![0].type.startsWith("image/"))
+                            return;
+                          setImage(e.target.files![0]);
+                        }}
+                      />
+                    </>
+                  )}
+                </div> */}
 
                 <div className="mt-4">
                   <button
@@ -176,7 +248,7 @@ function Modal() {
                     disabled={!newTaskInput}
                     className="w-full inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:bg-gray-100 disabled:text-gray-300 disabled:cursor-not-allowed"
                   >
-                    Add Task
+                    {isEditModal ? "Update Task" : "Add Task"}
                   </button>
                 </div>
               </Dialog.Panel>

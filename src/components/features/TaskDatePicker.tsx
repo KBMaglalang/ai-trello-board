@@ -1,21 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 
 import { useBoardStore } from "@/store/BoardStore";
+import { useModalStore } from "@/store/ModalStore";
 
 export default function TaskDatePicker() {
+  const [isEditModal, cardInfo] = useModalStore((state) => [
+    // states
+    state.isEditModal,
+    state.cardInfo,
+  ]);
   const [setNewTaskStartDate, setNewTaskEndDate] = useBoardStore((state) => [
     state.setNewTaskStartDate,
     state.setNewTaskEndDate,
   ]);
 
+  useEffect(() => {
+    if (isEditModal) {
+      setNewTaskStartDate(cardInfo?.todo?.startDate);
+      setNewTaskEndDate(cardInfo?.todo?.endDate);
+    }
+  }, [
+    isEditModal,
+    cardInfo?.todo?.startDate,
+    cardInfo?.todo?.endDate,
+    setNewTaskStartDate,
+    setNewTaskEndDate,
+  ]);
+
+  // todo refator - this should be change to completely rely on the store and not on the state
   const [startDate, setStartDate] = useState({
-    startDate: new Date(),
-    endDate: null,
+    startDate: cardInfo?.todo?.startDate || new Date(),
+    endDate: cardInfo?.todo?.startDate || null,
   });
+
   const [endDate, setEndDate] = useState({
-    startDate: new Date(),
-    endDate: null,
+    startDate: cardInfo?.todo?.endDate || new Date(),
+    endDate: cardInfo?.todo?.endDate || null,
   });
 
   const handleStartDateChange = (newValue: any) => {
