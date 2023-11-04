@@ -17,7 +17,7 @@ interface BoardState {
   searchString: string;
 
   setBoardState: (board: Board) => void;
-  countTodos: (columnId: TypedColumn) => number;
+  // countTodos: (columnId: TypedColumn) => number;
   setSearchString: (searchString: string) => void;
 
   setNewTaskType: (columnId: TypedColumn) => void;
@@ -62,8 +62,8 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
 
   // --- setters ---
   setSearchString: (searchString: string) => set({ searchString }),
-  countTodos: (columnId: TypedColumn) =>
-    get().board.columns.get(columnId)?.todos.length || 0,
+  // countTodos: (columnId: TypedColumn) =>
+  //   get().board.columns.get(columnId)?.todos.length || 0,
   setBoardState: async (board: Board) => {
     set({ board });
   },
