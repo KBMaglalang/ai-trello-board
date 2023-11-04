@@ -8,7 +8,7 @@ export default function Header() {
   return (
     <header className="text-gray-600 body-font">
       <div className="mx-auto flex flex-wrap px-5 py-2 flex-col md:flex-row items-center">
-        <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+        <a className="flex title-font font-medium items-center text-white mb-4 md:mb-0">
           {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
