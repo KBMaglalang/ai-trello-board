@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState("");
+  const [theme, setTheme] = useState("dark");
 
   // set theme on initial load
   useEffect(() => {
@@ -16,17 +16,22 @@ export default function ThemeToggle() {
     localStorage.setItem("theme", theme);
     const localTheme = localStorage.getItem("theme");
 
-    document.querySelector("html")?.setAttribute("data-theme", localTheme!);
+    const htmlElement = document.querySelector("html");
+    if (htmlElement) {
+      htmlElement.setAttribute("data-theme", localTheme!);
+    }
   }, [theme]);
 
   // update state on toggle
-  const handleToggleTheme = (e: any) => {
-    if (e.target.checked) {
-      setTheme("dark");
-    } else {
-      setTheme("light");
-    }
-  };
+  const handleToggleTheme = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setTheme(e.target.checked ? "dark" : "light");
+    },
+    []
+  );
+
+  // set toggle checked value
+  const toggleChecked = theme === "light" ? false : true;
 
   return (
     <div className="form-control">
@@ -34,7 +39,7 @@ export default function ThemeToggle() {
         <input
           type="checkbox"
           className="toggle"
-          checked={theme === "light" ? false : true}
+          checked={toggleChecked}
           onChange={handleToggleTheme}
         />
       </label>
