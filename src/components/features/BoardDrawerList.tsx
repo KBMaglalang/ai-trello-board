@@ -1,34 +1,32 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 
 // components
 import BoardDrawerListItem from "./BoardDrawerListItem";
 
-const TEMP_DATA = [
-  {
-    title: "Board 1",
-    id: "1",
-  },
-  {
-    title: "Board 2",
-    id: "2",
-  },
-  {
-    title: "Board 3",
-    id: "3",
-  },
-  // generate 10 more
-  ...Array.from(Array(30).keys()).map((item) => ({
-    title: `Board ${item + 4}`,
-    id: `${item + 4}`,
-  })),
-];
+// store
+
+// constants and functions
+import { getBoards } from "@/lib/appwrite/boards";
 
 export default function BoardDrawerList() {
+  const [boards, setBoards] = useState([]);
+
+  useEffect(() => {
+    const getBoardData = async () => {
+      const boards = await getBoards();
+      setBoards(boards);
+    };
+
+    getBoardData().catch((error) => console.error(error));
+  }, []);
+
   return (
     <div className="flex flex-1 flex-col overflow-hidden h-full overflow-y-scroll">
       {/* Sidebar content here */}
-      {TEMP_DATA.map((item, index) => (
-        <BoardDrawerListItem key={index} title={item.title} id={item.id} />
+      {boards.map((item, index) => (
+        <BoardDrawerListItem key={index} title={item.title} id={item.$id} />
       ))}
     </div>
   );

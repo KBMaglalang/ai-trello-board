@@ -1,10 +1,21 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { Bars4Icon } from "@heroicons/react/24/solid";
 
 // components
 import BoardDrawerList from "./BoardDrawerList";
 
+// store
+
+// constants and functions
+import { createBoard } from "@/lib/appwrite/boards";
+
 export default function BoardDrawer() {
+  const handleCreateNewBoards = () => {
+    createBoard();
+  };
+
   return (
     <div className="drawer z-1000">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -33,7 +44,9 @@ export default function BoardDrawer() {
           <BoardDrawerList />
 
           {/* new board button */}
-          <button className="btn glass mt-2">New Board</button>
+          <button className="btn glass mt-2" onClick={handleCreateNewBoards}>
+            New Board
+          </button>
         </div>
       </div>
     </div>
