@@ -8,5 +8,4 @@ export const deleteBoard = async (boardId: string) => {
     process.env.NEXT_PUBLIC_BOARDS_COLLECTION_ID!,
     boardId
   );
-  console.log("🚀 ~ file: DeleteBoard.ts:11 ~ deleteBoard ~ data:", data);
 };

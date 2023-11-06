@@ -11,7 +11,6 @@ export const updateBoard = async (boardId: string, title: string) => {
       title,
     }
   );
-  console.log("🚀 ~ file: updateBoard.ts:14 ~ updateBoard ~ data:", data);
 
   return data;
 };
