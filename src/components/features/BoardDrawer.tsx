@@ -7,18 +7,30 @@ import { Bars4Icon } from "@heroicons/react/24/solid";
 import BoardDrawerList from "./BoardDrawerList";
 
 // store
+import { useDrawerStore } from "@/store/DrawerStore";
 
 // constants and functions
 import { createBoard } from "@/lib/appwrite/boards";
 
 export default function BoardDrawer() {
+  const [isOpen, toggleDrawer] = useDrawerStore((state) => [
+    state.isOpen,
+    state.toggleDrawer,
+  ]);
+
   const handleCreateNewBoards = () => {
     createBoard();
   };
 
   return (
     <div className="drawer z-1000">
-      <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+      <input
+        id="my-drawer"
+        type="checkbox"
+        className="drawer-toggle"
+        checked={isOpen}
+        onChange={() => toggleDrawer()}
+      />
       <div className="drawer-content">
         {/* toggle button */}
         <label htmlFor="my-drawer" className="btn btn-primary drawer-button">

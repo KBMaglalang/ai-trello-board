@@ -55,12 +55,9 @@ export default function Board() {
     state.setWorkingBoard,
     state.clearWorkingBoard,
   ]);
-  console.log("🚀 ~ file: Board.tsx:40 ~ Board ~ workingBoard:", workingBoard);
-  console.log("🚀 ~ file: Board.tsx:40 ~ Board ~ boardList:", boardList);
 
   useEffect(() => {
     getBoard();
-    getBoardList();
   }, [getBoard, getBoardList]);
 
   const handleOnDragEnd = (result: DropResult) => {
