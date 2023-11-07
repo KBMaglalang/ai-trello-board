@@ -38,12 +38,12 @@ export default function BoardDrawerListItem({ boardData }: Props) {
   };
 
   const handleEditBoardItem = () => {
-    setIsEditable(!isEditable);
-
     // update board title
-    if (!isEditable) {
+    if (isEditable) {
       updateBoard(boardData?.$id, boardTitle);
     }
+
+    setIsEditable(!isEditable);
   };
 
   const handleDeleteBoardItem = () => {
