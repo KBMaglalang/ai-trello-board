@@ -9,18 +9,28 @@ import { EmptyColumn } from "./Columns";
 
 // store
 import { useBoardStore } from "@/store/BoardStore";
-
-// constants and functions
-import {
-  createColumn,
-  getColumns,
-  updateColumn,
-  deleteColumn,
-  addColumnToBoard,
-} from "@/lib/appwrite/columns";
 import { useNewBoardStore } from "@/store/NewBoardStore";
 
-export default function Board() {
+// constants and functions
+import { findWorkingBoard } from "@/lib/util";
+
+export default function Board({ id }: { id: string }) {
+  // new board test
+  const [boardList, workingBoard, setWorkingBoard] = useNewBoardStore(
+    (state) => [state.boardList, state.workingBoard, state.setWorkingBoard]
+  );
+
+  useEffect(() => {
+    if (id && !workingBoard) {
+      // search the board list to find the matching board with the id
+      const boardData = findWorkingBoard(boardList, id);
+
+      // set the workingBoard
+      setWorkingBoard(boardData);
+    }
+  }, [boardList, id, setWorkingBoard, workingBoard]);
+
+  // ! this is old code
   const [board, setBoardState, getBoard, updateTodoInDB] = useBoardStore(
     (state) => [
       state.board,
@@ -30,41 +40,13 @@ export default function Board() {
     ]
   );
 
-  // new board test
-  const [
-    boardList,
-    workingBoard,
-
-    getBoardList,
-    clearBoardList,
-
-    createNewBoard,
-    updateNewBoard,
-    deleteNewBoard,
-
-    setWorkingBoard,
-    clearWorkingBoard,
-  ] = useNewBoardStore((state) => [
-    state.boardList,
-    state.workingBoard,
-
-    state.getBoardList,
-    state.clearBoardList,
-
-    state.createNewBoard,
-    state.updateNewBoard,
-    state.deleteNewBoard,
-
-    state.setWorkingBoard,
-    state.clearWorkingBoard,
-  ]);
-  console.log("🚀 ~ file: Board.tsx:36 ~ Board ~ boardList:", boardList);
-  console.log("🚀 ~ file: Board.tsx:37 ~ Board ~ workingBoard:", workingBoard);
-
+  // ! this is old code
   useEffect(() => {
     getBoard();
   }, [getBoard]);
 
+  // TODO: to be updated to work with the new database structure
+  // TODO: update for the latest DND library - default props to be deprecated
   const handleOnDragEnd = (result: DropResult) => {
     const { destination, source, type } = result;
 
@@ -146,23 +128,30 @@ export default function Board() {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {Array.from(board.columns.entries()).map(
-                ([id, column], index) => (
-                  <Column key={id} id={id} todos={column.todos} index={index} />
-                )
-              )}
+              {/* list the columns from the board */}
+              {workingBoard &&
+                workingBoard?.columns.map((column, index) => (
+                  <Column key={column.$id} columnData={column} index={index} />
+                ))}
 
               {provided.placeholder}
+
+              {/* add in an empty column for the user to add a new column */}
+              {workingBoard && (
+                <EmptyColumn boardId={workingBoard?.$id} boardColumns={[]} />
+              )}
             </div>
           )}
         </Droppable>
-        <EmptyColumn boardId={"65483a82edcd091acec6"} boardColumns={[]} />
       </DragDropContext>
     </div>
   );
 }
 
 /*
+
+
+
       board functions
       <div>
         <button className="btn btn-primary" onClick={() => getBoardList()}>

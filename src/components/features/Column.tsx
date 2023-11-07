@@ -1,42 +1,54 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import {
+  PlusCircleIcon,
+  PencilIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/solid";
 
 // components
 import Card from "./Card";
-import { useBoardStore } from "@/store/BoardStore";
+
+// store
 import { useModalStore } from "@/store/ModalStore";
 
+// constants and functions
+import { updateColumn, deleteColumn } from "@/lib/appwrite/columns";
+
 type Props = {
-  id: TypedColumn;
-  todos: Todo[];
+  columnData: any;
   index: number;
 };
 
-const idToColumnText: {
-  [key in TypedColumn]: string;
-} = {
-  todo: "To Do",
-  inprogress: "In Progress",
-  done: "Done",
-};
+export default function Column({ columnData, index }: Props) {
+  const [openModal] = useModalStore((state) => [state.openModal]);
 
-export default function Column({ id, todos, index }: Props) {
-  const [setNewTaskType, searchString] = useBoardStore((state) => [
-    state.setNewTaskType,
-    state.searchString,
-  ]);
-  const openModal = useModalStore((state) => state.openModal);
+  const [isEditable, setIsEditable] = useState(false);
+  const [columnTitle, setColumnTitle] = useState(
+    columnData?.title || "New Column"
+  );
+
+  const handleEditColumnName = () => {
+    // update column title in the database
+    if (isEditable) {
+      updateColumn(columnData?.$id, columnTitle);
+    }
+
+    setIsEditable(!isEditable);
+  };
+
+  const handleDeleteColumn = () => {
+    deleteColumn(columnData?.$id);
+  };
 
   const handleAddTodo = () => {
-    setNewTaskType(id);
     openModal();
   };
 
   return (
-    <Draggable draggableId={id} index={index}>
+    <Draggable draggableId={columnData?.$id} index={index}>
       {(provided) => (
         <div
           {...provided.draggableProps}
@@ -51,29 +63,36 @@ export default function Column({ id, todos, index }: Props) {
                 className={`pb-2 bg-white/50 p-2 rounded-2xl shadow-sm
                 `}
               >
-                <h2 className="flex justify-between p-2 text-xl font-bold">
-                  {idToColumnText[id]}
-                  {/* <span className="px-2 py-1 text-sm font-normal text-gray-500 bg-gray-200 rounded-full">
-                    {!searchString
-                      ? todos.length
-                      : todos.filter((todo) =>
-                          todo.title
-                            .toLowerCase()
-                            .includes(searchString.toLowerCase())
-                        ).length}
-                  </span> */}
-                </h2>
-                <div className="space-y-2">
-                  {todos.map((todo, index) => {
-                    if (
-                      searchString &&
-                      !todo.title
-                        .toLowerCase()
-                        .includes(searchString.toLocaleLowerCase())
-                    ) {
-                      return null; // Skip rendering this todo
-                    }
+                {/* column title */}
+                <div className="flex flex-row">
+                  <input
+                    className={`flex justify-between p-2 text-xl font-bold bg-transparent ${
+                      isEditable ? "" : "input-disabled"
+                    }`}
+                    value={columnTitle}
+                    readOnly={!isEditable}
+                    onChange={(e) => setColumnTitle(e.target.value)}
+                  />
+                  <button
+                    className="text-gray-200 hover:text-blue-600"
+                    onClick={handleEditColumnName}
+                  >
+                    <PencilIcon
+                      className={`w-6 h-6 ${isEditable ? "text-blue-600" : ""}`}
+                    />
+                  </button>
 
+                  <button
+                    className="text-gray-200 hover:text-red-600"
+                    onClick={handleDeleteColumn}
+                  >
+                    <XCircleIcon className="w-6 h-6 ml-2" />
+                  </button>
+                </div>
+
+                <div className="space-y-2">
+                  {/* list todo cards */}
+                  {columnData?.todos.map((todo, index) => {
                     return (
                       <Draggable
                         key={todo.$id}
@@ -84,7 +103,7 @@ export default function Column({ id, todos, index }: Props) {
                           <Card
                             todo={todo}
                             index={index}
-                            id={id}
+                            id={columnData?.id}
                             innerRef={provided.innerRef}
                             draggableProps={provided.draggableProps}
                             dragHandleProps={provided.dragHandleProps}
@@ -94,6 +113,8 @@ export default function Column({ id, todos, index }: Props) {
                     );
                   })}
                   {provided.placeholder}
+
+                  {/* add new todo button */}
                   <div className="flex items-end justify-end p-2">
                     <button
                       onClick={handleAddTodo}

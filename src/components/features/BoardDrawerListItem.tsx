@@ -53,7 +53,7 @@ export default function BoardDrawerListItem({ boardData }: Props) {
   return (
     <div className="flex flex-row space-x-2 w-full" onClick={handleOnClicked}>
       <input
-        className={`bg-transparent ${isEditable ? "" : "input-disabled"}}`}
+        className={`bg-transparent ${isEditable ? "" : "input-disabled"}`}
         value={boardTitle}
         readOnly={!isEditable}
         onChange={(e) => setBoardTitle(e.target.value)}
