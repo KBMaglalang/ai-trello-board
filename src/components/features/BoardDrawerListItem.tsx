@@ -1,39 +1,50 @@
 "use client";
-1;
+
 import React, { useState, useEffect } from "react";
 import { XCircleIcon, PencilIcon } from "@heroicons/react/24/solid";
+import { useRouter } from "next/navigation";
 
 // components
 
 // store
+import { useDrawerStore } from "@/store/DrawerStore";
 
 // constants and functions
 import { deleteBoard, updateBoard } from "@/lib/appwrite/boards";
 
 type Props = {
-  title: string;
-  id: string;
+  boardData: any;
 };
 
-export default function BoardDrawerListItem({ title, id }: Props) {
-  const [boardTitle, setBoardTitle] = useState(title);
+export default function BoardDrawerListItem({ boardData }: Props) {
+  const router = useRouter();
+  const [boardTitle, setBoardTitle] = useState(boardData?.title || "New Board");
   const [isEditable, setIsEditable] = useState(false);
+  const [closeDrawer] = useDrawerStore((state) => [state.closeDrawer]);
+
+  const handleOnClicked = () => {
+    // close drawer
+    closeDrawer();
+
+    // go to board page
+    router.push(`/board/${boardData.$id}`);
+  };
 
   const handleEditBoardItem = () => {
     setIsEditable(!isEditable);
 
     // update board title
     if (!isEditable) {
-      updateBoard(id, boardTitle);
+      updateBoard(boardData?.$id, boardTitle);
     }
   };
 
   const handleDeleteBoardItem = () => {
-    deleteBoard(id);
+    deleteBoard(boardData?.$id);
   };
 
   return (
-    <div className="flex flex-row space-x-2  primary w-full">
+    <div className="flex flex-row space-x-2 w-full" onClick={handleOnClicked}>
       <input
         className={`bg-transparent ${isEditable ? "" : "input-disabled"}}`}
         value={boardTitle}

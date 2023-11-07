@@ -6,27 +6,25 @@ import React, { useState, useEffect } from "react";
 import BoardDrawerListItem from "./BoardDrawerListItem";
 
 // store
+import { useNewBoardStore } from "@/store/NewBoardStore";
 
 // constants and functions
-import { getBoards } from "@/lib/appwrite/boards";
 
 export default function BoardDrawerList() {
-  const [boards, setBoards] = useState([]);
+  const [boardList, getBoardList] = useNewBoardStore((state) => [
+    state.boardList,
+    state.getBoardList,
+  ]);
 
   useEffect(() => {
-    const getBoardData = async () => {
-      const boards = await getBoards();
-      setBoards(boards);
-    };
-
-    getBoardData().catch((error) => console.error(error));
-  }, []);
+    getBoardList();
+  }, [getBoardList]);
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden h-full overflow-y-scroll">
       {/* Sidebar content here */}
-      {boards.map((item, index) => (
-        <BoardDrawerListItem key={index} title={item.title} id={item.$id} />
+      {boardList.map((item) => (
+        <BoardDrawerListItem key={item.$id} boardData={item} />
       ))}
     </div>
   );

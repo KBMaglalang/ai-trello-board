@@ -20,10 +20,6 @@ export const EmptyColumn = ({ boardId, boardColumns }: Props) => {
       ...boardColumns,
       newColumData.$id,
     ]);
-    console.log(
-      "🚀 ~ file: EmptyColumn.tsx:20 ~ handleAddColumn ~ response:",
-      response
-    );
   };
 
   return (
