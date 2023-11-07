@@ -137,7 +137,9 @@ export default function Board({ id }: { id: string }) {
               {provided.placeholder}
 
               {/* add in an empty column for the user to add a new column */}
-              <EmptyColumn boardId={workingBoard.$id} boardColumns={[]} />
+              {workingBoard && (
+                <EmptyColumn boardId={workingBoard?.$id} boardColumns={[]} />
+              )}
             </div>
           )}
         </Droppable>
