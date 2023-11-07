@@ -95,6 +95,13 @@ export default function Card({
           </div>
         </div>
 
+        {/* created at */}
+        <div className="">
+          <p className="text-xs text-gray-400 text-end pr-4 pb-4">
+            {new Date(todo.$createdAt).toLocaleString()}
+          </p>
+        </div>
+
         {/* title */}
         <div className="flex items-center justify-between p-4">
           <p className="text-xl font-bold">{todo.title}</p>
@@ -113,11 +120,25 @@ export default function Card({
           </div>
         )} */}
 
-        {/* created at */}
-        <div className="">
-          <p className="text-xs text-gray-400 text-end pr-4 pb-4">
-            {new Date(todo.$createdAt).toLocaleString()}
-          </p>
+        {/* start and due date indicators */}
+        <div className="flex flex-row w-full justify-between">
+          {/* start date */}
+          {todo.startDate && (
+            <div className="flex items-center justify-end p-4">
+              <span className="px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-md">
+                Start: {new Date(todo.startDate).toLocaleDateString()}
+              </span>
+            </div>
+          )}
+
+          {/* end date */}
+          {todo.endDate && (
+            <div className="flex items-center justify-end p-4">
+              <span className="px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-md">
+                Due: {new Date(todo.endDate).toLocaleDateString()}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>
