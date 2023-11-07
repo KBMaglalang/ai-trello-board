@@ -174,6 +174,7 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
         image: todo.image,
         startDate: todo.startDate,
         endDate: todo.endDate,
+        completed: todo.completed,
       }
     );
   },

@@ -27,6 +27,7 @@ export const getTodosGroupedByColumn = async () => {
       priority: todo.priority,
       startDate: todo.startDate,
       endDate: todo.endDate,
+      completed: todo.completed,
 
       // get the image if it exists on the todo
       ...(todo.image && { image: JSON.parse(todo.image) }),
