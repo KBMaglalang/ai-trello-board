@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 
 // store
 import { useDrawerStore } from "@/store/DrawerStore";
+import { useNewBoardStore } from "@/store/NewBoardStore";
 
 // constants and functions
 import { deleteBoard, updateBoard } from "@/lib/appwrite/boards";
@@ -21,8 +22,14 @@ export default function BoardDrawerListItem({ boardData }: Props) {
   const [boardTitle, setBoardTitle] = useState(boardData?.title || "New Board");
   const [isEditable, setIsEditable] = useState(false);
   const [closeDrawer] = useDrawerStore((state) => [state.closeDrawer]);
+  const [setWorkingBoard] = useNewBoardStore((state) => [
+    state.setWorkingBoard,
+  ]);
 
   const handleOnClicked = () => {
+    // set the working boarde to the selected board
+    setWorkingBoard(boardData);
+
     // close drawer
     closeDrawer();
 

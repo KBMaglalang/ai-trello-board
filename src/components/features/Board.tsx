@@ -34,11 +34,14 @@ export default function Board() {
   const [
     boardList,
     workingBoard,
+
     getBoardList,
     clearBoardList,
+
     createNewBoard,
     updateNewBoard,
     deleteNewBoard,
+
     setWorkingBoard,
     clearWorkingBoard,
   ] = useNewBoardStore((state) => [
@@ -55,10 +58,12 @@ export default function Board() {
     state.setWorkingBoard,
     state.clearWorkingBoard,
   ]);
+  console.log("🚀 ~ file: Board.tsx:36 ~ Board ~ boardList:", boardList);
+  console.log("🚀 ~ file: Board.tsx:37 ~ Board ~ workingBoard:", workingBoard);
 
   useEffect(() => {
     getBoard();
-  }, [getBoard, getBoardList]);
+  }, [getBoard]);
 
   const handleOnDragEnd = (result: DropResult) => {
     const { destination, source, type } = result;
@@ -133,7 +138,32 @@ export default function Board() {
 
   return (
     <div className="w-full h-full">
-      {/* board functions */}
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="board" direction="horizontal" type="column">
+          {(provided) => (
+            <div
+              className="grid grid-cols-1 md:grid-cols-3 gap-5 p-5 max-w-7xl mx-auto"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {Array.from(board.columns.entries()).map(
+                ([id, column], index) => (
+                  <Column key={id} id={id} todos={column.todos} index={index} />
+                )
+              )}
+
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+        <EmptyColumn boardId={"65483a82edcd091acec6"} boardColumns={[]} />
+      </DragDropContext>
+    </div>
+  );
+}
+
+/*
+      board functions
       <div>
         <button className="btn btn-primary" onClick={() => getBoardList()}>
           clearBoard list
@@ -173,7 +203,7 @@ export default function Board() {
         </button>
       </div>
 
-      {/* column funtion  */}
+      column funtion
       <div>
         <button className="btn btn-error" onClick={() => createColumn()}>
           create
@@ -197,6 +227,7 @@ export default function Board() {
         </button>
       </div>
 
+      test code
       <div>
         <button
           className="btn btn-accent"
@@ -211,27 +242,4 @@ export default function Board() {
           create
         </button>
       </div>
-
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="board" direction="horizontal" type="column">
-          {(provided) => (
-            <div
-              className="grid grid-cols-1 md:grid-cols-3 gap-5 p-5 max-w-7xl mx-auto"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {Array.from(board.columns.entries()).map(
-                ([id, column], index) => (
-                  <Column key={id} id={id} todos={column.todos} index={index} />
-                )
-              )}
-
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-        <EmptyColumn boardId={"65483a82edcd091acec6"} boardColumns={[]} />
-      </DragDropContext>
-    </div>
-  );
-}
+*/
