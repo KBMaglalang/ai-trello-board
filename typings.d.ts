@@ -20,6 +20,7 @@ interface Todo {
   priority?: PriorityStatus;
   startDate?: string;
   endDate?: string;
+  completed?: boolean;
 }
 
 interface Column {

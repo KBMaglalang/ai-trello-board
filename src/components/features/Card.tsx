@@ -29,6 +29,7 @@ export default function Card({
   draggableProps,
   dragHandleProps,
 }: Props) {
+  const [isCompleted, setIsCompleted] = useState(todo?.completed || false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   // stores
@@ -37,7 +38,10 @@ export default function Card({
     state.isOpen,
     state.isEditModal,
   ]);
-  const deleteTask = useBoardStore((state) => state.deleteTask);
+  const [deleteTask, updateTodoInDB] = useBoardStore((state) => [
+    state.deleteTask,
+    state.updateTodoInDB,
+  ]);
 
   useEffect(() => {
     if (todo.image) {
@@ -51,6 +55,11 @@ export default function Card({
     }
   }, [todo]);
 
+  const handleCardCompletedToggle = () => {
+    setIsCompleted(!isCompleted);
+    updateTodoInDB({ ...todo, completed: !isCompleted }, id);
+  };
+
   return (
     <div
       className="space-y-2 bg-white rounded-md drop-shadow-md"
@@ -60,24 +69,34 @@ export default function Card({
       onDoubleClick={() => openModal(true, todo, id)}
     >
       <div className="flex flex-col">
-        <div className="flex items-center justify-end mt-4 mr-4">
-          <button
-            onClick={() => openModal(true, todo, id)}
-            className="text-gray-200 hover:text-blue-600"
-          >
-            <PencilIcon className="w-6 h-6" />
-          </button>
+        <div className="flex items-center justify-between mt-4 mr-4">
+          <div>
+            <input
+              type="checkbox"
+              checked={isCompleted}
+              className="checkbox checkbox-sm ml-4"
+              onChange={handleCardCompletedToggle}
+            />
+          </div>
+          <div>
+            <button
+              onClick={() => openModal(true, todo, id)}
+              className="text-gray-200 hover:text-blue-600"
+            >
+              <PencilIcon className="w-6 h-6" />
+            </button>
 
-          <button
-            onClick={() => deleteTask(index, todo, id)}
-            className="text-gray-200 hover:text-red-600"
-          >
-            <XCircleIcon className="w-6 h-6 ml-2" />
-          </button>
+            <button
+              onClick={() => deleteTask(index, todo, id)}
+              className="text-gray-200 hover:text-red-600"
+            >
+              <XCircleIcon className="w-6 h-6 ml-2" />
+            </button>
+          </div>
         </div>
 
         {/* title */}
-        <div className="flex items-center justify-between p-5">
+        <div className="flex items-center justify-between p-4">
           <p className="text-xl font-bold">{todo.title}</p>
         </div>
 
