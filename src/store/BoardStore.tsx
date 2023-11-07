@@ -177,6 +177,9 @@ export const useBoardStore = create<BoardState>()((set, get) => ({
         completed: todo.completed,
       }
     );
+
+    const board = await getTodosGroupedByColumn();
+    set({ board });
   },
 
   deleteTask: async (taskIndex: number, todo: Todo, id: TypedColumn) => {
