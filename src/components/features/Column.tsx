@@ -1,8 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import {
+  PlusCircleIcon,
+  PencilIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/solid";
 
 // components
 import Card from "./Card";
@@ -11,22 +15,33 @@ import Card from "./Card";
 import { useModalStore } from "@/store/ModalStore";
 
 // constants and functions
+import { updateColumn, deleteColumn } from "@/lib/appwrite/columns";
 
 type Props = {
   columnData: any;
   index: number;
 };
 
-const idToColumnText: {
-  [key in TypedColumn]: string;
-} = {
-  todo: "To Do",
-  inprogress: "In Progress",
-  done: "Done",
-};
-
 export default function Column({ columnData, index }: Props) {
-  const openModal = useModalStore((state) => state.openModal);
+  const [openModal] = useModalStore((state) => [state.openModal]);
+
+  const [isEditable, setIsEditable] = useState(false);
+  const [columnTitle, setColumnTitle] = useState(
+    columnData?.title || "New Column"
+  );
+
+  const handleEditColumnName = () => {
+    // update column title in the database
+    if (isEditable) {
+      updateColumn(columnData?.$id, columnTitle);
+    }
+
+    setIsEditable(!isEditable);
+  };
+
+  const handleDeleteColumn = () => {
+    deleteColumn(columnData?.$id);
+  };
 
   const handleAddTodo = () => {
     openModal();
@@ -49,9 +64,31 @@ export default function Column({ columnData, index }: Props) {
                 `}
               >
                 {/* column title */}
-                <h2 className="flex justify-between p-2 text-xl font-bold">
-                  {columnData?.title}
-                </h2>
+                <div className="flex flex-row">
+                  <input
+                    className={`flex justify-between p-2 text-xl font-bold bg-transparent ${
+                      isEditable ? "" : "input-disabled"
+                    }`}
+                    value={columnTitle}
+                    readOnly={!isEditable}
+                    onChange={(e) => setColumnTitle(e.target.value)}
+                  />
+                  <button
+                    className="text-gray-200 hover:text-blue-600"
+                    onClick={handleEditColumnName}
+                  >
+                    <PencilIcon
+                      className={`w-6 h-6 ${isEditable ? "text-blue-600" : ""}`}
+                    />
+                  </button>
+
+                  <button
+                    className="text-gray-200 hover:text-red-600"
+                    onClick={handleDeleteColumn}
+                  >
+                    <XCircleIcon className="w-6 h-6 ml-2" />
+                  </button>
+                </div>
 
                 <div className="space-y-2">
                   {/* list todo cards */}
