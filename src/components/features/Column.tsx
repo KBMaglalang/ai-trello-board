@@ -6,12 +6,14 @@ import { PlusCircleIcon } from "@heroicons/react/24/solid";
 
 // components
 import Card from "./Card";
-import { useBoardStore } from "@/store/BoardStore";
+
+// store
 import { useModalStore } from "@/store/ModalStore";
 
+// constants and functions
+
 type Props = {
-  id: TypedColumn;
-  todos: Todo[];
+  columnData: any;
   index: number;
 };
 
@@ -23,20 +25,15 @@ const idToColumnText: {
   done: "Done",
 };
 
-export default function Column({ id, todos, index }: Props) {
-  const [setNewTaskType, searchString] = useBoardStore((state) => [
-    state.setNewTaskType,
-    state.searchString,
-  ]);
+export default function Column({ columnData, index }: Props) {
   const openModal = useModalStore((state) => state.openModal);
 
   const handleAddTodo = () => {
-    setNewTaskType(id);
     openModal();
   };
 
   return (
-    <Draggable draggableId={id} index={index}>
+    <Draggable draggableId={columnData?.$id} index={index}>
       {(provided) => (
         <div
           {...provided.draggableProps}
@@ -51,29 +48,14 @@ export default function Column({ id, todos, index }: Props) {
                 className={`pb-2 bg-white/50 p-2 rounded-2xl shadow-sm
                 `}
               >
+                {/* column title */}
                 <h2 className="flex justify-between p-2 text-xl font-bold">
-                  {idToColumnText[id]}
-                  {/* <span className="px-2 py-1 text-sm font-normal text-gray-500 bg-gray-200 rounded-full">
-                    {!searchString
-                      ? todos.length
-                      : todos.filter((todo) =>
-                          todo.title
-                            .toLowerCase()
-                            .includes(searchString.toLowerCase())
-                        ).length}
-                  </span> */}
+                  {columnData?.title}
                 </h2>
-                <div className="space-y-2">
-                  {todos.map((todo, index) => {
-                    if (
-                      searchString &&
-                      !todo.title
-                        .toLowerCase()
-                        .includes(searchString.toLocaleLowerCase())
-                    ) {
-                      return null; // Skip rendering this todo
-                    }
 
+                <div className="space-y-2">
+                  {/* list todo cards */}
+                  {columnData?.todos.map((todo, index) => {
                     return (
                       <Draggable
                         key={todo.$id}
@@ -84,7 +66,7 @@ export default function Column({ id, todos, index }: Props) {
                           <Card
                             todo={todo}
                             index={index}
-                            id={id}
+                            id={columnData?.id}
                             innerRef={provided.innerRef}
                             draggableProps={provided.draggableProps}
                             dragHandleProps={provided.dragHandleProps}
@@ -94,6 +76,8 @@ export default function Column({ id, todos, index }: Props) {
                     );
                   })}
                   {provided.placeholder}
+
+                  {/* add new todo button */}
                   <div className="flex items-end justify-end p-2">
                     <button
                       onClick={handleAddTodo}
