@@ -21,9 +21,11 @@ export default function BoardDrawerListItem({ boardData }: Props) {
   const router = useRouter();
   const [boardTitle, setBoardTitle] = useState(boardData?.title || "New Board");
   const [isEditable, setIsEditable] = useState(false);
+
   const [closeDrawer] = useDrawerStore((state) => [state.closeDrawer]);
-  const [setWorkingBoard] = useNewBoardStore((state) => [
+  const [setWorkingBoard, getBoardList] = useNewBoardStore((state) => [
     state.setWorkingBoard,
+    state.getBoardList,
   ]);
 
   const handleOnClicked = () => {
@@ -37,17 +39,23 @@ export default function BoardDrawerListItem({ boardData }: Props) {
     router.push(`/board/${boardData.$id}`);
   };
 
-  const handleEditBoardItem = () => {
+  const handleEditBoardItem = async () => {
     // update board title
     if (isEditable) {
       updateBoard(boardData?.$id, boardTitle);
     }
 
     setIsEditable(!isEditable);
+
+    // update the boardList
+    await getBoardList();
   };
 
-  const handleDeleteBoardItem = () => {
-    deleteBoard(boardData?.$id);
+  const handleDeleteBoardItem = async () => {
+    await deleteBoard(boardData?.$id);
+
+    // update the boardList
+    await getBoardList();
   };
 
   return (
