@@ -16,7 +16,7 @@ import { useModalStore } from "@/store/ModalStore";
 
 // constants and functions
 import getUrl from "@/lib/getUrl";
-import { deleteCard } from "@/lib/appwrite/cards";
+import { deleteCard, updateCardComplete } from "@/lib/appwrite/cards";
 
 type Props = {
   todo: Todo;
@@ -61,7 +61,8 @@ export default function Card({
     }
   }, [todo]);
 
-  const handleCardCompletedToggle = () => {
+  const handleCardCompletedToggle = async () => {
+    await updateCardComplete(todo.$id, !isCompleted);
     setIsCompleted(!isCompleted);
     // updateTodoInDB({ ...todo, completed: !isCompleted }, id);
   };
