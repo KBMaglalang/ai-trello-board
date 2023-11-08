@@ -8,6 +8,7 @@ import BoardDrawerList from "./BoardDrawerList";
 
 // store
 import { useDrawerStore } from "@/store/DrawerStore";
+import { useNewBoardStore } from "@/store/NewBoardStore";
 
 // constants and functions
 import { createBoard } from "@/lib/appwrite/boards";
@@ -17,9 +18,12 @@ export default function BoardDrawer() {
     state.isOpen,
     state.toggleDrawer,
   ]);
+  const [getBoardList] = useNewBoardStore((state) => [state.getBoardList]);
 
-  const handleCreateNewBoards = () => {
-    createBoard();
+  const handleCreateNewBoards = async () => {
+    await createBoard();
+
+    await getBoardList();
   };
 
   return (

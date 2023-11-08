@@ -25,27 +25,30 @@ type Props = {
 
 export default function Column({ columnData, index }: Props) {
   const [openModal] = useModalStore((state) => [state.openModal]);
-  const [workingColumn, setWorkingColumn] = useNewBoardStore((state) => [
-    state.workingColumn,
-    state.setWorkingColumn,
-  ]);
+  const [workingColumn, setWorkingColumn, getBoardList] = useNewBoardStore(
+    (state) => [state.workingColumn, state.setWorkingColumn, state.getBoardList]
+  );
 
   const [isEditable, setIsEditable] = useState(false);
   const [columnTitle, setColumnTitle] = useState(
     columnData?.title || "New Column"
   );
 
-  const handleEditColumnName = () => {
+  const handleEditColumnName = async () => {
     // update column title in the database
     if (isEditable) {
-      updateColumn(columnData?.$id, columnTitle);
+      await updateColumn(columnData?.$id, columnTitle);
     }
 
     setIsEditable(!isEditable);
+
+    await getBoardList();
   };
 
-  const handleDeleteColumn = () => {
+  const handleDeleteColumn = async () => {
     deleteColumn(columnData?.$id);
+
+    await getBoardList();
   };
 
   const handleAddTodo = () => {

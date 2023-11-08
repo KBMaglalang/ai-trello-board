@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
+import { useRouter } from "next/navigation";
 
 // components
 import Column from "./Column";
@@ -15,35 +16,40 @@ import { useNewBoardStore } from "@/store/NewBoardStore";
 import { findWorkingBoard } from "@/lib/util";
 
 export default function Board({ id }: { id: string }) {
+  const router = useRouter();
+
   // new board test
   const [boardList, workingBoard, setWorkingBoard] = useNewBoardStore(
     (state) => [state.boardList, state.workingBoard, state.setWorkingBoard]
   );
 
   useEffect(() => {
-    if (id && !workingBoard) {
-      // search the board list to find the matching board with the id
-      const boardData = findWorkingBoard(boardList, id);
+    const boardData = findWorkingBoard(boardList, id);
 
-      // set the workingBoard
-      setWorkingBoard(boardData);
+    // return to the homepage if no board is found
+    if (!boardData) {
+      router.replace("/");
+      return;
     }
-  }, [boardList, id, setWorkingBoard, workingBoard]);
+
+    // set the workingBoard
+    setWorkingBoard(boardData);
+  }, [setWorkingBoard, boardList, id, workingBoard, router]);
 
   // ! this is old code
-  const [board, setBoardState, getBoard, updateTodoInDB] = useBoardStore(
-    (state) => [
-      state.board,
-      state.setBoardState,
-      state.getBoard,
-      state.updateTodoInDB,
-    ]
-  );
+  // const [board, setBoardState, getBoard, updateTodoInDB] = useBoardStore(
+  //   (state) => [
+  //     state.board,
+  //     state.setBoardState,
+  //     state.getBoard,
+  //     state.updateTodoInDB,
+  //   ]
+  // );
 
   // ! this is old code
-  useEffect(() => {
-    getBoard();
-  }, [getBoard]);
+  // useEffect(() => {
+  //   getBoard();
+  // }, [getBoard]);
 
   // TODO: to be updated to work with the new database structure
   // TODO: update for the latest DND library - default props to be deprecated
@@ -53,69 +59,69 @@ export default function Board({ id }: { id: string }) {
     // Check if user dragged card outside of board
     if (!destination) return;
 
-    // Handle column drag
-    if (type === "column") {
-      const entries = Array.from(board.columns.entries());
-      const [removed] = entries.splice(source.index, 1);
-      entries.splice(destination.index, 0, removed);
-      const rearrangedColumns = new Map(entries);
-      setBoardState({ ...board, columns: rearrangedColumns });
-      return;
-    }
+    // // Handle column drag
+    // if (type === "column") {
+    //   const entries = Array.from(board.columns.entries());
+    //   const [removed] = entries.splice(source.index, 1);
+    //   entries.splice(destination.index, 0, removed);
+    //   const rearrangedColumns = new Map(entries);
+    //   setBoardState({ ...board, columns: rearrangedColumns });
+    //   return;
+    // }
 
-    // This step is needed as the indexes are stored as numbers 0,1,2 etc. instead of id's with DND library
-    const columns = Array.from(board.columns);
-    const startColIndex = columns[Number(source.droppableId)];
-    const finishColIndex = columns[Number(destination.droppableId)];
+    // // This step is needed as the indexes are stored as numbers 0,1,2 etc. instead of id's with DND library
+    // const columns = Array.from(board.columns);
+    // const startColIndex = columns[Number(source.droppableId)];
+    // const finishColIndex = columns[Number(destination.droppableId)];
 
-    const startCol: Column = {
-      id: startColIndex[0],
-      todos: startColIndex[1].todos,
-    };
+    // const startCol: Column = {
+    //   id: startColIndex[0],
+    //   todos: startColIndex[1].todos,
+    // };
 
-    const finishCol: Column = {
-      id: finishColIndex[0],
-      todos: finishColIndex[1].todos,
-    };
+    // const finishCol: Column = {
+    //   id: finishColIndex[0],
+    //   todos: finishColIndex[1].todos,
+    // };
 
-    if (!startCol || !finishCol) return;
+    // if (!startCol || !finishCol) return;
 
-    if (source.index === destination.index && startCol === finishCol) return;
+    // if (source.index === destination.index && startCol === finishCol) return;
 
-    const newTodos = startCol.todos;
-    const [todoMoved] = newTodos.splice(source.index, 1);
+    // const newTodos = startCol.todos;
+    // const [todoMoved] = newTodos.splice(source.index, 1);
 
-    if (startCol.id === finishCol.id) {
-      // same column task drag
-      newTodos.splice(destination.index, 0, todoMoved);
-      const newCol = {
-        id: startCol.id,
-        todos: newTodos,
-      };
-      const newColumns = new Map(board.columns);
-      newColumns.set(startCol.id, newCol);
+    // if (startCol.id === finishCol.id) {
+    //   // same column task drag
+    //   newTodos.splice(destination.index, 0, todoMoved);
+    //   const newCol = {
+    //     id: startCol.id,
+    //     todos: newTodos,
+    //   };
+    //   const newColumns = new Map(board.columns);
+    //   newColumns.set(startCol.id, newCol);
 
-      setBoardState({ ...board, columns: newColumns });
-    } else {
-      // different column task drag
-      const finishTodos = Array.from(finishCol.todos);
-      finishTodos.splice(destination.index, 0, todoMoved);
-      const newColumns = new Map(board.columns);
-      const newCol = {
-        id: startCol.id,
-        todos: newTodos,
-      };
+    //   setBoardState({ ...board, columns: newColumns });
+    // } else {
+    //   // different column task drag
+    //   const finishTodos = Array.from(finishCol.todos);
+    //   finishTodos.splice(destination.index, 0, todoMoved);
+    //   const newColumns = new Map(board.columns);
+    //   const newCol = {
+    //     id: startCol.id,
+    //     todos: newTodos,
+    //   };
 
-      newColumns.set(startCol.id, newCol);
-      newColumns.set(finishCol.id, {
-        id: finishCol.id,
-        todos: finishTodos,
-      });
+    //   newColumns.set(startCol.id, newCol);
+    //   newColumns.set(finishCol.id, {
+    //     id: finishCol.id,
+    //     todos: finishTodos,
+    //   });
 
-      updateTodoInDB(todoMoved, finishCol.id);
+    //   updateTodoInDB(todoMoved, finishCol.id);
 
-      setBoardState({ ...board, columns: newColumns });
-    }
+    //   setBoardState({ ...board, columns: newColumns });
+    // }
   };
 
   return (

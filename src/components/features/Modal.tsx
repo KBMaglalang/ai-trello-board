@@ -109,7 +109,9 @@ function Modal() {
     setNewTaskInput,
   ]);
 
-  const handleOnClose = () => {
+  const handleOnClose = async () => {
+    closeModal();
+
     // ! old
     setImage(null);
     clearNewTaskStates();
@@ -117,8 +119,7 @@ function Modal() {
 
     // ! new
     clearWorkingColumn();
-
-    closeModal();
+    await getBoardList();
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -140,11 +141,11 @@ function Modal() {
       //   },
       //   newTaskType
       // );
-      updateCard(cardInfo.todo!.$id, {
+      await updateCard(cardInfo.todo!.$id, {
         title: newTaskInput,
         description: newTaskDescription,
         priority: newTaskPriority,
-        image,
+        // image,
         startDate: newTaskStartDate,
         endDate: newTaskEndDate,
       });
@@ -164,8 +165,6 @@ function Modal() {
         ...workingColumn.todos,
         newCardData,
       ]);
-
-      // TODO: update the board with the new information
 
       // addTask(
       //   newTaskInput,
