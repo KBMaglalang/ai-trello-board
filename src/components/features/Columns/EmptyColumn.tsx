@@ -18,8 +18,10 @@ export const EmptyColumn = ({ boardId, boardColumns }: Props) => {
     const newColumData = await createColumn();
     const response = await addColumnToBoard(boardId, [
       ...boardColumns,
-      newColumData.$id,
+      newColumData,
     ]);
+
+    // TODO: update the boardList
   };
 
   return (

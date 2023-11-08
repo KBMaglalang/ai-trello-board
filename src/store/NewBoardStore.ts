@@ -1,33 +1,57 @@
 import { create } from "zustand";
 
-// appwrite functions
+// constants and functions
 import {
   getBoards,
   createBoard,
   deleteBoard,
   updateBoard,
 } from "@/lib/appwrite/boards";
+import {
+  createColumn,
+  getColumns,
+  deleteColumn,
+  updateColumn,
+  addColumnToBoard,
+} from "@/lib/appwrite/columns";
+import {
+  createCard,
+  getCards,
+  updateCard,
+  deleteCard,
+  addCardToColumn,
+} from "@/lib/appwrite/cards";
 
 interface NewBoardState {
   boardList: any;
   workingBoard: any;
+  workingColumn: any;
+  workingCard: any;
 
   setBoardList: (boardList: any) => void;
   getBoardList: () => void;
   clearBoardList: () => void;
 
+  setWorkingBoard: (workingBoard: any) => void;
+  clearWorkingBoard: () => void;
+
   createNewBoard: () => void;
   updateNewBoard: (id: string, title: string) => void;
   deleteNewBoard: (id: string) => void;
 
-  setWorkingBoard: (workingBoard: any) => void;
-  clearWorkingBoard: () => void;
+  setWorkingColumn: (workingColumn: any) => void;
+  clearWorkingColumn: () => void;
+
+  setWorkingCard: (workingCard: any) => void;
+  clearWorkingCard: () => void;
 }
 
 export const useNewBoardStore = create<NewBoardState>((set, get) => ({
   // state
   boardList: [],
   workingBoard: null,
+  workingColumn: null,
+  workingCard: null,
 
   // setters and getters
 
@@ -38,6 +62,10 @@ export const useNewBoardStore = create<NewBoardState>((set, get) => ({
     set({ boardList });
   },
   clearBoardList: () => set({ boardList: [] }),
+
+  // --- working board ---
+  setWorkingBoard: (workingBoard) => set({ workingBoard }),
+  clearWorkingBoard: () => set({ workingBoard: null }),
 
   // --- board ---
   createNewBoard: async () => {
@@ -62,7 +90,11 @@ export const useNewBoardStore = create<NewBoardState>((set, get) => ({
     set({ boardList });
   },
 
-  // --- working board ---
-  setWorkingBoard: (workingBoard) => set({ workingBoard }),
-  clearWorkingBoard: () => set({ workingBoard: null }),
+  // --- working column ---
+  setWorkingColumn: (workingColumn) => set({ workingColumn }),
+  clearWorkingColumn: () => set({ workingColumn: null }),
+
+  // --- working card ---
+  setWorkingCard: (workingCard) => set({ workingCard }),
+  clearWorkingCard: () => set({ workingCard: null }),
 }));

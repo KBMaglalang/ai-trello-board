@@ -10,13 +10,33 @@ import TaskTypeRadioGroup from "./TaskTypeRadioGroup";
 import TaskPriorityGroup from "./TaskPriorityGroup";
 import TaskDatePicker from "./TaskDatePicker";
 
+// store
 import { useModalStore } from "@/store/ModalStore";
 import { useBoardStore } from "@/store/BoardStore";
+import { useNewBoardStore } from "@/store/NewBoardStore";
+
+// constants and functions
 import getUrl from "@/lib/getUrl";
+import { createCard, updateCard, addCardToColumn } from "@/lib/appwrite/cards";
 
 function Modal() {
   const imagePickerRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  const [
+    getBoardList,
+    workingBoard,
+    setWorkingBoard,
+    workingColumn,
+    clearWorkingColumn,
+  ] = useNewBoardStore((state) => [
+    state.getBoardList,
+    state.workingBoard,
+    state.setWorkingBoard,
+
+    state.workingColumn,
+    state.clearWorkingColumn,
+  ]);
 
   const [isOpen, isEditModal, cardInfo, closeModal, clearCardInfo] =
     useModalStore((state) => [
@@ -90,42 +110,72 @@ function Modal() {
   ]);
 
   const handleOnClose = () => {
-    closeModal();
+    // ! old
     setImage(null);
-    clearCardInfo();
     clearNewTaskStates();
+    clearCardInfo();
+
+    // ! new
+    clearWorkingColumn();
+
+    closeModal();
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newTaskInput) return;
 
     if (isEditModal) {
       // update the todo fields in the db
-      updateTodoInDB(
-        {
-          ...cardInfo.todo!,
-
-          title: newTaskInput,
-          description: newTaskDescription,
-          priority: newTaskPriority,
-          status: newTaskType,
-          image,
-          startDate: newTaskStartDate,
-          endDate: newTaskEndDate,
-        },
-        newTaskType
-      );
-    } else {
-      addTask(
-        newTaskInput,
-        newTaskDescription,
-        newTaskPriority,
-        newTaskType,
+      // updateTodoInDB(
+      //   {
+      //     ...cardInfo.todo!,
+      //     title: newTaskInput,
+      //     description: newTaskDescription,
+      //     priority: newTaskPriority,
+      //     status: newTaskType,
+      //     image,
+      //     startDate: newTaskStartDate,
+      //     endDate: newTaskEndDate,
+      //   },
+      //   newTaskType
+      // );
+      updateCard(cardInfo.todo!.$id, {
+        title: newTaskInput,
+        description: newTaskDescription,
+        priority: newTaskPriority,
         image,
-        newTaskStartDate,
-        newTaskEndDate
-      );
+        startDate: newTaskStartDate,
+        endDate: newTaskEndDate,
+      });
+    } else {
+      // take in the new card data and create a new card
+      const newCardData = await createCard({
+        title: newTaskInput,
+        description: newTaskDescription,
+        priority: newTaskPriority,
+        // image,
+        startDate: newTaskStartDate,
+        endDate: newTaskEndDate,
+      });
+
+      // take the return data and update the working column
+      const response = await addCardToColumn(workingColumn.$id, [
+        ...workingColumn.todos,
+        newCardData,
+      ]);
+
+      // TODO: update the board with the new information
+
+      // addTask(
+      //   newTaskInput,
+      //   newTaskDescription,
+      //   newTaskPriority,
+      //   newTaskType,
+      //   image,
+      //   newTaskStartDate,
+      //   newTaskEndDate
+      // );
     }
 
     handleOnClose();
@@ -198,7 +248,7 @@ function Modal() {
                 <TaskPriorityGroup />
 
                 {/* column type: todo, in progress, or done */}
-                <TaskTypeRadioGroup />
+                {/* <TaskTypeRadioGroup /> */}
 
                 {/* File Input goes here... */}
                 {/* <div className="mt-2">

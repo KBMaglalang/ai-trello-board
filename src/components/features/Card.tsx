@@ -8,14 +8,20 @@ import {
 import Image from "next/image";
 import { XCircleIcon, PencilIcon } from "@heroicons/react/24/solid";
 
-import getUrl from "@/lib/getUrl";
+// components
+
+// stores
 import { useBoardStore } from "@/store/BoardStore";
 import { useModalStore } from "@/store/ModalStore";
+
+// constants and functions
+import getUrl from "@/lib/getUrl";
+import { deleteCard } from "@/lib/appwrite/cards";
 
 type Props = {
   todo: Todo;
   index: number;
-  id: TypedColumn;
+  id: string;
   innerRef: (element: HTMLElement | null) => void;
   draggableProps: DraggableProvidedDraggableProps;
   dragHandleProps: DraggableProvidedDragHandleProps | null | undefined;
@@ -57,7 +63,11 @@ export default function Card({
 
   const handleCardCompletedToggle = () => {
     setIsCompleted(!isCompleted);
-    updateTodoInDB({ ...todo, completed: !isCompleted }, id);
+    // updateTodoInDB({ ...todo, completed: !isCompleted }, id);
+  };
+
+  const handleDeleteCard = () => {
+    deleteCard(todo.$id);
   };
 
   return (
@@ -87,7 +97,7 @@ export default function Card({
             </button>
 
             <button
-              onClick={() => deleteTask(index, todo, id)}
+              onClick={handleDeleteCard}
               className="text-gray-200 hover:text-red-600"
             >
               <XCircleIcon className="w-6 h-6 ml-2" />
