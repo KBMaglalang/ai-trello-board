@@ -44,10 +44,10 @@ export default function Card({
     state.isOpen,
     state.isEditModal,
   ]);
-  const [deleteTask, updateTodoInDB] = useBoardStore((state) => [
-    state.deleteTask,
-    state.updateTodoInDB,
-  ]);
+  // const [deleteTask, updateTodoInDB] = useBoardStore((state) => [
+  //   state.deleteTask,
+  //   state.updateTodoInDB,
+  // ]);
 
   useEffect(() => {
     if (todo.image) {
