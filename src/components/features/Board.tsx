@@ -138,7 +138,10 @@ export default function Board({ id }: { id: string }) {
 
               {/* add in an empty column for the user to add a new column */}
               {workingBoard && (
-                <EmptyColumn boardId={workingBoard?.$id} boardColumns={[]} />
+                <EmptyColumn
+                  boardId={workingBoard?.$id}
+                  boardColumns={workingBoard?.columns || []}
+                />
               )}
             </div>
           )}
