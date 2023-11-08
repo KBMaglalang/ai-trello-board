@@ -13,6 +13,7 @@ import Card from "./Card";
 
 // store
 import { useModalStore } from "@/store/ModalStore";
+import { useNewBoardStore } from "@/store/NewBoardStore";
 
 // constants and functions
 import { updateColumn, deleteColumn } from "@/lib/appwrite/columns";
@@ -24,6 +25,10 @@ type Props = {
 
 export default function Column({ columnData, index }: Props) {
   const [openModal] = useModalStore((state) => [state.openModal]);
+  const [workingColumn, setWorkingColumn] = useNewBoardStore((state) => [
+    state.workingColumn,
+    state.setWorkingColumn,
+  ]);
 
   const [isEditable, setIsEditable] = useState(false);
   const [columnTitle, setColumnTitle] = useState(
@@ -44,6 +49,9 @@ export default function Column({ columnData, index }: Props) {
   };
 
   const handleAddTodo = () => {
+    // set the workingColumn in the board store
+    setWorkingColumn(columnData);
+
     openModal();
   };
 
@@ -92,26 +100,27 @@ export default function Column({ columnData, index }: Props) {
 
                 <div className="space-y-2">
                   {/* list todo cards */}
-                  {columnData?.todos.map((todo, index) => {
-                    return (
-                      <Draggable
-                        key={todo.$id}
-                        draggableId={todo.$id}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <Card
-                            todo={todo}
-                            index={index}
-                            id={columnData?.id}
-                            innerRef={provided.innerRef}
-                            draggableProps={provided.draggableProps}
-                            dragHandleProps={provided.dragHandleProps}
-                          />
-                        )}
-                      </Draggable>
-                    );
-                  })}
+                  {columnData &&
+                    columnData?.todos.map((todo, index) => {
+                      return (
+                        <Draggable
+                          key={todo.$id}
+                          draggableId={todo.$id}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <Card
+                              todo={todo}
+                              index={index}
+                              id={columnData?.$id}
+                              innerRef={provided.innerRef}
+                              draggableProps={provided.draggableProps}
+                              dragHandleProps={provided.dragHandleProps}
+                            />
+                          )}
+                        </Draggable>
+                      );
+                    })}
                   {provided.placeholder}
 
                   {/* add new todo button */}
