@@ -21,14 +21,14 @@ export default function Board({ id }: { id: string }) {
   );
 
   useEffect(() => {
-    if (id && !workingBoard) {
-      // search the board list to find the matching board with the id
-      const boardData = findWorkingBoard(boardList, id);
+    // if (id && !workingBoard) {
+    // search the board list to find the matching board with the id
+    const boardData = findWorkingBoard(boardList, id);
 
-      // set the workingBoard
-      setWorkingBoard(boardData);
-    }
-  }, [boardList, id, setWorkingBoard, workingBoard]);
+    // set the workingBoard
+    setWorkingBoard(boardData);
+    // }
+  }, [setWorkingBoard, boardList, id, workingBoard]);
 
   // ! this is old code
   const [board, setBoardState, getBoard, updateTodoInDB] = useBoardStore(

@@ -42,7 +42,7 @@ export default function BoardDrawerListItem({ boardData }: Props) {
   const handleEditBoardItem = async () => {
     // update board title
     if (isEditable) {
-      updateBoard(boardData?.$id, boardTitle);
+      await updateBoard(boardData?.$id, boardTitle);
     }
 
     setIsEditable(!isEditable);
