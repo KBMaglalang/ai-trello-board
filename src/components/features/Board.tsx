@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
+import { useRouter } from "next/navigation";
 
 // components
 import Column from "./Column";
@@ -15,20 +16,25 @@ import { useNewBoardStore } from "@/store/NewBoardStore";
 import { findWorkingBoard } from "@/lib/util";
 
 export default function Board({ id }: { id: string }) {
+  const router = useRouter();
+
   // new board test
   const [boardList, workingBoard, setWorkingBoard] = useNewBoardStore(
     (state) => [state.boardList, state.workingBoard, state.setWorkingBoard]
   );
 
   useEffect(() => {
-    // if (id && !workingBoard) {
-    // search the board list to find the matching board with the id
     const boardData = findWorkingBoard(boardList, id);
+
+    // return to the homepage if no board is found
+    if (!boardData) {
+      router.replace("/");
+      return;
+    }
 
     // set the workingBoard
     setWorkingBoard(boardData);
-    // }
-  }, [setWorkingBoard, boardList, id, workingBoard]);
+  }, [setWorkingBoard, boardList, id, workingBoard, router]);
 
   // ! this is old code
   const [board, setBoardState, getBoard, updateTodoInDB] = useBoardStore(
