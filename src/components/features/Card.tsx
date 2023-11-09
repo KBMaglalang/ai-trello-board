@@ -117,7 +117,7 @@ export default function Card({
         {/* title */}
         <div className="flex flex-row">
           <h1
-            className={`text-xl font-bold ${isCompleted ? "opacity-50" : ""}`}
+            className={`text-xl font-bold ${isCompleted ? "opacity-25" : ""}`}
           >
             {todo.title}
           </h1>
