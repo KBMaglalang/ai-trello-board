@@ -32,7 +32,7 @@ export const EmptyColumn = ({ boardId, boardColumns }: Props) => {
         Create a new column
       </h2>
       <div className="flex items-end justify-end p-2 w-96 ">
-        <button className="btn btn-primary w-full" onClick={handleAddColumn}>
+        <button className="btn btn-accent w-full" onClick={handleAddColumn}>
           <PlusCircleIcon className="w-8 h-8" />
         </button>
       </div>
