@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 // components
 
 // store
-import { useDrawerStore } from "@/store/DrawerStore";
 import { useNewBoardStore } from "@/store/NewBoardStore";
 
 // constants and functions
@@ -22,21 +21,19 @@ export default function BoardDrawerListItem({ boardData }: Props) {
   const [boardTitle, setBoardTitle] = useState(boardData?.title || "New Board");
   const [isEditable, setIsEditable] = useState(false);
 
-  const [closeDrawer] = useDrawerStore((state) => [state.closeDrawer]);
   const [setWorkingBoard, getBoardList] = useNewBoardStore((state) => [
     state.setWorkingBoard,
     state.getBoardList,
   ]);
 
   const handleOnClicked = () => {
-    // set the working boarde to the selected board
-    setWorkingBoard(boardData);
+    if (!isEditable) {
+      // set the working boarde to the selected board
+      setWorkingBoard(boardData);
 
-    // close drawer
-    closeDrawer();
-
-    // go to board page
-    router.push(`/board/${boardData.$id}`);
+      // go to board page
+      router.push(`/board/${boardData.$id}`);
+    }
   };
 
   const handleEditBoardItem = async () => {
@@ -60,23 +57,29 @@ export default function BoardDrawerListItem({ boardData }: Props) {
 
   return (
     <div className="flex flex-row space-x-2 w-full" onClick={handleOnClicked}>
-      <input
-        className={`bg-transparent ${isEditable ? "" : "input-disabled"}`}
-        value={boardTitle}
-        readOnly={!isEditable}
-        onChange={(e) => setBoardTitle(e.target.value)}
-      />
+      <div className="btn btn-ghost flex-1">
+        <input
+          className={`text-md bg-transparent ${
+            isEditable ? "" : "cursor-pointer input-disabled"
+          } w-full focus:ring-0 focus:ring-offset-0 outline-none`}
+          value={boardTitle}
+          readOnly={!isEditable}
+          onChange={(e) => setBoardTitle(e.target.value)}
+        />
+      </div>
 
-      <PencilIcon
-        className={`w-4 h-4 hover:text-white ${
-          isEditable ? "text-cyan-500" : ""
-        }`}
-        onClick={handleEditBoardItem}
-      />
-      <XCircleIcon
-        className="w-4 h-4 hover:text-red-500"
-        onClick={handleDeleteBoardItem}
-      />
+      <div className="flex space-x-2">
+        <PencilIcon
+          className={`btn btn-square w-6 h-6 hover:text-blue-500 ${
+            isEditable ? "text-blue-500" : ""
+          }`}
+          onClick={handleEditBoardItem}
+        />
+        <XCircleIcon
+          className="btn btn-circle w-6 h-6 hover:text-red-500"
+          onClick={handleDeleteBoardItem}
+        />
+      </div>
     </div>
   );
 }

@@ -25,7 +25,7 @@ export default function BoardDrawerList() {
   }, [getBoardList]);
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden h-full overflow-y-scroll">
+    <div className="flex flex-1 flex-col overflow-hidden h-full space-y-2 overflow-y-scroll">
       {/* Sidebar content here */}
       {boardList.map((item) => (
         <BoardDrawerListItem key={item.$id} boardData={item} />
