@@ -13,9 +13,9 @@ export default function Header() {
       <div className="mx-auto flex flex-wrap px-5 py-2 flex-col md:flex-row items-center">
         <Link
           href={"/"}
-          className="flex title-font font-medium items-center text-white mb-4 md:mb-0"
+          className="flex title-font font-medium items-center  mb-4 md:mb-0"
         >
-          <span className="ml-3 text-sm">{PROJECT_NAME}</span>
+          <h1 className=" text-xl font-bold">{PROJECT_NAME}</h1>
         </Link>
 
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
