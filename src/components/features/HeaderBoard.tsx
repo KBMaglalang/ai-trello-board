@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 // components
 
@@ -10,7 +11,17 @@ import { useNewBoardStore } from "@/store/NewBoardStore";
 // functions and constants
 
 export default function HeaderBoard() {
-  const [workingBoard] = useNewBoardStore((state) => [state.workingBoard]);
+  const pathname = usePathname();
+  const [workingBoard, clearWorkingBoard] = useNewBoardStore((state) => [
+    state.workingBoard,
+    state.clearWorkingBoard,
+  ]);
+
+  useEffect(() => {
+    if (pathname === "/") {
+      clearWorkingBoard();
+    }
+  }, [pathname, clearWorkingBoard]);
 
   return (
     <nav className="md:mx-auto flex flex-wrap items-center text-base-content justify-center">
