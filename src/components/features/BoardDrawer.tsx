@@ -44,7 +44,7 @@ export default function BoardDrawer() {
 
         <div className="flex flex-col menu p-4 w-80 min-h-full bg-base-200 text-base-content h-full overflow-hidden">
           {/* drawer title */}
-          <h1 className="text-xl font-bold text-center text-gray-600 pb-4">
+          <h1 className="text-xl font-bold text-center text-base-content pb-4">
             Your Boards
           </h1>
 

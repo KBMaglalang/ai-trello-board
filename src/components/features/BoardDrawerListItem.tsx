@@ -59,7 +59,7 @@ export default function BoardDrawerListItem({ boardData }: Props) {
     <div className="flex flex-row space-x-2 w-full" onClick={handleOnClicked}>
       <div className="btn btn-ghost flex-1">
         <input
-          className={`text-md bg-transparent ${
+          className={`text-md bg-transparent text-base-content ${
             isEditable ? "" : "cursor-pointer input-disabled"
           } w-full focus:ring-0 focus:ring-offset-0 outline-none`}
           value={boardTitle}
@@ -68,15 +68,15 @@ export default function BoardDrawerListItem({ boardData }: Props) {
         />
       </div>
 
-      <div className="flex space-x-2">
+      <div className="flex space-x-2 text-base-content items-center">
         <PencilIcon
-          className={`btn btn-square w-6 h-6 hover:text-blue-500 ${
+          className={`w-6 h-6 hover:text-blue-500 ${
             isEditable ? "text-blue-500" : ""
           }`}
           onClick={handleEditBoardItem}
         />
         <XCircleIcon
-          className="btn btn-circle w-6 h-6 hover:text-red-500"
+          className="w-6 h-6 hover:text-red-500"
           onClick={handleDeleteBoardItem}
         />
       </div>

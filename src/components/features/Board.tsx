@@ -139,7 +139,8 @@ export default function Board({ id }: { id: string }) {
         <Droppable droppableId="board" direction="horizontal" type="column">
           {(provided) => (
             <div
-              className="grid grid-cols-1 md:grid-cols-3 gap-5 p-5 max-w-7xl mx-auto"
+              // className="grid grid-cols-1 md:grid-cols-3 gap-5 p-5 max-w-7xl mx-auto"
+              className="flex flex-row  space-x-2 w-full overflow-x-scroll h-full"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >

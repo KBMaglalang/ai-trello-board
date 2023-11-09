@@ -73,49 +73,54 @@ export default function Card({
 
   return (
     <div
-      className="space-y-2 bg-white rounded-md drop-shadow-md"
+      className="flex flex-col space-y-2 bg-base-300 text-base-content rounded-md  w-full shadow-md"
       {...draggableProps}
       {...dragHandleProps}
       ref={innerRef}
       onDoubleClick={() => openModal(true, todo, id)}
     >
-      <div className="flex flex-col">
-        <div className="flex items-center justify-between mt-4 mr-4">
+      <div className="card-body">
+        <div className="flex items-center justify-between ">
           <div>
             <input
               type="checkbox"
               checked={isCompleted}
-              className="checkbox checkbox-sm ml-4"
+              className="checkbox checkbox-sm"
               onChange={handleCardCompletedToggle}
             />
           </div>
-          <div>
+
+          <div className="flex flex-row space-x-2">
             <button
               onClick={() => openModal(true, todo, id)}
-              className="text-gray-200 hover:text-blue-600"
+              className="text-base-content hover:text-blue-500"
             >
               <PencilIcon className="w-6 h-6" />
             </button>
 
             <button
               onClick={handleDeleteCard}
-              className="text-gray-200 hover:text-red-600"
+              className="text-base-content hover:text-red-500"
             >
-              <XCircleIcon className="w-6 h-6 ml-2" />
+              <XCircleIcon className="w-6 h-6" />
             </button>
           </div>
         </div>
 
         {/* created at */}
-        <div className="">
-          <p className="text-xs text-gray-400 text-end pr-4 pb-4">
-            {new Date(todo.$createdAt).toLocaleString()}
-          </p>
-        </div>
+        {/* <div className="">
+        <p className="text-xs text-gray-400 text-end pr-4 pb-4">
+          {new Date(todo.$createdAt).toLocaleString()}
+        </p>
+      </div> */}
 
         {/* title */}
-        <div className="flex items-center justify-between p-4">
-          <p className="text-xl font-bold">{todo.title}</p>
+        <div className="flex flex-row">
+          <h1
+            className={`text-xl font-bold ${isCompleted ? "opacity-25" : ""}`}
+          >
+            {todo.title}
+          </h1>
         </div>
 
         {/* image */}
@@ -135,7 +140,7 @@ export default function Card({
         <div className="flex flex-row w-full justify-between">
           {/* start date */}
           {todo.startDate && (
-            <div className="flex items-center justify-end p-4">
+            <div className="flex items-center justify-end ">
               <span className="px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-md">
                 Start: {new Date(todo.startDate).toLocaleDateString()}
               </span>
@@ -144,7 +149,7 @@ export default function Card({
 
           {/* end date */}
           {todo.endDate && (
-            <div className="flex items-center justify-end p-4">
+            <div className="flex items-center justify-end">
               <span className="px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-md">
                 Due: {new Date(todo.endDate).toLocaleDateString()}
               </span>
