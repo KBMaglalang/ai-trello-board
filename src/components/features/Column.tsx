@@ -17,6 +17,7 @@ import { useNewBoardStore } from "@/store/NewBoardStore";
 
 // constants and functions
 import { updateColumn, deleteColumn } from "@/lib/appwrite/columns";
+import { openTaskModal } from "@/lib/util";
 
 type Props = {
   columnData: any;
@@ -55,7 +56,8 @@ export default function Column({ columnData, index }: Props) {
     // set the workingColumn in the board store
     setWorkingColumn(columnData);
 
-    openModal();
+    openTaskModal();
+    // openModal();
   };
 
   return (
