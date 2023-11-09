@@ -74,36 +74,30 @@ export default function Column({ columnData, index }: Props) {
                 className={`p-2 rounded-2xl shadow-sm w-96  `}
               >
                 {/* column title */}
-                <div className="flex flex-row pb-2 justify-between items-center">
+                <div className="flex flex-row pb-2 justify-between items-center text-base-content space-x-2">
                   <input
-                    className={`flex flex-1 mr-2 text-base-content justify-between p-2 text-xl font-bold bg-transparent ${
+                    className={`text-xl font-bold bg-transparent ${
                       isEditable
-                        ? ""
-                        : "cursor-pointer input-disabled w-full focus:ring-0 focus:ring-offset-0 outline-none"
+                        ? "outline-2"
+                        : "cursor-pointer input-disabled focus:ring-0 focus:ring-offset-0 outline-none"
                     }`}
                     value={columnTitle}
                     readOnly={!isEditable}
                     onChange={(e) => setColumnTitle(e.target.value)}
                   />
 
-                  <div>
-                    <button
-                      className="text-base-content hover:text-blue-600"
+                  <div className="flex space-x-2 text-base-content items-center">
+                    <PencilIcon
+                      className={`w-6 h-6 hover:text-blue-500 ${
+                        isEditable ? "text-blue-600" : ""
+                      }`}
                       onClick={handleEditColumnName}
-                    >
-                      <PencilIcon
-                        className={`w-6 h-6 ${
-                          isEditable ? "text-blue-600" : ""
-                        }`}
-                      />
-                    </button>
+                    />
 
-                    <button
-                      className="text-base-content hover:text-red-600"
+                    <XCircleIcon
+                      className="w-6 h-6 ml-2 hover:text-red-500"
                       onClick={handleDeleteColumn}
-                    >
-                      <XCircleIcon className="w-6 h-6 ml-2" />
-                    </button>
+                    />
                   </div>
                 </div>
 
