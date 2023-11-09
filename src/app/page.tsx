@@ -4,7 +4,7 @@ import { BoardList } from "@/components/features/HomepageBoardList";
 
 export default function Home() {
   return (
-    <main className="flex flex-row flex-1 p-5 w-full h-full">
+    <main className="container mx-auto p-5">
       <BoardList />
     </main>
   );

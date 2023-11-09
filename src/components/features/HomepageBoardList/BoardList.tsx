@@ -15,7 +15,7 @@ export function BoardList() {
   const [boardList] = useNewBoardStore((state) => [state.boardList]);
 
   return (
-    <div className="flex flex-wrap gap-4 w-full h-full">
+    <div className="flex flex-wrap gap-4 items-center justify-center">
       {boardList &&
         boardList.map((board) => (
           <BoardListItem key={board.$id} boardData={board} />
