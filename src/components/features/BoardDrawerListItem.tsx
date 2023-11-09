@@ -36,7 +36,11 @@ export default function BoardDrawerListItem({ boardData }: Props) {
     }
   };
 
-  const handleEditBoardItem = async () => {
+  const handleEditBoardItem = async (
+    e: React.MouseEvent<SVGSVGElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+
     // update board title
     if (isEditable) {
       await updateBoard(boardData?.$id, boardTitle);
@@ -57,11 +61,13 @@ export default function BoardDrawerListItem({ boardData }: Props) {
 
   return (
     <div className="flex flex-row space-x-2 w-full" onClick={handleOnClicked}>
-      <div className="btn btn-ghost flex-1">
+      <div className={`btn btn-ghost flex-1 text-base-content`}>
         <input
-          className={`text-md bg-transparent text-base-content ${
-            isEditable ? "" : "cursor-pointer input-disabled"
-          } w-full focus:ring-0 focus:ring-offset-0 outline-none`}
+          className={`p-2 text-md bg-transparent w-full ${
+            isEditable
+              ? "outline-2"
+              : "cursor-pointer input-disabled focus:ring-0 focus:ring-offset-0 outline-none"
+          }`}
           value={boardTitle}
           readOnly={!isEditable}
           onChange={(e) => setBoardTitle(e.target.value)}
@@ -73,7 +79,7 @@ export default function BoardDrawerListItem({ boardData }: Props) {
           className={`w-6 h-6 hover:text-blue-500 ${
             isEditable ? "text-blue-500" : ""
           }`}
-          onClick={handleEditBoardItem}
+          onClick={(e) => handleEditBoardItem(e)}
         />
         <XCircleIcon
           className="w-6 h-6 hover:text-red-500"
