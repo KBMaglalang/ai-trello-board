@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
-import Datepicker from "react-tailwindcss-datepicker";
+import React, { useEffect } from "react";
 
+// components
+
+// store
 import { useBoardStore } from "@/store/BoardStore";
 import { useModalStore } from "@/store/ModalStore";
+
+// constants and functions
 
 export default function TaskDatePicker() {
   const [isEditModal, cardInfo] = useModalStore((state) => [
@@ -10,7 +14,15 @@ export default function TaskDatePicker() {
     state.isEditModal,
     state.cardInfo,
   ]);
-  const [setNewTaskStartDate, setNewTaskEndDate] = useBoardStore((state) => [
+  const [
+    newTaskStartDate,
+    newTaskEndDate,
+    setNewTaskStartDate,
+    setNewTaskEndDate,
+  ] = useBoardStore((state) => [
+    state.newTaskStartDate,
+    state.newTaskEndDate,
+
     state.setNewTaskStartDate,
     state.setNewTaskEndDate,
   ]);
@@ -28,47 +40,33 @@ export default function TaskDatePicker() {
     setNewTaskEndDate,
   ]);
 
-  // todo refator - this should be change to completely rely on the store and not on the state
-  const [startDate, setStartDate] = useState({
-    startDate: cardInfo?.todo?.startDate || new Date(),
-    endDate: cardInfo?.todo?.startDate || null,
-  });
-
-  const [endDate, setEndDate] = useState({
-    startDate: cardInfo?.todo?.endDate || new Date(),
-    endDate: cardInfo?.todo?.endDate || null,
-  });
-
-  const handleStartDateChange = (newValue: any) => {
-    setStartDate(newValue);
-    setNewTaskStartDate(newValue.startDate);
-  };
-
-  const handleEndDateChange = (newValue: any) => {
-    setEndDate(newValue);
-    setNewTaskEndDate(newValue.startDate);
-  };
-
   return (
     <div className="flex flex-col mt-2 space-y-2 w-full">
-      <div className="flex flex-row w-full">
-        <Datepicker
-          primaryColor={"blue"}
-          value={startDate}
-          useRange={false}
-          asSingle={true}
-          placeholder={"Start Date"}
-          onChange={handleStartDateChange}
+      {/* start date input */}
+      <div className="w-full form-control">
+        <label className="label">
+          <span className="label-text">Start Date</span>
+        </label>
+        <input
+          type="datetime-local"
+          name="startDate"
+          className="input input-bordered w-full"
+          value={newTaskStartDate}
+          onChange={(e) => setNewTaskStartDate(e.target.value)}
         />
       </div>
-      <div className="flex flex-row w-full">
-        <Datepicker
-          primaryColor={"blue"}
-          value={endDate}
-          useRange={false}
-          asSingle={true}
-          placeholder={"End Date"}
-          onChange={handleEndDateChange}
+
+      {/* end date input */}
+      <div className="form-control w-full">
+        <label className="label">
+          <span className="label-text">End Date</span>
+        </label>
+        <input
+          type="datetime-local"
+          name="endDate"
+          className="input input-bordered w-full"
+          value={newTaskEndDate}
+          onChange={(e) => setNewTaskEndDate(e.target.value)}
         />
       </div>
     </div>
