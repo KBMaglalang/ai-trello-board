@@ -32,12 +32,12 @@ interface NewBoardState {
   getBoardList: () => void;
   clearBoardList: () => void;
 
-  setWorkingBoard: (workingBoard: any) => void;
-  clearWorkingBoard: () => void;
-
   createNewBoard: () => void;
   updateNewBoard: (id: string, title: string) => void;
   deleteNewBoard: (id: string) => void;
+
+  setWorkingBoard: (workingBoard: any) => void;
+  clearWorkingBoard: () => void;
 
   setWorkingColumn: (workingColumn: any) => void;
   clearWorkingColumn: () => void;
@@ -63,10 +63,6 @@ export const useNewBoardStore = create<NewBoardState>((set, get) => ({
   },
   clearBoardList: () => set({ boardList: [] }),
 
-  // --- working board ---
-  setWorkingBoard: (workingBoard) => set({ workingBoard }),
-  clearWorkingBoard: () => set({ workingBoard: null }),
-
   // --- board ---
   createNewBoard: async () => {
     await createBoard();
@@ -89,6 +85,10 @@ export const useNewBoardStore = create<NewBoardState>((set, get) => ({
     const boardList = await getBoards();
     set({ boardList });
   },
+
+  // --- working board ---
+  setWorkingBoard: (workingBoard) => set({ workingBoard }),
+  clearWorkingBoard: () => set({ workingBoard: null }),
 
   // --- working column ---
   setWorkingColumn: (workingColumn) => set({ workingColumn }),

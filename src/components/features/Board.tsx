@@ -27,14 +27,14 @@ export default function Board({ id }: { id: string }) {
     const boardData = findWorkingBoard(boardList, id);
 
     // return to the homepage if no board is found
-    if (!boardData) {
-      router.replace("/");
-      return;
-    }
+    // if (!boardData) {
+    //   router.replace("/");
+    //   return;
+    // }
 
     // set the workingBoard
     setWorkingBoard(boardData);
-  }, [setWorkingBoard, boardList, id, workingBoard, router]);
+  }, [setWorkingBoard, id, workingBoard]);
 
   // ! this is old code
   // const [board, setBoardState, getBoard, updateTodoInDB] = useBoardStore(
@@ -53,21 +53,28 @@ export default function Board({ id }: { id: string }) {
 
   // TODO: to be updated to work with the new database structure
   // TODO: update for the latest DND library - default props to be deprecated
-  const handleOnDragEnd = (result: DropResult) => {
+  const handleOnDragEnd = async (result: DropResult) => {
     const { destination, source, type } = result;
 
     // Check if user dragged card outside of board
     if (!destination) return;
 
-    // // Handle column drag
-    // if (type === "column") {
-    //   const entries = Array.from(board.columns.entries());
-    //   const [removed] = entries.splice(source.index, 1);
-    //   entries.splice(destination.index, 0, removed);
-    //   const rearrangedColumns = new Map(entries);
-    //   setBoardState({ ...board, columns: rearrangedColumns });
-    //   return;
-    // }
+    // Handle column drag
+    if (type === "column") {
+      const entries = workingBoard?.columns;
+      const [removed] = entries.splice(source.index, 1);
+      entries.splice(destination.index, 0, removed);
+
+      // update the current working board
+      setWorkingBoard({ ...workingBoard, columns: entries });
+
+      // const entries = Array.from(board.columns.entries());
+      // const [removed] = entries.splice(source.index, 1);
+      // entries.splice(destination.index, 0, removed);
+      // const rearrangedColumns = new Map(entries);
+      // setBoardState({ ...board, columns: rearrangedColumns });
+      return;
+    }
 
     // // This step is needed as the indexes are stored as numbers 0,1,2 etc. instead of id's with DND library
     // const columns = Array.from(board.columns);
