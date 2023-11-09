@@ -7,17 +7,12 @@ import { Bars4Icon } from "@heroicons/react/24/solid";
 import BoardDrawerList from "./BoardDrawerList";
 
 // store
-import { useDrawerStore } from "@/store/DrawerStore";
 import { useNewBoardStore } from "@/store/NewBoardStore";
 
 // constants and functions
 import { createBoard } from "@/lib/appwrite/boards";
 
 export default function BoardDrawer() {
-  const [isOpen, toggleDrawer] = useDrawerStore((state) => [
-    state.isOpen,
-    state.toggleDrawer,
-  ]);
   const [getBoardList] = useNewBoardStore((state) => [state.getBoardList]);
 
   const handleCreateNewBoards = async () => {
@@ -28,16 +23,13 @@ export default function BoardDrawer() {
 
   return (
     <div className="drawer z-1000">
-      <input
-        id="my-drawer"
-        type="checkbox"
-        className="drawer-toggle"
-        checked={isOpen}
-        onChange={() => toggleDrawer()}
-      />
+      <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* toggle button */}
-        <label htmlFor="my-drawer" className="btn btn-primary drawer-button">
+        <label
+          htmlFor="my-drawer"
+          className="btn btn-outline btn-sm drawer-button"
+        >
           <Bars4Icon className="w-4 h-4" />
         </label>
       </div>
@@ -52,7 +44,7 @@ export default function BoardDrawer() {
 
         <div className="flex flex-col menu p-4 w-80 min-h-full bg-base-200 text-base-content h-full overflow-hidden">
           {/* drawer title */}
-          <h1 className="text-xl font-bold text-center text-white pb-4">
+          <h1 className="text-xl font-bold text-center text-gray-600 pb-4">
             Your Boards
           </h1>
 
@@ -60,7 +52,10 @@ export default function BoardDrawer() {
           <BoardDrawerList />
 
           {/* new board button */}
-          <button className="btn glass mt-2" onClick={handleCreateNewBoards}>
+          <button
+            className="btn btn-primary mt-2"
+            onClick={handleCreateNewBoards}
+          >
             New Board
           </button>
         </div>
