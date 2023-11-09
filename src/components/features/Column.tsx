@@ -71,34 +71,40 @@ export default function Column({ columnData, index }: Props) {
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                className={`pb-2 bg-white/50 p-2 rounded-2xl shadow-sm
-                `}
+                className={`p-2 rounded-2xl shadow-sm w-96  `}
               >
                 {/* column title */}
-                <div className="flex flex-row">
+                <div className="flex flex-row pb-2 justify-between items-center">
                   <input
-                    className={`flex justify-between p-2 text-xl font-bold bg-transparent ${
-                      isEditable ? "" : "input-disabled"
+                    className={`flex flex-1 mr-2 text-gray-500 justify-between p-2 text-xl font-bold bg-transparent ${
+                      isEditable
+                        ? ""
+                        : "cursor-pointer input-disabled w-full focus:ring-0 focus:ring-offset-0 outline-none"
                     }`}
                     value={columnTitle}
                     readOnly={!isEditable}
                     onChange={(e) => setColumnTitle(e.target.value)}
                   />
-                  <button
-                    className="text-gray-200 hover:text-blue-600"
-                    onClick={handleEditColumnName}
-                  >
-                    <PencilIcon
-                      className={`w-6 h-6 ${isEditable ? "text-blue-600" : ""}`}
-                    />
-                  </button>
 
-                  <button
-                    className="text-gray-200 hover:text-red-600"
-                    onClick={handleDeleteColumn}
-                  >
-                    <XCircleIcon className="w-6 h-6 ml-2" />
-                  </button>
+                  <div>
+                    <button
+                      className="text-gray-200 hover:text-blue-600"
+                      onClick={handleEditColumnName}
+                    >
+                      <PencilIcon
+                        className={`w-6 h-6 ${
+                          isEditable ? "text-blue-600" : ""
+                        }`}
+                      />
+                    </button>
+
+                    <button
+                      className="text-gray-200 hover:text-red-600"
+                      onClick={handleDeleteColumn}
+                    >
+                      <XCircleIcon className="w-6 h-6 ml-2" />
+                    </button>
+                  </div>
                 </div>
 
                 <div className="space-y-2">
@@ -127,12 +133,12 @@ export default function Column({ columnData, index }: Props) {
                   {provided.placeholder}
 
                   {/* add new todo button */}
-                  <div className="flex items-end justify-end p-2">
+                  <div className="flex items-end justify-end ">
                     <button
                       onClick={handleAddTodo}
-                      className="btn glass w-full text-gray-700"
+                      className="btn btn-primary w-full "
                     >
-                      <PlusCircleIcon className="w-10 h-10" />
+                      <PlusCircleIcon className="w-8 h-8" />
                     </button>
                   </div>
                 </div>
