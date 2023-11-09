@@ -22,7 +22,7 @@ export default function BoardDrawerList() {
 
   useEffect(() => {
     getBoardList();
-  }, [getBoardList, workingBoard, workingColumn]);
+  }, [getBoardList]);
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden h-full overflow-y-scroll">

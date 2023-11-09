@@ -24,17 +24,19 @@ export default function Board({ id }: { id: string }) {
   );
 
   useEffect(() => {
-    const boardData = findWorkingBoard(boardList, id);
+    if (id && boardList.length > 0) {
+      const boardData = findWorkingBoard(boardList, id);
 
-    // return to the homepage if no board is found
-    // if (!boardData) {
-    //   router.replace("/");
-    //   return;
-    // }
+      // return to the homepage if no board is found
+      if (!boardData) {
+        router.replace("/");
+        return;
+      }
 
-    // set the workingBoard
-    setWorkingBoard(boardData);
-  }, [setWorkingBoard, id, workingBoard]);
+      // set the workingBoard
+      setWorkingBoard(boardData);
+    }
+  }, [setWorkingBoard, router, boardList, id]);
 
   // ! this is old code
   // const [board, setBoardState, getBoard, updateTodoInDB] = useBoardStore(
