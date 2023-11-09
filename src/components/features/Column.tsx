@@ -76,7 +76,7 @@ export default function Column({ columnData, index }: Props) {
                 {/* column title */}
                 <div className="flex flex-row pb-2 justify-between items-center">
                   <input
-                    className={`flex flex-1 mr-2 text-gray-500 justify-between p-2 text-xl font-bold bg-transparent ${
+                    className={`flex flex-1 mr-2 text-base-content justify-between p-2 text-xl font-bold bg-transparent ${
                       isEditable
                         ? ""
                         : "cursor-pointer input-disabled w-full focus:ring-0 focus:ring-offset-0 outline-none"
@@ -88,7 +88,7 @@ export default function Column({ columnData, index }: Props) {
 
                   <div>
                     <button
-                      className="text-gray-200 hover:text-blue-600"
+                      className="text-base-content hover:text-blue-600"
                       onClick={handleEditColumnName}
                     >
                       <PencilIcon
@@ -99,7 +99,7 @@ export default function Column({ columnData, index }: Props) {
                     </button>
 
                     <button
-                      className="text-gray-200 hover:text-red-600"
+                      className="text-base-content hover:text-red-600"
                       onClick={handleDeleteColumn}
                     >
                       <XCircleIcon className="w-6 h-6 ml-2" />
@@ -107,7 +107,7 @@ export default function Column({ columnData, index }: Props) {
                   </div>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-4">
                   {/* list todo cards */}
                   {columnData &&
                     columnData?.todos.map((todo, index) => {
