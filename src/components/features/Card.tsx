@@ -17,6 +17,7 @@ import { useModalStore } from "@/store/ModalStore";
 // constants and functions
 import getUrl from "@/lib/getUrl";
 import { deleteCard, updateCardComplete } from "@/lib/appwrite/cards";
+import { openTaskModal } from "@/lib/util";
 
 type Props = {
   todo: Todo;
@@ -71,13 +72,18 @@ export default function Card({
     deleteCard(todo.$id);
   };
 
+  const handleModal = () => {
+    openTaskModal();
+    openModal(true, todo, id);
+  };
+
   return (
     <div
       className="flex flex-col space-y-2 bg-base-300 text-base-content rounded-md  w-full shadow-md"
       {...draggableProps}
       {...dragHandleProps}
       ref={innerRef}
-      onDoubleClick={() => openModal(true, todo, id)}
+      onDoubleClick={handleModal}
     >
       <div className="card-body">
         <div className="flex items-center justify-between ">
@@ -92,7 +98,7 @@ export default function Card({
 
           <div className="flex flex-row space-x-2">
             <button
-              onClick={() => openModal(true, todo, id)}
+              onClick={handleModal}
               className="text-base-content hover:text-blue-500"
             >
               <PencilIcon className="w-6 h-6" />
