@@ -9,17 +9,16 @@ type Props = {
 };
 
 // components
+
 // store
+
 // constants and functions
 import { createColumn, addColumnToBoard } from "@/lib/appwrite/columns";
 
 export const EmptyColumn = ({ boardId, boardColumns }: Props) => {
   const handleAddColumn = async () => {
     const newColumData = await createColumn();
-    const response = await addColumnToBoard(boardId, [
-      ...boardColumns,
-      newColumData,
-    ]);
+    await addColumnToBoard(boardId, [...boardColumns, newColumData]);
 
     // TODO: update the boardList
   };
