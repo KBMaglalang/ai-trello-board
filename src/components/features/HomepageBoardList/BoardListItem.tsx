@@ -14,10 +14,6 @@ type Props = {
 };
 
 export function BoardListItem({ boardData }: Props) {
-  console.log(
-    "🚀 ~ file: BoardListItem.tsx:17 ~ BoardListItem ~ boardData:",
-    boardData
-  );
   return (
     <Link
       href={`/board/${boardData.$id}`}
