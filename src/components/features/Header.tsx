@@ -16,12 +16,12 @@ export default function Header() {
     <header className="text-base-content body-font">
       <div className="mx-auto flex flex-wrap px-5 py-2 flex-col md:flex-row items-center">
         <div className="flex space-x-2 w-full md:w-0 justify-between">
-          <div className="">
+          <div className="flex items-center justify-center">
             <BoardDrawer />
           </div>
 
-          <div className="">
-            <Link href={"/"} className="items-center ">
+          <div className="flex items-center justify-center">
+            <Link href={"/"} className="">
               <h1 className="text-xl font-bold">{PROJECT_NAME}</h1>
             </Link>
           </div>
@@ -31,6 +31,7 @@ export default function Header() {
           </div>
         </div>
 
+        {/* display the current board the user is on */}
         <HeaderBoard />
 
         {/* toggle for light and dark mode */}
