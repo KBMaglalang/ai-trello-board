@@ -11,7 +11,6 @@ import { XCircleIcon, PencilIcon } from "@heroicons/react/24/solid";
 // components
 
 // stores
-import { useBoardStore } from "@/store/BoardStore";
 import { useModalStore } from "@/store/ModalStore";
 
 // constants and functions
@@ -45,10 +44,6 @@ export default function Card({
     state.isOpen,
     state.isEditModal,
   ]);
-  // const [deleteTask, updateTodoInDB] = useBoardStore((state) => [
-  //   state.deleteTask,
-  //   state.updateTodoInDB,
-  // ]);
 
   useEffect(() => {
     if (todo.image) {
