@@ -10,7 +10,7 @@ import TaskDatePicker from "./TaskDatePicker";
 
 // store
 import { useModalStore } from "@/store/ModalStore";
-import { useNewBoardStore } from "@/store/NewBoardStore";
+import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import getUrl from "@/lib/getUrl";
@@ -41,7 +41,7 @@ function Modal() {
     setCardDescription,
     setCardCompleted,
     setCardImage,
-  ] = useNewBoardStore((state) => [
+  ] = BoardStateStore((state) => [
     state.getBoardList,
     state.workingBoard,
     state.setWorkingBoard,

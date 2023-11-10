@@ -13,7 +13,7 @@ import Card from "./Card";
 
 // store
 import { useModalStore } from "@/store/ModalStore";
-import { useNewBoardStore } from "@/store/NewBoardStore";
+import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import { updateColumn, deleteColumn } from "@/lib/appwrite/columns";
@@ -26,7 +26,7 @@ type Props = {
 
 export default function Column({ columnData, index }: Props) {
   const [openModal] = useModalStore((state) => [state.openModal]);
-  const [workingColumn, setWorkingColumn, getBoardList] = useNewBoardStore(
+  const [workingColumn, setWorkingColumn, getBoardList] = BoardStateStore(
     (state) => [state.workingColumn, state.setWorkingColumn, state.getBoardList]
   );
 

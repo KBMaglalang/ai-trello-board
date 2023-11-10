@@ -9,7 +9,7 @@ import Column from "./Column";
 import { EmptyColumn } from "./Columns";
 
 // store
-import { useNewBoardStore } from "@/store/NewBoardStore";
+import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import { findWorkingBoard } from "@/lib/util";
@@ -18,7 +18,7 @@ export default function Board({ id }: { id: string }) {
   const router = useRouter();
 
   // new board test
-  const [boardList, workingBoard, setWorkingBoard] = useNewBoardStore(
+  const [boardList, workingBoard, setWorkingBoard] = BoardStateStore(
     (state) => [state.boardList, state.workingBoard, state.setWorkingBoard]
   );
 

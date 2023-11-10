@@ -73,7 +73,7 @@ interface NewBoardState {
   clearCardImage: () => void;
 }
 
-export const useNewBoardStore = create<NewBoardState>((set, get) => ({
+export const BoardStateStore = create<NewBoardState>((set, get) => ({
   // state
   boardList: [],
   workingBoard: null,

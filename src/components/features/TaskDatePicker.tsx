@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 // components
 
 // store
-import { useNewBoardStore } from "@/store/NewBoardStore";
+import { BoardStateStore } from "@/store/BoardStateStore";
 import { useModalStore } from "@/store/ModalStore";
 
 // constants and functions
@@ -16,7 +16,7 @@ export default function TaskDatePicker() {
   ]);
 
   const [cardStartDate, setStartDate, cardEndDate, setEndDate] =
-    useNewBoardStore((state) => [
+    BoardStateStore((state) => [
       state.cardStartDate,
       state.setCardStartDate,
       state.cardEndDate,

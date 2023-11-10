@@ -7,13 +7,13 @@ import { Bars4Icon } from "@heroicons/react/24/solid";
 import BoardDrawerList from "./BoardDrawerList";
 
 // store
-import { useNewBoardStore } from "@/store/NewBoardStore";
+import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import { createBoard } from "@/lib/appwrite/boards";
 
 export default function BoardDrawer() {
-  const [getBoardList] = useNewBoardStore((state) => [state.getBoardList]);
+  const [getBoardList] = BoardStateStore((state) => [state.getBoardList]);
 
   const handleCreateNewBoards = async () => {
     await createBoard();
