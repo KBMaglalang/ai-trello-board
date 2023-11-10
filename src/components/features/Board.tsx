@@ -9,8 +9,7 @@ import Column from "./Column";
 import { EmptyColumn } from "./Columns";
 
 // store
-import { useBoardStore } from "@/store/BoardStore";
-import { useNewBoardStore } from "@/store/NewBoardStore";
+import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import { findWorkingBoard } from "@/lib/util";
@@ -19,7 +18,7 @@ export default function Board({ id }: { id: string }) {
   const router = useRouter();
 
   // new board test
-  const [boardList, workingBoard, setWorkingBoard] = useNewBoardStore(
+  const [boardList, workingBoard, setWorkingBoard] = BoardStateStore(
     (state) => [state.boardList, state.workingBoard, state.setWorkingBoard]
   );
 
@@ -37,21 +36,6 @@ export default function Board({ id }: { id: string }) {
       setWorkingBoard(boardData);
     }
   }, [setWorkingBoard, router, boardList, id]);
-
-  // ! this is old code
-  // const [board, setBoardState, getBoard, updateTodoInDB] = useBoardStore(
-  //   (state) => [
-  //     state.board,
-  //     state.setBoardState,
-  //     state.getBoard,
-  //     state.updateTodoInDB,
-  //   ]
-  // );
-
-  // ! this is old code
-  // useEffect(() => {
-  //   getBoard();
-  // }, [getBoard]);
 
   // TODO: to be updated to work with the new database structure
   // TODO: update for the latest DND library - default props to be deprecated

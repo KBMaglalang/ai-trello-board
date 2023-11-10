@@ -5,13 +5,13 @@ import React from "react";
 // components
 
 // store
-import { useNewBoardStore } from "@/store/NewBoardStore";
+import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import { createBoard } from "@/lib/appwrite/boards";
 
 export function CreateNewBoard() {
-  const [getBoardList] = useNewBoardStore((state) => [state.getBoardList]);
+  const [getBoardList] = BoardStateStore((state) => [state.getBoardList]);
 
   const handleCreateNewBoards = async () => {
     await createBoard();

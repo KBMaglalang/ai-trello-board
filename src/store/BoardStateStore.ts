@@ -28,6 +28,14 @@ interface NewBoardState {
   workingColumn: any;
   workingCard: any;
 
+  cardTitle: string;
+  cardDescription: string;
+  cardStartDate: string;
+  cardEndDate: string;
+  cardPriority: string;
+  cardCompleted: boolean;
+  cardImage: any;
+
   setBoardList: (boardList: any) => void;
   getBoardList: () => void;
   clearBoardList: () => void;
@@ -44,14 +52,41 @@ interface NewBoardState {
 
   setWorkingCard: (workingCard: any) => void;
   clearWorkingCard: () => void;
+
+  setCardStartDate: (startDate: string) => void;
+  setCardEndDate: (endDate: string) => void;
+  clearCardDate: () => void;
+
+  setTaskPriority: (taskPriority: string) => void;
+  clearTaskPriority: () => void;
+
+  setCardTitle: (cardTitle: string) => void;
+  clearCardTitle: () => void;
+
+  setCardDescription: (cardDescription: string) => void;
+  clearCardDescription: () => void;
+
+  setCardCompleted: (cardCompleted: boolean) => void;
+  clearCardCompleted: () => void;
+
+  setCardImage: (cardImage: any) => void;
+  clearCardImage: () => void;
 }
 
-export const useNewBoardStore = create<NewBoardState>((set, get) => ({
+export const BoardStateStore = create<NewBoardState>((set, get) => ({
   // state
   boardList: [],
   workingBoard: null,
   workingColumn: null,
   workingCard: null,
+
+  cardTitle: "",
+  cardDescription: "",
+  cardStartDate: "",
+  cardEndDate: "",
+  cardPriority: "",
+  cardCompleted: false,
+  cardImage: null,
 
   // setters and getters
 
@@ -97,4 +132,26 @@ export const useNewBoardStore = create<NewBoardState>((set, get) => ({
   // --- working card ---
   setWorkingCard: (workingCard) => set({ workingCard }),
   clearWorkingCard: () => set({ workingCard: null }),
+
+  // --- date ---
+  setCardStartDate: (cardStartDate) => set({ cardStartDate }),
+  setCardEndDate: (cardEndDate) => set({ cardEndDate }),
+  clearCardDate: () => set({ cardStartDate: "", cardEndDate: "" }),
+
+  // --- task priority ---
+  setTaskPriority: (taskPriority) => set({ cardPriority: taskPriority }),
+  clearTaskPriority: () => set({ cardPriority: "" }),
+
+  // --- cardTitle ---
+  setCardTitle: (cardTitle) => set({ cardTitle }),
+  clearCardTitle: () => set({ cardTitle: "" }),
+
+  setCardDescription: (cardDescription) => set({ cardDescription }),
+  clearCardDescription: () => set({ cardDescription: "" }),
+
+  setCardCompleted: (cardCompleted) => set({ cardCompleted }),
+  clearCardCompleted: () => set({ cardCompleted: false }),
+
+  setCardImage: (cardImage) => set({ cardImage }),
+  clearCardImage: () => set({ cardImage: null }),
 }));

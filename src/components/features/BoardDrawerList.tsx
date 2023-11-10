@@ -6,13 +6,13 @@ import React, { useState, useEffect } from "react";
 import BoardDrawerListItem from "./BoardDrawerListItem";
 
 // store
-import { useNewBoardStore } from "@/store/NewBoardStore";
+import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 
 export default function BoardDrawerList() {
   const [boardList, getBoardList, workingBoard, workingColumn] =
-    useNewBoardStore((state) => [
+    BoardStateStore((state) => [
       state.boardList,
       state.getBoardList,
 
