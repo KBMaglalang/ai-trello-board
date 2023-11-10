@@ -7,6 +7,7 @@ export * from "./findWorkingBoard";
 
 // column functions
 export * from "./updateColumnTitle";
+export * from "./addCardToColumn";
 
 // card functions
 export * from "./updateCardComplete";

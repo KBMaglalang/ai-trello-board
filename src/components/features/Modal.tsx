@@ -14,8 +14,9 @@ import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import getUrl from "@/lib/getUrl";
-import { createCard, updateCard, addCardToColumn } from "@/lib/appwrite/cards";
+import { createCard, updateCard } from "@/lib/appwrite/cards";
 import { closeTaskModal } from "@/lib/util";
+import { addCardToColumn } from "@/lib/util";
 
 function Modal() {
   const imagePickerRef = useRef<HTMLInputElement>(null);

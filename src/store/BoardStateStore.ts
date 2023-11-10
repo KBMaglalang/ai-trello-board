@@ -12,14 +12,12 @@ import {
   getColumns,
   deleteColumn,
   updateColumn,
-  addColumnToBoard,
 } from "@/lib/appwrite/columns";
 import {
   createCard,
   getCards,
   updateCard,
   deleteCard,
-  addCardToColumn,
 } from "@/lib/appwrite/cards";
 
 interface NewBoardState {
