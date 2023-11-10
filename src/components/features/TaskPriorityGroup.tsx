@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 
+// components
+
+// store
 import { useBoardStore } from "@/store/BoardStore";
 import { useModalStore } from "@/store/ModalStore";
+
+// constants and functions
 
 export default function TaskPriorityGroup() {
   const [isEditModal, cardInfo] = useModalStore((state) => [

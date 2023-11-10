@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 // components
 
 // store
-import { useBoardStore } from "@/store/BoardStore";
+import { useBoardStore } from "@/store/BoardStore"; // TODO: update to use the new board store
 import { useModalStore } from "@/store/ModalStore";
 
 // constants and functions

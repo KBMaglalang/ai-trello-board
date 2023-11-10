@@ -4,10 +4,11 @@ import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
-import { PROJECT_NAME, PROJECT_DESCRIPTION } from "@/constants";
-
 // components
 import Layout from "@/components/features/Layout";
+
+// constants or functions
+import { PROJECT_NAME, PROJECT_DESCRIPTION } from "@/constants";
 
 export const metadata: Metadata = {
   title: PROJECT_NAME,
