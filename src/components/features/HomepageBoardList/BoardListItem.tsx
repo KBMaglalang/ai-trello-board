@@ -14,27 +14,37 @@ type Props = {
 };
 
 export function BoardListItem({ boardData }: Props) {
+  console.log(
+    "🚀 ~ file: BoardListItem.tsx:17 ~ BoardListItem ~ boardData:",
+    boardData
+  );
   return (
     <Link
       href={`/board/${boardData.$id}`}
-      className="flex flex-col space-y-2 bg-base-300 text-base-content rounded-md shadow-md w-96 h-48"
+      className="btn flex flex-col space-y-2 bg-base-300 text-base-content rounded-md shadow-md w-96 h-48"
     >
       <div className="card-body">
-        <div className="flex flex-row">
-          <h1 className={`text-xl font-bold `}>{boardData.title}</h1>
-        </div>
+        <div className="flex flex-col w-full h-full">
+          {/* title */}
+          <div>
+            <h1 className={`text-xl font-bold `}>{boardData.title}</h1>
+          </div>
 
-        <div>
-          <p className="text-xs text-gray-400 text-end pr-4 pb-4">
-            {new Date(boardData.$createdAt).toLocaleString()}
-          </p>
-        </div>
+          {/* number of columns */}
+          <div className="flex-1 flex-col flex items-center justify-center">
+            <span className="px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-md">
+              Columns: {boardData.columns.length}
+            </span>
+          </div>
 
-        {/* show number of columns in the board */}
-        <div>
-          <p className="text-xs text-gray-400 text-end pr-4 pb-4">
-            {boardData.columns.length} columns
-          </p>
+          {/* last updated */}
+          {boardData.$updatedAt && (
+            <div>
+              <span className="px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-md ">
+                Last Updated: {new Date(boardData.$updatedAt).toLocaleString()}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </Link>
