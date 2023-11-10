@@ -11,7 +11,7 @@ type Props = {
 
 export default function page({ params: { id } }: Props) {
   return (
-    <main className="flex flex-row flex-1 p-5 w-full h-full">
+    <main className="flex flex-row flex-1 py-5 w-full h-full">
       <Board id={id} />
     </main>
   );
