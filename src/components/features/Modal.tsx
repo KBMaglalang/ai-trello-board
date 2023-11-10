@@ -10,7 +10,6 @@ import TaskDatePicker from "./TaskDatePicker";
 
 // store
 import { useModalStore } from "@/store/ModalStore";
-import { useBoardStore } from "@/store/BoardStore";
 import { useNewBoardStore } from "@/store/NewBoardStore";
 
 // constants and functions
@@ -22,12 +21,26 @@ function Modal() {
   const imagePickerRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
+  // TODO: going to need to do a clear when await completes
   const [
     getBoardList,
     workingBoard,
     setWorkingBoard,
     workingColumn,
     clearWorkingColumn,
+
+    cardTitle,
+    cardDescription,
+    cardStartDate,
+    cardEndDate,
+    cardPriority,
+    cardCompleted,
+    cardImage,
+
+    setCardTitle,
+    setCardDescription,
+    setCardCompleted,
+    setCardImage,
   ] = useNewBoardStore((state) => [
     state.getBoardList,
     state.workingBoard,
@@ -35,6 +48,19 @@ function Modal() {
 
     state.workingColumn,
     state.clearWorkingColumn,
+
+    state.cardTitle,
+    state.cardDescription,
+    state.cardStartDate,
+    state.cardEndDate,
+    state.cardPriority,
+    state.cardCompleted,
+    state.cardImage,
+
+    state.setCardTitle,
+    state.setCardDescription,
+    state.setCardCompleted,
+    state.setCardImage,
   ]);
 
   const [isOpen, isEditModal, cardInfo, closeModal, clearCardInfo] =
@@ -49,46 +75,14 @@ function Modal() {
       state.clearCardInfo,
     ]);
 
-  const [
-    newTaskInput,
-    newTaskDescription,
-    newTaskPriority,
-    newTaskStartDate,
-    newTaskEndDate,
-    newTaskType,
-    image,
-
-    setNewTaskInput,
-    setNewTaskDescription,
-    addTask,
-    setImage,
-    updateTodoInDB,
-    clearNewTaskStates,
-  ] = useBoardStore((state) => [
-    state.newTaskInput,
-    state.newTaskDescription,
-    state.newTaskPriority,
-    state.newTaskStartDate,
-    state.newTaskEndDate,
-    state.newTaskType,
-    state.image,
-
-    state.setNewTaskInput,
-    state.setNewTaskDescription,
-    state.addTask,
-    state.setImage,
-    state.updateTodoInDB,
-    state.clearNewTaskStates,
-  ]);
-
   useEffect(() => {
     if (isEditModal) {
-      setNewTaskInput(cardInfo?.todo?.title);
-      setNewTaskDescription(cardInfo?.todo?.description);
-      setImage(cardInfo?.todo?.image);
+      setCardTitle(cardInfo?.todo?.title);
+      setCardDescription(cardInfo?.todo?.description);
+      setCardImage(cardInfo?.todo?.image);
     }
 
-    // if (image) {
+    // if (cardImage) {
     //   const fetchImage = async () => {
     //     const url = await getUrl(image!);
     //     if (url) {
@@ -102,20 +96,20 @@ function Modal() {
     cardInfo?.todo?.description,
     cardInfo?.todo?.image,
     cardInfo?.todo?.title,
-    // image,
-    setImage,
-    setNewTaskDescription,
-    setNewTaskInput,
+    setCardTitle,
+    setCardDescription,
+    setCardImage,
+    // cardImage,
   ]);
 
   const handleOnClose = async () => {
     closeModal();
     closeTaskModal();
 
-    setImage(null);
+    setCardImage(null);
 
     // ! old
-    clearNewTaskStates();
+    // clearNewTaskStates();
     clearCardInfo();
 
     // ! new
@@ -126,40 +120,27 @@ function Modal() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    if (!newTaskInput) return;
+    if (!cardTitle) return;
 
     if (isEditModal) {
       // update the todo fields in the db
-      // updateTodoInDB(
-      //   {
-      //     ...cardInfo.todo!,
-      //     title: newTaskInput,
-      //     description: newTaskDescription,
-      //     priority: newTaskPriority,
-      //     status: newTaskType,
-      //     image,
-      //     startDate: newTaskStartDate,
-      //     endDate: newTaskEndDate,
-      //   },
-      //   newTaskType
-      // );
       await updateCard(cardInfo.todo!.$id, {
-        title: newTaskInput,
-        description: newTaskDescription,
-        priority: newTaskPriority,
-        // image,
-        startDate: newTaskStartDate,
-        endDate: newTaskEndDate,
+        title: cardTitle,
+        description: cardDescription,
+        priority: cardPriority,
+        startDate: cardStartDate,
+        endDate: cardEndDate,
+        //  image: cardImage,
       });
     } else {
       // take in the new card data and create a new card
       const newCardData = await createCard({
-        title: newTaskInput,
-        description: newTaskDescription,
-        priority: newTaskPriority,
-        // image,
-        startDate: newTaskStartDate,
-        endDate: newTaskEndDate,
+        title: cardTitle,
+        description: cardDescription,
+        priority: cardPriority,
+        startDate: cardStartDate,
+        endDate: cardEndDate,
+        //  image: cardImage,
       });
 
       // take the return data and update the working column
@@ -183,8 +164,8 @@ function Modal() {
         <div className="mt-2">
           <input
             type="text"
-            value={newTaskInput}
-            onChange={(e) => setNewTaskInput(e.target.value)}
+            value={cardTitle}
+            onChange={(e) => setCardTitle(e.target.value)}
             placeholder="Enter a task here..."
             className="input w-full p-5 border border-gray-300 rounded-md outline-none"
           />
@@ -193,8 +174,8 @@ function Modal() {
         {/* task description input */}
         <div className="mt-2">
           <textarea
-            value={newTaskDescription}
-            onChange={(e) => setNewTaskDescription(e.target.value)}
+            value={cardDescription}
+            onChange={(e) => setCardDescription(e.target.value)}
             placeholder="Enter a description here..."
             className="textarea textarea-bordered w-full p-5 border border-gray-300 rounded-md outline-none"
           />
@@ -250,7 +231,7 @@ function Modal() {
 
         <button
           onClick={handleSubmit}
-          disabled={!newTaskInput}
+          disabled={!cardTitle}
           className="btn btn-primary w-full inline-flex mt-4"
         >
           {isEditModal ? "Update Task" : "Add Task"}

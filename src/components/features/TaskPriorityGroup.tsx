@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 // components
 
 // store
-import { useBoardStore } from "@/store/BoardStore";
 import { useModalStore } from "@/store/ModalStore";
+import { useNewBoardStore } from "@/store/NewBoardStore";
 
 // constants and functions
 
@@ -14,28 +14,28 @@ export default function TaskPriorityGroup() {
     state.isEditModal,
     state.cardInfo,
   ]);
-  const [newTaskPriority, setNewTaskPriority] = useBoardStore((state) => [
-    state.newTaskPriority,
-    state.setNewTaskPriority,
+  const [taskPriority, setTaskPriority] = useNewBoardStore((state) => [
+    state.cardPriority,
+    state.setTaskPriority,
   ]);
 
   useEffect(() => {
     if (isEditModal) {
-      setNewTaskPriority(cardInfo?.todo?.priority);
+      setTaskPriority(cardInfo?.todo?.priority);
     }
-  }, [isEditModal, cardInfo?.todo?.priority, setNewTaskPriority]);
+  }, [isEditModal, cardInfo?.todo?.priority, setTaskPriority]);
 
   const handleSelect = (e: any) => {
     const value = e.target.value.toLowerCase();
 
     // check for null
     if (value === null) {
-      setNewTaskPriority(value);
+      setTaskPriority(value);
       return;
     }
 
     // for strings
-    setNewTaskPriority(value.toLowerCase() as PriorityStatus);
+    setTaskPriority(value.toLowerCase());
   };
 
   return (
@@ -43,12 +43,12 @@ export default function TaskPriorityGroup() {
       className="select select-bordered w-full border-gray-300 rounded-md mt-2"
       onChange={handleSelect}
       value={
-        !newTaskPriority
-          ? "Select a Task Priority"
-          : newTaskPriority[0].toUpperCase() + newTaskPriority.slice(1)
+        !taskPriority
+          ? "Task Priority"
+          : taskPriority[0].toUpperCase() + taskPriority.slice(1)
       }
     >
-      <option disabled>Select a Task Priority</option>
+      <option disabled>Task Priority</option>
       <option>Low</option>
       <option>Medium</option>
       <option>High</option>

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 // components
 
 // store
-import { useBoardStore } from "@/store/BoardStore"; // TODO: update to use the new board store
+import { useNewBoardStore } from "@/store/NewBoardStore";
 import { useModalStore } from "@/store/ModalStore";
 
 // constants and functions
@@ -14,30 +14,26 @@ export default function TaskDatePicker() {
     state.isEditModal,
     state.cardInfo,
   ]);
-  const [
-    newTaskStartDate,
-    newTaskEndDate,
-    setNewTaskStartDate,
-    setNewTaskEndDate,
-  ] = useBoardStore((state) => [
-    state.newTaskStartDate,
-    state.newTaskEndDate,
 
-    state.setNewTaskStartDate,
-    state.setNewTaskEndDate,
-  ]);
+  const [cardStartDate, setStartDate, cardEndDate, setEndDate] =
+    useNewBoardStore((state) => [
+      state.cardStartDate,
+      state.setCardStartDate,
+      state.cardEndDate,
+      state.setCardEndDate,
+    ]);
 
   useEffect(() => {
     if (isEditModal) {
-      setNewTaskStartDate(cardInfo?.todo?.startDate);
-      setNewTaskEndDate(cardInfo?.todo?.endDate);
+      setStartDate(cardInfo?.todo?.startDate);
+      setEndDate(cardInfo?.todo?.endDate);
     }
   }, [
     isEditModal,
     cardInfo?.todo?.startDate,
     cardInfo?.todo?.endDate,
-    setNewTaskStartDate,
-    setNewTaskEndDate,
+    setStartDate,
+    setEndDate,
   ]);
 
   return (
@@ -51,8 +47,8 @@ export default function TaskDatePicker() {
           type="datetime-local"
           name="startDate"
           className="input input-bordered w-full"
-          value={newTaskStartDate}
-          onChange={(e) => setNewTaskStartDate(e.target.value)}
+          value={cardStartDate}
+          onChange={(e) => setStartDate(e.target.value)}
         />
       </div>
 
@@ -65,8 +61,8 @@ export default function TaskDatePicker() {
           type="datetime-local"
           name="endDate"
           className="input input-bordered w-full"
-          value={newTaskEndDate}
-          onChange={(e) => setNewTaskEndDate(e.target.value)}
+          value={cardEndDate}
+          onChange={(e) => setEndDate(e.target.value)}
         />
       </div>
     </div>
