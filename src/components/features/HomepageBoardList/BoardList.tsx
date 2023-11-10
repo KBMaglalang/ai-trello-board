@@ -13,7 +13,6 @@ import { useNewBoardStore } from "@/store/NewBoardStore";
 
 export function BoardList() {
   const [boardList] = useNewBoardStore((state) => [state.boardList]);
-
   const [sortedBoardList, setSortedBoardList] = useState([]);
 
   useEffect(() => {
