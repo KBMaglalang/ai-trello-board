@@ -79,9 +79,7 @@ export default function Card({
 
   return (
     <div
-      className={`flex flex-col space-y-2 bg-base-300 text-base-content rounded-md  w-full shadow-md ${
-        isCompleted ? "opacity-50" : ""
-      }`}
+      className={`flex flex-col space-y-2 bg-base-300 text-base-content rounded-md  w-full shadow-md`}
       {...draggableProps}
       {...dragHandleProps}
       ref={innerRef}
