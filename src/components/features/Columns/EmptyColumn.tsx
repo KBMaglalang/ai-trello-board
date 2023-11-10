@@ -28,10 +28,13 @@ export const EmptyColumn = ({ boardId, boardColumns }: Props) => {
     <div
       className={`p-2 rounded-2xl shadow-sm w-96 flex flex-col items-center`}
     >
-      <h2 className="flex justify-between p-2 w-96 text-xl font-bold text-base-content">
-        Create a new column
-      </h2>
-      <div className="flex items-end justify-end p-2 w-96 ">
+      <div>
+        <h2 className="flex  w-full text-center text-xl font-bold text-base-content">
+          Create New Column
+        </h2>
+      </div>
+
+      <div className="flex items-end justify-end p-2 w-96">
         <button className="btn btn-accent w-full" onClick={handleAddColumn}>
           <PlusCircleIcon className="w-8 h-8" />
         </button>
