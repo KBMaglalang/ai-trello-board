@@ -79,7 +79,9 @@ export default function Card({
 
   return (
     <div
-      className="flex flex-col space-y-2 bg-base-300 text-base-content rounded-md  w-full shadow-md"
+      className={`flex flex-col space-y-2 bg-base-300 text-base-content rounded-md  w-full shadow-md ${
+        isCompleted ? "opacity-50" : ""
+      }`}
       {...draggableProps}
       {...dragHandleProps}
       ref={innerRef}
@@ -122,11 +124,7 @@ export default function Card({
 
         {/* title */}
         <div className="flex flex-row">
-          <h1
-            className={`text-xl font-bold ${isCompleted ? "opacity-25" : ""}`}
-          >
-            {todo.title}
-          </h1>
+          <h1 className={`text-xl font-bold`}>{todo.title}</h1>
         </div>
 
         {/* image */}
