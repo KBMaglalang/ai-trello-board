@@ -17,7 +17,7 @@ import { useModalStore } from "@/store/ModalStore";
 import getUrl from "@/lib/getUrl";
 import { deleteCard } from "@/lib/appwrite/cards";
 import { openTaskModal } from "@/lib/util";
-import { updateCardComplete } from "@/lib/appwrite/cards";
+import { updateCardComplete } from "@/lib/util";
 
 type Props = {
   todo: Todo;
