@@ -1,4 +1,4 @@
-import { databases, ID } from "@/config/appwrite";
+import { databases } from "@/config/appwrite";
 
 export const addColumnToBoard = async (boardId: string, columnArray: any[]) => {
   const data = await databases.updateDocument(
