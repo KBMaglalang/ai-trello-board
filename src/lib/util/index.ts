@@ -5,6 +5,7 @@ export * from "./closeTaskModal";
 // board functions
 export * from "./findWorkingBoard";
 export * from "./updateBoardTitle";
+export * from "./addColumnToBoard";
 
 // column functions
 export * from "./updateColumnTitle";
