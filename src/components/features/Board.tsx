@@ -8,6 +8,7 @@ import { toast } from "react-hot-toast";
 // components
 import Column from "./Column";
 import { EmptyColumn } from "./Columns";
+import Loading from "./Loading";
 
 // store
 import { BoardStateStore } from "@/store/BoardStateStore";
@@ -134,6 +135,8 @@ export default function Board({ id }: { id: string }) {
       updateBoardColumns(workingBoard.$id, columns);
     }
   };
+
+  if (!workingBoard) return <Loading />;
 
   return (
     <div className="w-full h-full p-5">
