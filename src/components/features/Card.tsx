@@ -19,7 +19,6 @@ import getUrl from "@/lib/getUrl";
 import { deleteCard } from "@/lib/appwrite/cards";
 import { deleteCardFromColumn, openTaskModal } from "@/lib/util";
 import { updateCardComplete } from "@/lib/util";
-import { updateColumn } from "@/lib/appwrite/columns";
 
 type Props = {
   todo: Todo;

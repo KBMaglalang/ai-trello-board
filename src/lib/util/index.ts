@@ -18,3 +18,4 @@ export * from "./sortColumnOrder";
 
 // card functions
 export * from "./updateCardComplete";
+export * from "./sortCardOrder";

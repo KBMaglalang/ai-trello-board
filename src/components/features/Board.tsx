@@ -17,6 +17,7 @@ import {
   sortColumnOrder,
   updateBoardOrder,
   updateBoardColumns,
+  sortCardOrder,
 } from "@/lib/util";
 
 export default function Board({ id }: { id: string }) {
@@ -31,12 +32,6 @@ export default function Board({ id }: { id: string }) {
       state.workingColumn,
       state.workingCard,
     ]);
-  console.log("🚀 ~ file: Board.tsx:26 ~ Board ~ workingBoard:", workingBoard);
-  console.log(
-    "🚀 ~ file: Board.tsx:26 ~ Board ~ workingColumn:",
-    workingColumn
-  );
-  console.log("🚀 ~ file: Board.tsx:26 ~ Board ~ workingCard:", workingCard);
 
   // when the board is selected populate the working board if it is available or return to the homepage if not found
   useEffect(() => {
@@ -50,7 +45,8 @@ export default function Board({ id }: { id: string }) {
       }
 
       const sortedColumns = sortColumnOrder(boardData);
-      const newBoardData = { ...boardData, columns: sortedColumns };
+      const sortedCardsColumns = sortCardOrder(sortedColumns);
+      const newBoardData = { ...boardData, columns: sortedCardsColumns };
 
       // set the workingBoard
       setWorkingBoard(newBoardData);
@@ -59,12 +55,6 @@ export default function Board({ id }: { id: string }) {
 
   const handleOnDragEnd = async (result: DropResult) => {
     const { destination, source, type } = result;
-    console.log("🚀 ~ file: Board.tsx:60 ~ handleOnDragEnd ~ source:", source);
-    console.log(
-      "🚀 ~ file: Board.tsx:60 ~ handleOnDragEnd ~ destination:",
-      destination
-    );
-    console.log("🚀 ~ file: Board.tsx:50 ~ handleOnDragEnd ~ type:", type);
 
     // Check if user dragged card outside of board
     if (!destination) return;
@@ -99,6 +89,7 @@ export default function Board({ id }: { id: string }) {
       });
       // remove card from source column
       const [removedCard] = sourceColumn?.todos.splice(source.index, 1);
+      const [removeCardOrder] = sourceColumn?.order.splice(source.index, 1);
       // determine index of the source column
       const sourceColumnIndex = columns.findIndex((column) => {
         return column.$id === source.droppableId;
@@ -112,6 +103,7 @@ export default function Board({ id }: { id: string }) {
       });
       // add card to destination column
       destinationColumn?.todos.splice(destination.index, 0, removedCard);
+      destinationColumn?.order.splice(destination.index, 0, removeCardOrder);
       // determine index of the destination column
       const destinationColumnIndex = columns.findIndex((column) => {
         return column.$id === destination.droppableId;
