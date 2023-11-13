@@ -1,6 +1,6 @@
-import { ID, storage } from "../config/appwrite";
+import { ID, storage } from "../../config/appwrite";
 
-const uploadImage = async (file: File) => {
+export const uploadImage = async (file: File) => {
   if (!file) return;
 
   const fileUploaded = await storage.createFile(
@@ -11,5 +11,3 @@ const uploadImage = async (file: File) => {
 
   return fileUploaded;
 };
-
-export default uploadImage;

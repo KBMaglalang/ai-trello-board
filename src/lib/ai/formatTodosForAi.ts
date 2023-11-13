@@ -1,4 +1,4 @@
-const formatTodosForAI = (board: Board) => {
+export const formatTodosForAI = (board: Board) => {
   const todos = Array.from(board.columns.entries());
 
   const flatArray = todos.reduce((map, [key, value]) => {
@@ -17,5 +17,3 @@ const formatTodosForAI = (board: Board) => {
 
   return flatArrayCounted;
 };
-
-export default formatTodosForAI;
