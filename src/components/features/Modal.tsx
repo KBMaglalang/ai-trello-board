@@ -26,7 +26,6 @@ function Modal() {
   const [
     getBoardList,
     workingBoard,
-    setWorkingBoard,
     workingColumn,
     clearWorkingColumn,
 
@@ -45,7 +44,6 @@ function Modal() {
   ] = BoardStateStore((state) => [
     state.getBoardList,
     state.workingBoard,
-    state.setWorkingBoard,
 
     state.workingColumn,
     state.clearWorkingColumn,

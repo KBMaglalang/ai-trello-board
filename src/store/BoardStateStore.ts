@@ -20,7 +20,7 @@ import {
   deleteCard,
 } from "@/lib/appwrite/cards";
 
-interface NewBoardState {
+interface BoardState {
   boardList: any;
   workingBoard: any;
   workingColumn: any;
@@ -71,7 +71,7 @@ interface NewBoardState {
   clearCardImage: () => void;
 }
 
-export const BoardStateStore = create<NewBoardState>((set, get) => ({
+export const BoardStateStore = create<BoardState>((set, get) => ({
   // state
   boardList: [],
   workingBoard: null,
@@ -144,12 +144,15 @@ export const BoardStateStore = create<NewBoardState>((set, get) => ({
   setCardTitle: (cardTitle) => set({ cardTitle }),
   clearCardTitle: () => set({ cardTitle: "" }),
 
+  // --- cardDescription ---
   setCardDescription: (cardDescription) => set({ cardDescription }),
   clearCardDescription: () => set({ cardDescription: "" }),
 
+  // --- cardCompleted ---
   setCardCompleted: (cardCompleted) => set({ cardCompleted }),
   clearCardCompleted: () => set({ cardCompleted: false }),
 
+  // --- cardImage ---
   setCardImage: (cardImage) => set({ cardImage }),
   clearCardImage: () => set({ cardImage: null }),
 }));

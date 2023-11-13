@@ -6,10 +6,14 @@ export * from "./closeTaskModal";
 export * from "./findWorkingBoard";
 export * from "./updateBoardTitle";
 export * from "./addColumnToBoard";
+export * from "./deleteColumnFromBoard";
+export * from "./updateBoardOrder";
+export * from "./updateBoardColumns";
 
 // column functions
 export * from "./updateColumnTitle";
 export * from "./addCardToColumn";
+export * from "./sortColumnOrder";
 
 // card functions
 export * from "./updateCardComplete";
