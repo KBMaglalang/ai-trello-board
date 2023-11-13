@@ -14,8 +14,9 @@ import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import getUrl from "@/lib/getUrl";
-import { createCard, updateCard, addCardToColumn } from "@/lib/appwrite/cards";
+import { createCard, updateCard } from "@/lib/appwrite/cards";
 import { closeTaskModal } from "@/lib/util";
+import { addCardToColumn } from "@/lib/util";
 
 function Modal() {
   const imagePickerRef = useRef<HTMLInputElement>(null);
@@ -25,7 +26,6 @@ function Modal() {
   const [
     getBoardList,
     workingBoard,
-    setWorkingBoard,
     workingColumn,
     clearWorkingColumn,
 
@@ -44,7 +44,6 @@ function Modal() {
   ] = BoardStateStore((state) => [
     state.getBoardList,
     state.workingBoard,
-    state.setWorkingBoard,
 
     state.workingColumn,
     state.clearWorkingColumn,
@@ -144,10 +143,7 @@ function Modal() {
       });
 
       // take the return data and update the working column
-      const response = await addCardToColumn(workingColumn.$id, [
-        ...workingColumn.todos,
-        newCardData,
-      ]);
+      const response = await addCardToColumn(workingColumn, newCardData);
     }
 
     handleOnClose();

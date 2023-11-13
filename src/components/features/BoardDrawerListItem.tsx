@@ -10,7 +10,8 @@ import { useRouter } from "next/navigation";
 import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
-import { deleteBoard, updateBoard } from "@/lib/appwrite/boards";
+import { deleteBoard } from "@/lib/appwrite/boards";
+import { updateBoardTitle } from "@/lib/util";
 
 type Props = {
   boardData: any;
@@ -43,7 +44,7 @@ export default function BoardDrawerListItem({ boardData }: Props) {
 
     // update board title
     if (isEditable) {
-      await updateBoard(boardData?.$id, boardTitle);
+      await updateBoardTitle(boardData?.$id, boardTitle);
     }
 
     setIsEditable(!isEditable);

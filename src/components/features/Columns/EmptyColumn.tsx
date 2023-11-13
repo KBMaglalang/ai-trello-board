@@ -4,23 +4,30 @@ import React from "react";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 
 type Props = {
-  boardId: string;
-  boardColumns: string[];
+  boardData: any;
 };
 
 // components
 
 // store
+import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
-import { createColumn, addColumnToBoard } from "@/lib/appwrite/columns";
+import { createColumn } from "@/lib/appwrite/columns";
+import { addColumnToBoard } from "@/lib/util";
 
-export const EmptyColumn = ({ boardId, boardColumns }: Props) => {
+export const EmptyColumn = ({ boardData }: Props) => {
+  const [getBoardList] = BoardStateStore((state) => [state.getBoardList]);
+
   const handleAddColumn = async () => {
-    const newColumData = await createColumn();
-    await addColumnToBoard(boardId, [...boardColumns, newColumData]);
+    // create a new column
+    const newColumnData = await createColumn();
 
-    // TODO: update the boardList
+    // update the board with new column
+    await addColumnToBoard(boardData, newColumnData);
+
+    // update the boardList
+    await getBoardList();
   };
 
   return (

@@ -16,8 +16,12 @@ import { useModalStore } from "@/store/ModalStore";
 import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
-import { updateColumn, deleteColumn } from "@/lib/appwrite/columns";
-import { openTaskModal } from "@/lib/util";
+import { deleteColumn } from "@/lib/appwrite/columns";
+import {
+  openTaskModal,
+  updateColumnTitle,
+  deleteColumnFromBoard,
+} from "@/lib/util";
 
 type Props = {
   columnData: any;
@@ -26,9 +30,13 @@ type Props = {
 
 export default function Column({ columnData, index }: Props) {
   const [openModal] = useModalStore((state) => [state.openModal]);
-  const [workingColumn, setWorkingColumn, getBoardList] = BoardStateStore(
-    (state) => [state.workingColumn, state.setWorkingColumn, state.getBoardList]
-  );
+  const [workingColumn, setWorkingColumn, getBoardList, workingBoard] =
+    BoardStateStore((state) => [
+      state.workingColumn,
+      state.setWorkingColumn,
+      state.getBoardList,
+      state.workingBoard,
+    ]);
 
   const [isEditable, setIsEditable] = useState(false);
   const [columnTitle, setColumnTitle] = useState(
@@ -38,7 +46,7 @@ export default function Column({ columnData, index }: Props) {
   const handleEditColumnName = async () => {
     // update column title in the database
     if (isEditable) {
-      await updateColumn(columnData?.$id, columnTitle);
+      await updateColumnTitle(columnData?.$id, columnTitle);
     }
 
     setIsEditable(!isEditable);
@@ -47,6 +55,7 @@ export default function Column({ columnData, index }: Props) {
   };
 
   const handleDeleteColumn = async () => {
+    deleteColumnFromBoard(workingBoard, columnData);
     deleteColumn(columnData?.$id);
 
     await getBoardList();
@@ -68,7 +77,7 @@ export default function Column({ columnData, index }: Props) {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <Droppable droppableId={index.toString()} type="card">
+          <Droppable droppableId={columnData?.$id} type="card">
             {(provided, snapshot) => (
               <div
                 {...provided.droppableProps}
@@ -117,7 +126,7 @@ export default function Column({ columnData, index }: Props) {
                             <Card
                               todo={todo}
                               index={index}
-                              id={columnData?.$id}
+                              columnData={columnData}
                               innerRef={provided.innerRef}
                               draggableProps={provided.draggableProps}
                               dragHandleProps={provided.dragHandleProps}

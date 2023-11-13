@@ -12,16 +12,18 @@ import { XCircleIcon, PencilIcon } from "@heroicons/react/24/solid";
 
 // stores
 import { useModalStore } from "@/store/ModalStore";
+import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import getUrl from "@/lib/getUrl";
-import { deleteCard, updateCardComplete } from "@/lib/appwrite/cards";
-import { openTaskModal } from "@/lib/util";
+import { deleteCard } from "@/lib/appwrite/cards";
+import { deleteCardFromColumn, openTaskModal } from "@/lib/util";
+import { updateCardComplete } from "@/lib/util";
 
 type Props = {
   todo: Todo;
   index: number;
-  id: string;
+  columnData: any;
   innerRef: (element: HTMLElement | null) => void;
   draggableProps: DraggableProvidedDraggableProps;
   dragHandleProps: DraggableProvidedDragHandleProps | null | undefined;
@@ -30,7 +32,7 @@ type Props = {
 export default function Card({
   todo,
   index,
-  id,
+  columnData,
   innerRef,
   draggableProps,
   dragHandleProps,
@@ -43,6 +45,10 @@ export default function Card({
     state.openModal,
     state.isOpen,
     state.isEditModal,
+  ]);
+  const [workingBoard, setWorkingBoard] = BoardStateStore((state) => [
+    state.workingBoard,
+    state.setWorkingBoard,
   ]);
 
   useEffect(() => {
@@ -60,16 +66,35 @@ export default function Card({
   const handleCardCompletedToggle = async () => {
     await updateCardComplete(todo.$id, !isCompleted);
     setIsCompleted(!isCompleted);
-    // updateTodoInDB({ ...todo, completed: !isCompleted }, id);
   };
 
-  const handleDeleteCard = () => {
-    deleteCard(todo.$id);
+  const handleDeleteCard = async () => {
+    // delete the card from the local column (todo and teh order position)
+    const newColumnData = {
+      ...columnData,
+      todos: columnData.todos.filter((t: any) => t.$id !== todo.$id),
+      order: columnData.order.filter((id: string) => id !== todo.$id),
+    };
+
+    // update the column of local workingBoard
+    const newWorkingBoard = {
+      ...workingBoard,
+      columns: workingBoard.columns.map((c: any) =>
+        c.$id === columnData.$id ? newColumnData : c
+      ),
+    };
+    setWorkingBoard(newWorkingBoard);
+
+    // update the database with teh new column information
+    await deleteCardFromColumn(columnData, newColumnData);
+
+    // delete the card from teh database
+    await deleteCard(todo.$id);
   };
 
   const handleModal = () => {
     openTaskModal();
-    openModal(true, todo, id);
+    openModal(true, todo, columnData.$id);
   };
 
   return (
