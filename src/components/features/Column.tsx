@@ -126,7 +126,7 @@ export default function Column({ columnData, index }: Props) {
                             <Card
                               todo={todo}
                               index={index}
-                              id={columnData?.$id}
+                              columnData={columnData}
                               innerRef={provided.innerRef}
                               draggableProps={provided.draggableProps}
                               dragHandleProps={provided.dragHandleProps}

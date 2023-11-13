@@ -13,6 +13,7 @@ export * from "./updateBoardColumns";
 // column functions
 export * from "./updateColumnTitle";
 export * from "./addCardToColumn";
+export * from "./deleteCardFromColumn";
 export * from "./sortColumnOrder";
 
 // card functions

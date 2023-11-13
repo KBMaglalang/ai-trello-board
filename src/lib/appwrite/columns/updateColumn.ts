@@ -9,6 +9,7 @@ export const updateColumn = async (columnId: string, columnData: any) => {
       ...columnData,
     }
   );
+  console.log("🚀 ~ file: updateColumn.ts:12 ~ updateColumn ~ data:", data);
 
   return data;
 };

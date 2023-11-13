@@ -143,10 +143,7 @@ function Modal() {
       });
 
       // take the return data and update the working column
-      const response = await addCardToColumn(workingColumn.$id, [
-        ...workingColumn.todos,
-        newCardData,
-      ]);
+      const response = await addCardToColumn(workingColumn, newCardData);
     }
 
     handleOnClose();
