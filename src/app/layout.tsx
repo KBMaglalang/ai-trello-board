@@ -6,6 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 // components
 import Layout from "@/components/features/Layout";
+import ClientProvider from "@/providers/ClientProvider";
 
 // constants or functions
 import { PROJECT_NAME, PROJECT_DESCRIPTION } from "@/constants";
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ClientProvider />
         <Layout>{children}</Layout>
       </body>
     </html>

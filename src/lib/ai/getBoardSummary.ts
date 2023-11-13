@@ -14,10 +14,6 @@ export const getBoardSummary = async (boardData: any) => {
   });
 
   const data = await response.json();
-  console.log(
-    "🚀 ~ file: getBoardSummary.ts:17 ~ getBoardSummary ~ data:",
-    data
-  );
 
   return data.content;
 };

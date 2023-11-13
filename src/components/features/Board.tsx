@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 // components
 import Column from "./Column";
@@ -53,6 +54,17 @@ export default function Board({ id }: { id: string }) {
       setWorkingBoard(newBoardData);
     }
   }, [setWorkingBoard, router, boardList, id, workingBoard]);
+
+  const handleSummarize = async () => {
+    const toastid = toast.loading("Waiting...");
+
+    const response = await getBoardSummary(workingBoard);
+
+    toast(response, {
+      id: toastid,
+      duration: 10000,
+    });
+  };
 
   const handleOnDragEnd = async (result: DropResult) => {
     const { destination, source, type } = result;
@@ -124,13 +136,13 @@ export default function Board({ id }: { id: string }) {
   };
 
   return (
-    <div className="w-full h-full">
-      <button
-        className="btn btn-accent"
-        onClick={() => getBoardSummary(workingBoard)}
-      >
-        AI Summary
-      </button>
+    <div className="w-full h-full p-5">
+      <div className="w-full flex items-end justify-end">
+        <button className="btn btn-accent ml:auto" onClick={handleSummarize}>
+          AI Summary
+        </button>
+      </div>
+
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="board" direction="horizontal" type="column">
           {(provided) => (
