@@ -7,6 +7,7 @@ import {
 } from "react-beautiful-dnd";
 import Image from "next/image";
 import { XCircleIcon, PencilIcon } from "@heroicons/react/24/solid";
+import { toast } from "react-hot-toast";
 
 // components
 
@@ -16,10 +17,13 @@ import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 // import getUrl from "@/lib/getUrl";
-import { getUrl } from "@/lib/ai";
+import { getUrl, getSubTasks } from "@/lib/ai";
 import { deleteCard } from "@/lib/appwrite/cards";
-import { deleteCardFromColumn, openTaskModal } from "@/lib/util";
-import { updateCardComplete } from "@/lib/util";
+import {
+  deleteCardFromColumn,
+  openTaskModal,
+  updateCardComplete,
+} from "@/lib/util";
 
 type Props = {
   todo: Todo;
@@ -98,6 +102,17 @@ export default function Card({
     openModal(true, todo, columnData.$id);
   };
 
+  const handleGetSubTasks = async () => {
+    const toastid = toast.loading("Waiting...");
+
+    const response = await getSubTasks(todo);
+
+    toast(response, {
+      id: toastid,
+      duration: 10000,
+    });
+  };
+
   return (
     <div
       className={`flex flex-col space-y-2 bg-base-300 text-base-content rounded-md  w-full shadow-md`}
@@ -107,7 +122,7 @@ export default function Card({
       onDoubleClick={handleModal}
     >
       <div className="card-body">
-        <div className="flex items-center justify-between ">
+        <div className="flex items-center justify-between">
           <div>
             <input
               type="checkbox"
@@ -115,6 +130,15 @@ export default function Card({
               className="checkbox checkbox-sm"
               onChange={handleCardCompletedToggle}
             />
+          </div>
+
+          <div>
+            <button
+              className="btn btn-outline btn-xs"
+              onClick={handleGetSubTasks}
+            >
+              Breakdown Task
+            </button>
           </div>
 
           <div className="flex flex-row space-x-2">
