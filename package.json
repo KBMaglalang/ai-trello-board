@@ -19,6 +19,7 @@
     "react-appwrite-hooks": "^0.0.2",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
     "standard-version": "^9.5.0",
     "swr": "^2.2.4",
     "uuid": "^9.0.1",

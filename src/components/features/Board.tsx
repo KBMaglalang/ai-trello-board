@@ -3,10 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 // components
 import Column from "./Column";
 import { EmptyColumn } from "./Columns";
+import Loading from "./Loading";
 
 // store
 import { BoardStateStore } from "@/store/BoardStateStore";
@@ -19,6 +21,7 @@ import {
   updateBoardColumns,
   sortCardOrder,
 } from "@/lib/util";
+import { getBoardSummary } from "@/lib/ai";
 
 export default function Board({ id }: { id: string }) {
   const router = useRouter();
@@ -52,6 +55,17 @@ export default function Board({ id }: { id: string }) {
       setWorkingBoard(newBoardData);
     }
   }, [setWorkingBoard, router, boardList, id, workingBoard]);
+
+  const handleSummarize = async () => {
+    const toastid = toast.loading("Waiting...");
+
+    const response = await getBoardSummary(workingBoard);
+
+    toast(response, {
+      id: toastid,
+      duration: 10000,
+    });
+  };
 
   const handleOnDragEnd = async (result: DropResult) => {
     const { destination, source, type } = result;
@@ -120,64 +134,18 @@ export default function Board({ id }: { id: string }) {
       // update the database
       updateBoardColumns(workingBoard.$id, columns);
     }
-
-    // // This step is needed as the indexes are stored as numbers 0,1,2 etc. instead of id's with DND library
-    // const columns = Array.from(board.columns);
-    // const startColIndex = columns[Number(source.droppableId)];
-    // const finishColIndex = columns[Number(destination.droppableId)];
-
-    // const startCol: Column = {
-    //   id: startColIndex[0],
-    //   todos: startColIndex[1].todos,
-    // };
-
-    // const finishCol: Column = {
-    //   id: finishColIndex[0],
-    //   todos: finishColIndex[1].todos,
-    // };
-
-    // if (!startCol || !finishCol) return;
-
-    // if (source.index === destination.index && startCol === finishCol) return;
-
-    // const newTodos = startCol.todos;
-    // const [todoMoved] = newTodos.splice(source.index, 1);
-
-    // if (startCol.id === finishCol.id) {
-    //   // same column task drag
-    //   newTodos.splice(destination.index, 0, todoMoved);
-    //   const newCol = {
-    //     id: startCol.id,
-    //     todos: newTodos,
-    //   };
-    //   const newColumns = new Map(board.columns);
-    //   newColumns.set(startCol.id, newCol);
-
-    //   setBoardState({ ...board, columns: newColumns });
-    // } else {
-    //   // different column task drag
-    //   const finishTodos = Array.from(finishCol.todos);
-    //   finishTodos.splice(destination.index, 0, todoMoved);
-    //   const newColumns = new Map(board.columns);
-    //   const newCol = {
-    //     id: startCol.id,
-    //     todos: newTodos,
-    //   };
-
-    //   newColumns.set(startCol.id, newCol);
-    //   newColumns.set(finishCol.id, {
-    //     id: finishCol.id,
-    //     todos: finishTodos,
-    //   });
-
-    //   updateTodoInDB(todoMoved, finishCol.id);
-
-    //   setBoardState({ ...board, columns: newColumns });
-    // }
   };
 
+  if (!workingBoard) return <Loading />;
+
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full p-5">
+      <div className="w-full flex items-end justify-end">
+        <button className="btn btn-accent ml:auto" onClick={handleSummarize}>
+          AI Summary
+        </button>
+      </div>
+
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="board" direction="horizontal" type="column">
           {(provided) => (

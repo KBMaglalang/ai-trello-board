@@ -13,7 +13,8 @@ import { useModalStore } from "@/store/ModalStore";
 import { BoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
-import getUrl from "@/lib/getUrl";
+// import getUrl from "@/lib/getUrl";
+import { getUrl } from "@/lib/ai";
 import { createCard, updateCard } from "@/lib/appwrite/cards";
 import { closeTaskModal } from "@/lib/util";
 import { addCardToColumn } from "@/lib/util";
