@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
@@ -11,7 +11,7 @@ import { EmptyColumn } from "./Columns";
 import Loading from "./Loading";
 
 // store
-import { BoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import {
@@ -28,7 +28,7 @@ export default function Board({ id }: { id: string }) {
 
   // new board test
   const [boardList, workingBoard, setWorkingBoard, workingColumn, workingCard] =
-    BoardStateStore((state) => [
+    useBoardStateStore((state) => [
       state.boardList,
       state.workingBoard,
       state.setWorkingBoard,
@@ -150,7 +150,6 @@ export default function Board({ id }: { id: string }) {
         <Droppable droppableId="board" direction="horizontal" type="column">
           {(provided) => (
             <div
-              // className="grid grid-cols-1 md:grid-cols-3 gap-5 p-5 max-w-7xl mx-auto"
               className="flex flex-row  space-x-2 w-full overflow-x-scroll h-full"
               {...provided.droppableProps}
               ref={provided.innerRef}
@@ -164,13 +163,7 @@ export default function Board({ id }: { id: string }) {
               {provided.placeholder}
 
               {/* add in an empty column for the user to add a new column */}
-              {workingBoard && (
-                <EmptyColumn
-                  // boardId={workingBoard?.$id}
-                  // boardColumns={workingBoard?.columns || []}
-                  boardData={workingBoard}
-                />
-              )}
+              {workingBoard && <EmptyColumn boardData={workingBoard} />}
             </div>
           )}
         </Droppable>

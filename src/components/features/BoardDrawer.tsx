@@ -1,21 +1,20 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Bars4Icon } from "@heroicons/react/24/solid";
 
 // components
 import BoardDrawerList from "./BoardDrawerList";
 
 // store
-import { BoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import { createBoard } from "@/lib/appwrite/boards";
 
 export default function BoardDrawer() {
-  const [boardList, getBoardList, setBoardList] = BoardStateStore((state) => [
+  const [boardList, setBoardList] = useBoardStateStore((state) => [
     state.boardList,
-    state.getBoardList,
     state.setBoardList,
   ]);
 

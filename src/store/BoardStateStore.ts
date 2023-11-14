@@ -7,18 +7,6 @@ import {
   deleteBoard,
   updateBoard,
 } from "@/lib/appwrite/boards";
-import {
-  createColumn,
-  getColumns,
-  deleteColumn,
-  updateColumn,
-} from "@/lib/appwrite/columns";
-import {
-  createCard,
-  getCards,
-  updateCard,
-  deleteCard,
-} from "@/lib/appwrite/cards";
 
 interface BoardState {
   boardList: any;
@@ -71,7 +59,7 @@ interface BoardState {
   clearCardImage: () => void;
 }
 
-export const BoardStateStore = create<BoardState>((set, get) => ({
+export const useBoardStateStore = create<BoardState>((set, get) => ({
   // state
   boardList: [],
   workingBoard: null,

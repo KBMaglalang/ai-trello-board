@@ -1,4 +1,4 @@
-import { formatTodosForAI } from "./formatTodosForAi";
+import { formatTodosForAI } from "./-- formatTodosForAi";
 
 const fetchSuggestion = async (board: Board) => {
   const todos = formatTodosForAI(board);

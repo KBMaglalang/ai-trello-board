@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { XCircleIcon, PencilIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 
 // components
 
 // store
-import { BoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import { deleteBoard } from "@/lib/appwrite/boards";
@@ -22,13 +22,9 @@ export default function BoardDrawerListItem({ boardData }: Props) {
   const [boardTitle, setBoardTitle] = useState(boardData?.title || "New Board");
   const [isEditable, setIsEditable] = useState(false);
 
-  const [setWorkingBoard, boardList, getBoardList, setBoardList] =
-    BoardStateStore((state) => [
-      state.setWorkingBoard,
-      state.boardList,
-      state.getBoardList,
-      state.setBoardList,
-    ]);
+  const [setWorkingBoard, boardList, setBoardList] = useBoardStateStore(
+    (state) => [state.setWorkingBoard, state.boardList, state.setBoardList]
+  );
 
   const handleOnClicked = () => {
     if (!isEditable) {

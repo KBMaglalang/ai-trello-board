@@ -10,14 +10,14 @@ type Props = {
 // components
 
 // store
-import { BoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import { createColumn } from "@/lib/appwrite/columns";
 import { addColumnToBoard } from "@/lib/util";
 
 export const EmptyColumn = ({ boardData }: Props) => {
-  const [boardList, setBoardList, setWorkingBoard] = BoardStateStore(
+  const [boardList, setBoardList, setWorkingBoard] = useBoardStateStore(
     (state) => [state.boardList, state.setBoardList, state.setWorkingBoard]
   );
 

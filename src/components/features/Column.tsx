@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import {
   PlusCircleIcon,
@@ -12,8 +12,7 @@ import {
 import Card from "./Card";
 
 // store
-import { useModalStore } from "@/store/ModalStore";
-import { BoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import { deleteColumn } from "@/lib/appwrite/columns";
@@ -29,19 +28,14 @@ type Props = {
 };
 
 export default function Column({ columnData, index }: Props) {
-  const [openModal] = useModalStore((state) => [state.openModal]);
   const [
-    workingColumn,
     setWorkingColumn,
-    getBoardList,
     workingBoard,
     setBoardList,
     setWorkingBoard,
     boardList,
-  ] = BoardStateStore((state) => [
-    state.workingColumn,
+  ] = useBoardStateStore((state) => [
     state.setWorkingColumn,
-    state.getBoardList,
     state.workingBoard,
     state.setBoardList,
     state.setWorkingBoard,
@@ -106,7 +100,6 @@ export default function Column({ columnData, index }: Props) {
     setWorkingColumn(columnData);
 
     openTaskModal();
-    // openModal();
   };
 
   return (

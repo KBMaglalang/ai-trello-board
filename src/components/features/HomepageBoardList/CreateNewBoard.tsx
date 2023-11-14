@@ -5,15 +5,14 @@ import React from "react";
 // components
 
 // store
-import { BoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 import { createBoard } from "@/lib/appwrite/boards";
 
 export function CreateNewBoard() {
-  const [boardList, getBoardList, setBoardList] = BoardStateStore((state) => [
+  const [boardList, setBoardList] = useBoardStateStore((state) => [
     state.boardList,
-    state.getBoardList,
     state.setBoardList,
   ]);
 

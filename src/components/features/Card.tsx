@@ -13,7 +13,7 @@ import { toast } from "react-hot-toast";
 
 // stores
 import { useModalStore } from "@/store/ModalStore";
-import { BoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 // import getUrl from "@/lib/getUrl";
@@ -51,7 +51,7 @@ export default function Card({
     state.isOpen,
     state.isEditModal,
   ]);
-  const [workingBoard, setWorkingBoard] = BoardStateStore((state) => [
+  const [workingBoard, setWorkingBoard] = useBoardStateStore((state) => [
     state.workingBoard,
     state.setWorkingBoard,
   ]);
@@ -157,13 +157,6 @@ export default function Card({
             </button>
           </div>
         </div>
-
-        {/* created at */}
-        {/* <div className="">
-        <p className="text-xs text-gray-400 text-end pr-4 pb-4">
-          {new Date(todo.$createdAt).toLocaleString()}
-        </p>
-      </div> */}
 
         {/* title */}
         <div className="flex flex-row">
