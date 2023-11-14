@@ -16,8 +16,8 @@ import { useModalStore } from "@/store/ModalStore";
 import { useBoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
-// import getUrl from "@/lib/getUrl";
-import { getUrl, getSubTasks } from "@/lib/ai";
+import { getUrl } from "@/lib/util";
+import { getSubTasks } from "@/lib/ai";
 import { deleteCard } from "@/lib/appwrite/cards";
 import {
   deleteCardFromColumn,

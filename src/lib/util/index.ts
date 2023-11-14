@@ -19,3 +19,6 @@ export * from "./sortColumnOrder";
 // card functions
 export * from "./updateCardComplete";
 export * from "./sortCardOrder";
+
+export * from "./getUrl";
+export * from "./uploadImage";

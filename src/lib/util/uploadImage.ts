@@ -1,4 +1,4 @@
-import { ID, storage } from "../../config/appwrite";
+import { ID, storage } from "@/config/appwrite";
 
 export const uploadImage = async (file: File) => {
   if (!file) return;
