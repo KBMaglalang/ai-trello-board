@@ -30,13 +30,23 @@ type Props = {
 
 export default function Column({ columnData, index }: Props) {
   const [openModal] = useModalStore((state) => [state.openModal]);
-  const [workingColumn, setWorkingColumn, getBoardList, workingBoard] =
-    BoardStateStore((state) => [
-      state.workingColumn,
-      state.setWorkingColumn,
-      state.getBoardList,
-      state.workingBoard,
-    ]);
+  const [
+    workingColumn,
+    setWorkingColumn,
+    getBoardList,
+    workingBoard,
+    setBoardList,
+    setWorkingBoard,
+    boardList,
+  ] = BoardStateStore((state) => [
+    state.workingColumn,
+    state.setWorkingColumn,
+    state.getBoardList,
+    state.workingBoard,
+    state.setBoardList,
+    state.setWorkingBoard,
+    state.boardList,
+  ]);
 
   const [isEditable, setIsEditable] = useState(false);
   const [columnTitle, setColumnTitle] = useState(
@@ -46,19 +56,49 @@ export default function Column({ columnData, index }: Props) {
   const handleEditColumnName = async () => {
     // update column title in the database
     if (isEditable) {
-      await updateColumnTitle(columnData?.$id, columnTitle);
+      const newColumn = await updateColumnTitle(columnData?.$id, columnTitle);
+
+      // update the column in the working board
+      const newColumnList = workingBoard.columns.map((column) => {
+        if (column.$id === newColumn.$id) {
+          return newColumn;
+        }
+
+        return column;
+      });
+
+      const newBoard = { ...workingBoard, columns: newColumnList };
+
+      const newBoardList = boardList.map((board) => {
+        if (board.$id === newBoard.$id) {
+          return newBoard;
+        }
+
+        return board;
+      });
+
+      setBoardList(newBoardList);
+      setWorkingBoard(newBoard);
     }
 
     setIsEditable(!isEditable);
-
-    await getBoardList();
   };
 
   const handleDeleteColumn = async () => {
-    deleteColumnFromBoard(workingBoard, columnData);
-    deleteColumn(columnData?.$id);
+    const newBoard = await deleteColumnFromBoard(workingBoard, columnData);
+    await deleteColumn(columnData?.$id);
 
-    await getBoardList();
+    // update the boardList locally
+    const newBoardList = boardList.map((board) => {
+      if (board.$id === newBoard.$id) {
+        return newBoard;
+      }
+
+      return board;
+    });
+
+    setWorkingBoard(newBoard);
+    setBoardList(newBoardList);
   };
 
   const handleAddTodo = () => {

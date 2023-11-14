@@ -17,17 +17,28 @@ import { createColumn } from "@/lib/appwrite/columns";
 import { addColumnToBoard } from "@/lib/util";
 
 export const EmptyColumn = ({ boardData }: Props) => {
-  const [getBoardList] = BoardStateStore((state) => [state.getBoardList]);
+  const [boardList, setBoardList, setWorkingBoard] = BoardStateStore(
+    (state) => [state.boardList, state.setBoardList, state.setWorkingBoard]
+  );
 
   const handleAddColumn = async () => {
     // create a new column
     const newColumnData = await createColumn();
 
     // update the board with new column
-    await addColumnToBoard(boardData, newColumnData);
+    const newBoard = await addColumnToBoard(boardData, newColumnData);
 
-    // update the boardList
-    await getBoardList();
+    // update the boardList locally
+    const newBoardList = boardList.map((board) => {
+      if (board.$id === newBoard.$id) {
+        return newBoard;
+      }
+
+      return board;
+    });
+
+    setBoardList(newBoardList);
+    setWorkingBoard(newBoard);
   };
 
   return (

@@ -22,10 +22,13 @@ export default function BoardDrawerListItem({ boardData }: Props) {
   const [boardTitle, setBoardTitle] = useState(boardData?.title || "New Board");
   const [isEditable, setIsEditable] = useState(false);
 
-  const [setWorkingBoard, getBoardList] = BoardStateStore((state) => [
-    state.setWorkingBoard,
-    state.getBoardList,
-  ]);
+  const [setWorkingBoard, boardList, getBoardList, setBoardList] =
+    BoardStateStore((state) => [
+      state.setWorkingBoard,
+      state.boardList,
+      state.getBoardList,
+      state.setBoardList,
+    ]);
 
   const handleOnClicked = () => {
     if (!isEditable) {
@@ -44,20 +47,33 @@ export default function BoardDrawerListItem({ boardData }: Props) {
 
     // update board title
     if (isEditable) {
-      await updateBoardTitle(boardData?.$id, boardTitle);
+      const newBoard = await updateBoardTitle(boardData?.$id, boardTitle);
+
+      // update the boardList locally
+      const newBoardList = boardList.map((board) => {
+        if (board.$id === newBoard.$id) {
+          return newBoard;
+        }
+
+        return board;
+      });
+
+      setBoardList(newBoardList);
     }
 
     setIsEditable(!isEditable);
-
-    // update the boardList
-    await getBoardList();
   };
 
-  const handleDeleteBoardItem = async () => {
+  const handleDeleteBoardItem = async (
+    e: React.MouseEvent<SVGSVGElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+
     await deleteBoard(boardData?.$id);
 
-    // update the boardList
-    await getBoardList();
+    // remove board from the boardList
+    const newBoard = boardList.filter((board) => board.$id !== boardData.$id);
+    setBoardList(newBoard);
   };
 
   return (

@@ -11,12 +11,17 @@ import { BoardStateStore } from "@/store/BoardStateStore";
 import { createBoard } from "@/lib/appwrite/boards";
 
 export function CreateNewBoard() {
-  const [getBoardList] = BoardStateStore((state) => [state.getBoardList]);
+  const [boardList, getBoardList, setBoardList] = BoardStateStore((state) => [
+    state.boardList,
+    state.getBoardList,
+    state.setBoardList,
+  ]);
 
   const handleCreateNewBoards = async () => {
-    await createBoard();
+    const newBoard = await createBoard();
+    const newBoardList = [...boardList, newBoard];
 
-    await getBoardList();
+    setBoardList(newBoardList);
   };
 
   return (

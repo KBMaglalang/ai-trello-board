@@ -25,7 +25,6 @@ function Modal() {
 
   // TODO: going to need to do a clear when await completes
   const [
-    getBoardList,
     workingBoard,
     workingColumn,
     clearWorkingColumn,
@@ -35,15 +34,16 @@ function Modal() {
     cardStartDate,
     cardEndDate,
     cardPriority,
-    cardCompleted,
     cardImage,
 
     setCardTitle,
     setCardDescription,
-    setCardCompleted,
     setCardImage,
+
+    setWorkingBoard,
+    setBoardList,
+    boardList,
   ] = BoardStateStore((state) => [
-    state.getBoardList,
     state.workingBoard,
 
     state.workingColumn,
@@ -54,13 +54,15 @@ function Modal() {
     state.cardStartDate,
     state.cardEndDate,
     state.cardPriority,
-    state.cardCompleted,
     state.cardImage,
 
     state.setCardTitle,
     state.setCardDescription,
-    state.setCardCompleted,
     state.setCardImage,
+
+    state.setWorkingBoard,
+    state.setBoardList,
+    state.boardList,
   ]);
 
   const [isOpen, isEditModal, cardInfo, closeModal, clearCardInfo] =
@@ -107,14 +109,8 @@ function Modal() {
     closeTaskModal();
 
     setCardImage(null);
-
-    // ! old
-    // clearNewTaskStates();
     clearCardInfo();
-
-    // ! new
     clearWorkingColumn();
-    await getBoardList();
   };
 
   const handleSubmit = async (e: any) => {
@@ -122,19 +118,12 @@ function Modal() {
 
     if (!cardTitle) return;
 
+    let newCardData = null;
+    let editWorkingColumn = null;
+
     if (isEditModal) {
       // update the todo fields in the db
-      await updateCard(cardInfo.todo!.$id, {
-        title: cardTitle,
-        description: cardDescription,
-        priority: cardPriority,
-        startDate: cardStartDate,
-        endDate: cardEndDate,
-        //  image: cardImage,
-      });
-    } else {
-      // take in the new card data and create a new card
-      const newCardData = await createCard({
+      newCardData = await updateCard(cardInfo.todo!.$id, {
         title: cardTitle,
         description: cardDescription,
         priority: cardPriority,
@@ -143,9 +132,48 @@ function Modal() {
         //  image: cardImage,
       });
 
-      // take the return data and update the working column
-      const response = await addCardToColumn(workingColumn, newCardData);
+      // find the working Column using cardInfo.id
+      editWorkingColumn = workingBoard.columns.find(
+        (column) => column.$id === cardInfo.id
+      );
+    } else {
+      // take in the new card data and create a new card
+      newCardData = await createCard({
+        title: cardTitle,
+        description: cardDescription,
+        priority: cardPriority,
+        startDate: cardStartDate,
+        endDate: cardEndDate,
+        //  image: cardImage,
+      });
     }
+    // take the return data and update the working column
+    const response = await addCardToColumn(
+      editWorkingColumn || workingColumn,
+      newCardData
+    );
+
+    // update the column in the working board
+    const newColumnList = workingBoard.columns.map((column) => {
+      if (column.$id === response.$id) {
+        return response;
+      }
+
+      return column;
+    });
+
+    const newWorkingBoard = { ...workingBoard, columns: newColumnList };
+
+    const newBoardList = boardList.map((board) => {
+      if (board.$id === newWorkingBoard.$id) {
+        return newWorkingBoard;
+      }
+
+      return board;
+    });
+
+    setWorkingBoard(newWorkingBoard);
+    setBoardList(newBoardList);
 
     handleOnClose();
   };

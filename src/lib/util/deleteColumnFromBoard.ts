@@ -4,7 +4,12 @@ export const deleteColumnFromBoard = async (
   boardData: any,
   columnData: any
 ) => {
-  await updateBoard(boardData.$id, {
+  const data = await updateBoard(boardData.$id, {
+    columns: boardData.columns.filter(
+      (column: any) => column.$id !== columnData.$id
+    ),
     order: boardData.order.filter((id: string) => id !== columnData.$id),
   });
+
+  return data;
 };
