@@ -6,13 +6,13 @@ import { usePathname } from "next/navigation";
 // components
 
 // store
-import { BoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from "@/store/BoardStateStore";
 
 // functions and constants
 
 export default function HeaderBoard() {
   const pathname = usePathname();
-  const [workingBoard, clearWorkingBoard] = BoardStateStore((state) => [
+  const [workingBoard, clearWorkingBoard] = useBoardStateStore((state) => [
     state.workingBoard,
     state.clearWorkingBoard,
   ]);

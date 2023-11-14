@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 
 // store
 import { useModalStore } from "@/store/ModalStore";
-import { BoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 
@@ -14,7 +14,7 @@ export default function TaskPriorityGroup() {
     state.isEditModal,
     state.cardInfo,
   ]);
-  const [taskPriority, setTaskPriority] = BoardStateStore((state) => [
+  const [taskPriority, setTaskPriority] = useBoardStateStore((state) => [
     state.cardPriority,
     state.setTaskPriority,
   ]);

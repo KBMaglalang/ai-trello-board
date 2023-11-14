@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, Fragment, useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
@@ -10,20 +10,23 @@ import TaskDatePicker from "./TaskDatePicker";
 
 // store
 import { useModalStore } from "@/store/ModalStore";
-import { BoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 // import getUrl from "@/lib/getUrl";
-import { getUrl } from "@/lib/ai";
+// import { getUrl } from "@/lib/ai";
+import {
+  getUrl,
+  uploadImage,
+  closeTaskModal,
+  addCardToColumn,
+} from "@/lib/util";
 import { createCard, updateCard } from "@/lib/appwrite/cards";
-import { closeTaskModal } from "@/lib/util";
-import { addCardToColumn } from "@/lib/util";
 
 function Modal() {
   const imagePickerRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  // TODO: going to need to do a clear when await completes
   const [
     workingBoard,
     workingColumn,
@@ -43,7 +46,7 @@ function Modal() {
     setWorkingBoard,
     setBoardList,
     boardList,
-  ] = BoardStateStore((state) => [
+  ] = useBoardStateStore((state) => [
     state.workingBoard,
 
     state.workingColumn,

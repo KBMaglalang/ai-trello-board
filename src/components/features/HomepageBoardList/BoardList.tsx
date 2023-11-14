@@ -7,12 +7,12 @@ import { BoardListItem } from ".";
 import { CreateNewBoard } from ".";
 
 // store
-import { BoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from "@/store/BoardStateStore";
 
 // constants and functions
 
 export function BoardList() {
-  const [boardList] = BoardStateStore((state) => [state.boardList]);
+  const [boardList] = useBoardStateStore((state) => [state.boardList]);
   const [sortedBoardList, setSortedBoardList] = useState([]);
 
   useEffect(() => {
