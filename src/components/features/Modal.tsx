@@ -137,7 +137,7 @@ function Modal() {
 
       // find the working Column using cardInfo.id
       editWorkingColumn = workingBoard.columns.find(
-        (column) => column.$id === cardInfo.id
+        (column: any) => column.$id === cardInfo.id
       );
     } else {
       // take in the new card data and create a new card
@@ -157,7 +157,7 @@ function Modal() {
     );
 
     // update the column in the working board
-    const newColumnList = workingBoard.columns.map((column) => {
+    const newColumnList = workingBoard.columns.map((column: any) => {
       if (column.$id === response.$id) {
         return response;
       }

@@ -15,7 +15,7 @@ export default function BoardDrawerList() {
     state.boardList,
     state.getBoardList,
   ]);
-  const [sortedBoardList, setSortedBoardList] = useState([]);
+  const [sortedBoardList, setSortedBoardList] = useState<any[]>([]);
 
   useEffect(() => {
     getBoardList();

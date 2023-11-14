@@ -53,7 +53,7 @@ export default function Column({ columnData, index }: Props) {
       const newColumn = await updateColumnTitle(columnData?.$id, columnTitle);
 
       // update the column in the working board
-      const newColumnList = workingBoard.columns.map((column) => {
+      const newColumnList = workingBoard.columns.map((column: any) => {
         if (column.$id === newColumn.$id) {
           return newColumn;
         }
@@ -148,7 +148,7 @@ export default function Column({ columnData, index }: Props) {
                 <div className="space-y-4">
                   {/* list todo cards */}
                   {columnData &&
-                    columnData?.todos.map((todo, index) => {
+                    columnData?.todos.map((todo: any, index: number) => {
                       return (
                         <Draggable
                           key={todo.$id}

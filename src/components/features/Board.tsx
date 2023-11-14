@@ -78,7 +78,7 @@ export default function Board({ id }: { id: string }) {
       const entries = workingBoard.columns;
       const [removed] = entries.splice(source.index, 1);
       entries.splice(destination.index, 0, removed);
-      const updatedOrder = entries.map((column) => column.$id);
+      const updatedOrder = entries.map((column: any) => column.$id);
 
       // update the current working board
       setWorkingBoard({
@@ -98,28 +98,28 @@ export default function Board({ id }: { id: string }) {
       const columns = workingBoard.columns;
 
       // find the column of the source
-      const sourceColumn = columns.find((column) => {
+      const sourceColumn = columns.find((column: any) => {
         return column.$id === source.droppableId;
       });
       // remove card from source column
       const [removedCard] = sourceColumn?.todos.splice(source.index, 1);
       const [removeCardOrder] = sourceColumn?.order.splice(source.index, 1);
       // determine index of the source column
-      const sourceColumnIndex = columns.findIndex((column) => {
+      const sourceColumnIndex = columns.findIndex((column: any) => {
         return column.$id === source.droppableId;
       });
       // replace the column in the columns array with the updated column
       columns[sourceColumnIndex] = sourceColumn;
 
       // find the column of the destination
-      const destinationColumn = columns.find((column) => {
+      const destinationColumn = columns.find((column: any) => {
         return column.$id === destination.droppableId;
       });
       // add card to destination column
       destinationColumn?.todos.splice(destination.index, 0, removedCard);
       destinationColumn?.order.splice(destination.index, 0, removeCardOrder);
       // determine index of the destination column
-      const destinationColumnIndex = columns.findIndex((column) => {
+      const destinationColumnIndex = columns.findIndex((column: any) => {
         return column.$id === destination.droppableId;
       });
       // replace the column in the columns array with the updated column
@@ -156,7 +156,7 @@ export default function Board({ id }: { id: string }) {
             >
               {/* list the columns from the board */}
               {workingBoard &&
-                workingBoard?.columns?.map((column, index) => (
+                workingBoard?.columns?.map((column: any, index: number) => (
                   <Column key={column.$id} columnData={column} index={index} />
                 ))}
 

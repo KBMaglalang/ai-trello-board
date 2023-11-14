@@ -1,8 +1,8 @@
 export const formatBoardForAI = (board: any) => {
-  const boardData = board.columns.map((column) => {
+  const boardData = board.columns.map((column: any) => {
     const { title, todos } = column;
 
-    const cards = todos.map((card) => {
+    const cards = todos.map((card: any) => {
       const { title, description, priority, startDate, endDate, completed } =
         card;
 

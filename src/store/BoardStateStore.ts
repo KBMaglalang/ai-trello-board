@@ -9,7 +9,7 @@ import {
 } from "@/lib/appwrite/boards";
 
 interface BoardState {
-  boardList: any;
+  boardList: any[];
   workingBoard: any;
   workingColumn: any;
   workingCard: any;
@@ -22,7 +22,7 @@ interface BoardState {
   cardCompleted: boolean;
   cardImage: any;
 
-  setBoardList: (boardList: any) => void;
+  setBoardList: (boardList: any[]) => void;
   getBoardList: () => void;
   clearBoardList: () => void;
 

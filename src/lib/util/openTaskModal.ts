@@ -1,3 +1,6 @@
 export const openTaskModal = () => {
-  document.getElementById("task_modal").showModal();
+  const taskModal = document.getElementById("task_modal") as HTMLDialogElement;
+  if (taskModal) {
+    taskModal.showModal();
+  }
 };
