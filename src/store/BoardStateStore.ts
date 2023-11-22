@@ -57,6 +57,8 @@ interface BoardState {
 
   setCardImage: (cardImage: any) => void;
   clearCardImage: () => void;
+
+  clearCardState: () => void;
 }
 
 export const useBoardStateStore = create<BoardState>((set, get) => ({
@@ -143,4 +145,16 @@ export const useBoardStateStore = create<BoardState>((set, get) => ({
   // --- cardImage ---
   setCardImage: (cardImage) => set({ cardImage }),
   clearCardImage: () => set({ cardImage: null }),
+
+  // --- clear card state ---
+  clearCardState: () =>
+    set({
+      cardTitle: "",
+      cardDescription: "",
+      cardStartDate: "",
+      cardEndDate: "",
+      cardPriority: "",
+      cardCompleted: false,
+      cardImage: null,
+    }),
 }));

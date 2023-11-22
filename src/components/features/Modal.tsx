@@ -46,6 +46,8 @@ function Modal() {
     setWorkingBoard,
     setBoardList,
     boardList,
+
+    clearCardState,
   ] = useBoardStateStore((state) => [
     state.workingBoard,
 
@@ -66,6 +68,8 @@ function Modal() {
     state.setWorkingBoard,
     state.setBoardList,
     state.boardList,
+
+    state.clearCardState,
   ]);
 
   const [isOpen, isEditModal, cardInfo, closeModal, clearCardInfo] =
@@ -108,12 +112,13 @@ function Modal() {
   ]);
 
   const handleOnClose = async () => {
-    closeModal();
-    closeTaskModal();
-
     setCardImage(null);
+    clearCardState();
     clearCardInfo();
     clearWorkingColumn();
+
+    closeModal();
+    closeTaskModal();
   };
 
   const handleSubmit = async (e: any) => {
@@ -182,7 +187,7 @@ function Modal() {
   };
 
   return (
-    <dialog id="task_modal" className="modal">
+    <dialog id="task_modal" className="modal" onClose={handleOnClose}>
       <div className="modal-box">
         <h3 className="font-bold text-lg text-center">
           {isEditModal ? "Edit Task" : "Add a Task"}
