@@ -117,7 +117,7 @@ export function Card({
     setResponseLoading(true);
     const response = await getSubTasks(todo);
     clearResponseLoading();
-    setResponseBreakdown(response);
+    setResponseBreakdown(response.split("\n"));
     openResponseDrawer();
   };
 

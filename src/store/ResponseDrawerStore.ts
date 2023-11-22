@@ -10,8 +10,8 @@ interface DrawerState {
   setResponseSummary: (summary: string) => void;
   clearResponseSummary: () => void;
 
-  responseBreakdown: string;
-  setResponseBreakdown: (breakdown: string) => void;
+  responseBreakdown: string[];
+  setResponseBreakdown: (breakdown: string[]) => void;
   clearResponseBreakdown: () => void;
 
   responseLoading: boolean;
@@ -33,10 +33,10 @@ export const useResponseDrawerStore = create<DrawerState>((set, get) => ({
   clearResponseSummary: () => set({ responseSummary: "" }),
 
   // --- Response Breakdown ---
-  responseBreakdown: "",
-  setResponseBreakdown: (breakdown: string) =>
+  responseBreakdown: [],
+  setResponseBreakdown: (breakdown: string[]) =>
     set({ responseBreakdown: breakdown }),
-  clearResponseBreakdown: () => set({ responseBreakdown: "" }),
+  clearResponseBreakdown: () => set({ responseBreakdown: [] }),
 
   // --- Response Loading ---
   responseLoading: false,

@@ -94,7 +94,9 @@ export function ResponseDrawer() {
           {/* task breakdown response */}
           {responseBreakdown && (
             <div>
-              <p>{responseBreakdown}</p>
+              {responseBreakdown.map((line: string, index: number) => (
+                <p key={index}>{line}</p>
+              ))}
             </div>
           )}
         </div>
