@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/24/solid";
 
 // components
-import Card from "./Card";
+import { Card } from "../Card";
 
 // store
 import { useBoardStateStore } from "@/store/BoardStateStore";
@@ -27,7 +27,7 @@ type Props = {
   index: number;
 };
 
-export default function Column({ columnData, index }: Props) {
+export function Column({ columnData, index }: Props) {
   const [
     setWorkingColumn,
     workingBoard,

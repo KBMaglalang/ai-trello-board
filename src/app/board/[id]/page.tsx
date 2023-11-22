@@ -1,7 +1,7 @@
 import React from "react";
 
 // components
-import Board from "@/components/features/Board";
+import { Board } from "@/components/Board";
 
 type Props = {
   params: {

@@ -5,7 +5,7 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 // components
-import Layout from "@/components/features/Layout";
+import { Layout } from "@/components/Layout";
 import ClientProvider from "@/providers/ClientProvider";
 
 // constants or functions

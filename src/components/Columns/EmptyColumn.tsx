@@ -3,10 +3,6 @@
 import React from "react";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 
-type Props = {
-  boardData: any;
-};
-
 // components
 
 // store
@@ -15,6 +11,10 @@ import { useBoardStateStore } from "@/store/BoardStateStore";
 // constants and functions
 import { createColumn } from "@/lib/appwrite/columns";
 import { addColumnToBoard } from "@/lib/util";
+
+type Props = {
+  boardData: any;
+};
 
 export const EmptyColumn = ({ boardData }: Props) => {
   const [boardList, setBoardList, setWorkingBoard] = useBoardStateStore(

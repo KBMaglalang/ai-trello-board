@@ -15,6 +15,7 @@ import { useBoardStateStore } from "@/store/BoardStateStore";
 // constants and functions
 // import getUrl from "@/lib/getUrl";
 // import { getUrl } from "@/lib/ai";
+
 import {
   getUrl,
   uploadImage,
@@ -23,7 +24,7 @@ import {
 } from "@/lib/util";
 import { createCard, updateCard } from "@/lib/appwrite/cards";
 
-function Modal() {
+export function Modal() {
   const imagePickerRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
@@ -278,5 +279,3 @@ function Modal() {
     </dialog>
   );
 }
-
-export default Modal;

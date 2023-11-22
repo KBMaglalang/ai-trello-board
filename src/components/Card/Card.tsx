@@ -26,7 +26,7 @@ import {
 } from "@/lib/util";
 
 type Props = {
-  todo: Todo;
+  todo: Card;
   index: number;
   columnData: any;
   innerRef: (element: HTMLElement | null) => void;
@@ -34,7 +34,7 @@ type Props = {
   dragHandleProps: DraggableProvidedDragHandleProps | null | undefined;
 };
 
-export default function Card({
+export function Card({
   todo,
   index,
   columnData,
