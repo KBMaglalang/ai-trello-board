@@ -26,7 +26,7 @@ import {
 } from "@/lib/util";
 
 type Props = {
-  todo: Todo;
+  todo: Card;
   index: number;
   columnData: any;
   innerRef: (element: HTMLElement | null) => void;
