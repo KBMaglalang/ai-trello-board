@@ -1,9 +1,7 @@
 import React from "react";
 
 // components
-// import Header from "../Header/Header";
 import { Header } from "../Header";
-// import Modal from "../Card/Modal";
 import { Modal } from "../Card";
 
 export function Layout({ children }: any) {

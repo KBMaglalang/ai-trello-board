@@ -6,10 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
 // components
-// import Column from "../Columns/Column";
-import { Column } from "../Columns";
-import { EmptyColumn } from "../Columns";
-// import Loading from "../Common/Loading";
+import { Column, EmptyColumn } from "../Columns";
 import { Loading } from "../Common";
 
 // store

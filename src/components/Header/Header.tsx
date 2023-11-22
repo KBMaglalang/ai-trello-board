@@ -2,9 +2,8 @@ import React from "react";
 import Link from "next/link";
 
 // components
-import ThemeToggle from "./ThemeToggle";
-// import BoardDrawer from "../BoardDrawer/BoardDrawer";
 import { BoardDrawer } from "../BoardDrawer";
+import ThemeToggle from "./ThemeToggle";
 import HeaderBoard from "./HeaderBoard";
 
 // store

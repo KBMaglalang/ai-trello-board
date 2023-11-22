@@ -9,7 +9,6 @@ import {
 } from "@heroicons/react/24/solid";
 
 // components
-// import Card from "../Card/Card";
 import { Card } from "../Card";
 
 // store
