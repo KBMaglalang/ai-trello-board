@@ -7,13 +7,13 @@ import {
 } from "react-beautiful-dnd";
 import Image from "next/image";
 import { XCircleIcon, PencilIcon } from "@heroicons/react/24/solid";
-import { toast } from "react-hot-toast";
 
 // components
 
 // stores
 import { useModalStore } from "@/store/ModalStore";
 import { useBoardStateStore } from "@/store/BoardStateStore";
+import { useResponseDrawerStore } from "@/store/ResponseDrawerStore";
 
 // constants and functions
 import { getUrl } from "@/lib/util";
@@ -54,6 +54,17 @@ export function Card({
   const [workingBoard, setWorkingBoard] = useBoardStateStore((state) => [
     state.workingBoard,
     state.setWorkingBoard,
+  ]);
+  const [
+    openResponseDrawer,
+    setResponseBreakdown,
+    setResponseLoading,
+    clearResponseLoading,
+  ] = useResponseDrawerStore((state) => [
+    state.openResponseDrawer,
+    state.setResponseBreakdown,
+    state.setResponseLoading,
+    state.clearResponseLoading,
   ]);
 
   useEffect(() => {
@@ -103,14 +114,11 @@ export function Card({
   };
 
   const handleGetSubTasks = async () => {
-    const toastid = toast.loading("Waiting...");
-
+    setResponseLoading(true);
     const response = await getSubTasks(todo);
-
-    toast(response, {
-      id: toastid,
-      duration: 10000,
-    });
+    clearResponseLoading();
+    setResponseBreakdown(response);
+    openResponseDrawer();
   };
 
   return (
