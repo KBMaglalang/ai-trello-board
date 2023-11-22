@@ -34,7 +34,7 @@ type Props = {
   dragHandleProps: DraggableProvidedDragHandleProps | null | undefined;
 };
 
-export default function Card({
+export function Card({
   todo,
   index,
   columnData,

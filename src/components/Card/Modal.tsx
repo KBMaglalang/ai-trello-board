@@ -23,7 +23,7 @@ import {
 } from "@/lib/util";
 import { createCard, updateCard } from "@/lib/appwrite/cards";
 
-function Modal() {
+export function Modal() {
   const imagePickerRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
@@ -278,5 +278,3 @@ function Modal() {
     </dialog>
   );
 }
-
-export default Modal;

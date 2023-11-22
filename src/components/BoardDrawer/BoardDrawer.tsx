@@ -12,7 +12,7 @@ import { useBoardStateStore } from "@/store/BoardStateStore";
 // constants and functions
 import { createBoard } from "@/lib/appwrite/boards";
 
-export default function BoardDrawer() {
+export function BoardDrawer() {
   const [boardList, setBoardList] = useBoardStateStore((state) => [
     state.boardList,
     state.setBoardList,

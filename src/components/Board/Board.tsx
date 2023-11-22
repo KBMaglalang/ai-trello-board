@@ -6,9 +6,11 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
 // components
-import Column from "./Column";
-import { EmptyColumn } from "./Columns";
-import Loading from "./Loading";
+// import Column from "../Columns/Column";
+import { Column } from "../Columns";
+import { EmptyColumn } from "../Columns";
+// import Loading from "../Common/Loading";
+import { Loading } from "../Common";
 
 // store
 import { useBoardStateStore } from "@/store/BoardStateStore";
@@ -23,7 +25,7 @@ import {
 } from "@/lib/util";
 import { getBoardSummary } from "@/lib/ai";
 
-export default function Board({ id }: { id: string }) {
+export function Board({ id }: { id: string }) {
   const router = useRouter();
 
   // new board test
