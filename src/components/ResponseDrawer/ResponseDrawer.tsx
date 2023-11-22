@@ -55,7 +55,7 @@ export function ResponseDrawer() {
         {/* toggle button */}
         <label
           htmlFor="ai-drawer"
-          className="btn btn-outline btn-sm drawer-button"
+          className="btn btn-outline btn-sm drawer-button hidden"
         >
           <BuildingLibraryIcon className="w-4 h-4" />
         </label>
