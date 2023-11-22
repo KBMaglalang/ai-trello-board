@@ -3,7 +3,6 @@
 import React, { useEffect } from "react";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
 
 // components
 import { Column, EmptyColumn } from "../Columns";
@@ -11,6 +10,7 @@ import { Loading } from "../Common";
 
 // store
 import { useBoardStateStore } from "@/store/BoardStateStore";
+import { useResponseDrawerStore } from "@/store/ResponseDrawerStore";
 
 // constants and functions
 import {
@@ -24,6 +24,18 @@ import { getBoardSummary } from "@/lib/ai";
 
 export function Board({ id }: { id: string }) {
   const router = useRouter();
+
+  const [
+    openResponseDrawer,
+    setResponseSummary,
+    setResponseLoading,
+    clearResponseLoading,
+  ] = useResponseDrawerStore((state) => [
+    state.openResponseDrawer,
+    state.setResponseSummary,
+    state.setResponseLoading,
+    state.clearResponseLoading,
+  ]);
 
   // new board test
   const [boardList, workingBoard, setWorkingBoard, workingColumn, workingCard] =
@@ -56,14 +68,11 @@ export function Board({ id }: { id: string }) {
   }, [setWorkingBoard, router, boardList, id, workingBoard]);
 
   const handleSummarize = async () => {
-    const toastid = toast.loading("Waiting...");
-
+    setResponseLoading(true);
     const response = await getBoardSummary(workingBoard);
-
-    toast(response, {
-      id: toastid,
-      duration: 10000,
-    });
+    clearResponseLoading();
+    setResponseSummary(response);
+    openResponseDrawer();
   };
 
   const handleOnDragEnd = async (result: DropResult) => {

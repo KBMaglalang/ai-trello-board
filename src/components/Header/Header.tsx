@@ -5,6 +5,7 @@ import Link from "next/link";
 import { BoardDrawer } from "../BoardDrawer";
 import ThemeToggle from "./ThemeToggle";
 import HeaderBoard from "./HeaderBoard";
+import { ResponseDrawer } from "../ResponseDrawer";
 
 // store
 
@@ -27,6 +28,7 @@ export function Header() {
           </div>
 
           <div className="block md:hidden">
+            {/* <ResponseDrawer /> */}
             <ThemeToggle />
           </div>
         </div>
@@ -35,9 +37,12 @@ export function Header() {
         <HeaderBoard />
 
         {/* toggle for light and dark mode */}
-        <div className="hidden md:block">
+        <div className="hidden  md:block">
           <ThemeToggle />
         </div>
+        {/* <div className="flex flex-row items-center justify-center space-x-2"> */}
+        <ResponseDrawer />
+        {/* </div> */}
       </div>
     </header>
   );
