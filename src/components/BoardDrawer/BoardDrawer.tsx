@@ -18,6 +18,10 @@ export function BoardDrawer() {
     state.setBoardList,
   ]);
 
+  /**
+
+  Handles the creation of a new board.
+  @returns {Promise<void>} */
   const handleCreateNewBoards = async () => {
     const newBoard = await createBoard();
     const newBoardList = [...boardList, newBoard];

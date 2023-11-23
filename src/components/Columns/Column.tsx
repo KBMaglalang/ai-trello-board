@@ -47,6 +47,10 @@ export function Column({ columnData, index }: Props) {
     columnData?.title || "New Column"
   );
 
+  /**
+
+  Handles the editing of a column's name.
+  @returns {void} */
   const handleEditColumnName = async () => {
     // update column title in the database
     if (isEditable) {
@@ -78,6 +82,10 @@ export function Column({ columnData, index }: Props) {
     setIsEditable(!isEditable);
   };
 
+  /**
+
+  Handles the deletion of a column from the board.
+  @returns {void} */
   const handleDeleteColumn = async () => {
     const newBoard = await deleteColumnFromBoard(workingBoard, columnData);
     await deleteColumn(columnData?.$id);
@@ -95,6 +103,10 @@ export function Column({ columnData, index }: Props) {
     setBoardList(newBoardList);
   };
 
+  /**
+
+  Handles the addition of a new todo.
+  @returns {void} */
   const handleAddTodo = () => {
     // set the workingColumn in the board store
     setWorkingColumn(columnData);

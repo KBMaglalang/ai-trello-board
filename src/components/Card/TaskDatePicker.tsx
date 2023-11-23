@@ -23,6 +23,15 @@ export default function TaskDatePicker() {
       state.setCardEndDate,
     ]);
 
+  /**
+
+  Sets the start and end dates when the edit modal is active.
+  @param {boolean} isEditModal - Boolean flag indicating whether the edit modal is active.
+  @param {string | undefined} cardInfo?.todo?.startDate - The start date of the task from the cardInfo object.
+  @param {string | undefined} cardInfo?.todo?.endDate - The end date of the task from the cardInfo object.
+  @param {function} setStartDate - The function to set the task start date.
+  @param {function} setEndDate - The function to set the task end date.
+  @returns {void} */
   useEffect(() => {
     if (isEditModal) {
       setStartDate(cardInfo?.todo?.startDate);

@@ -30,6 +30,11 @@ export function ResponseDrawer() {
     state.responseLoading,
   ]);
 
+  /**
+
+  Executes a side effect to clear the response summary and breakdown data
+  when the response drawer is closed and the response loading is completed.
+  @returns {void} */
   useEffect(() => {
     if (!responseDrawerOpen && !responseLoading) {
       clearResponseSummary();

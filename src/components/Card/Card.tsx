@@ -67,6 +67,11 @@ export function Card({
     state.clearResponseLoading,
   ]);
 
+  /**
+
+  useEffect hook that fetches the image URL for the todo item if it has an image property.
+  @async
+  @returns {Promise<void>} */
   useEffect(() => {
     if (todo.image) {
       const fetchImage = async () => {
@@ -79,11 +84,21 @@ export function Card({
     }
   }, [todo]);
 
+  /**
+
+  Handler function that toggles the completion status of a card and updates the database.
+  @async
+  @returns {Promise<void>} */
   const handleCardCompletedToggle = async () => {
     await updateCardComplete(todo.$id, !isCompleted);
     setIsCompleted(!isCompleted);
   };
 
+  /**
+
+  Handler function that deletes a card from the column and updates the working board and database accordingly.
+  @async
+  @returns {Promise<void>} */
   const handleDeleteCard = async () => {
     // delete the card from the local column (todo and teh order position)
     const newColumnData = {
@@ -108,11 +123,20 @@ export function Card({
     await deleteCard(todo.$id);
   };
 
+  /**
+
+  Handler function that opens a task modal and sets its initial values.
+  @returns {void} */
   const handleModal = () => {
     openTaskModal();
     openModal(true, todo, columnData.$id);
   };
 
+  /**
+
+  Handler function that retrieves subtasks for a todo item.
+  @async
+  @returns {Promise<void>} */
   const handleGetSubTasks = async () => {
     setResponseLoading(true);
     const response = await getSubTasks(todo);

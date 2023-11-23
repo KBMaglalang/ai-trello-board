@@ -26,6 +26,10 @@ export default function BoardDrawerListItem({ boardData }: Props) {
     (state) => [state.setWorkingBoard, state.boardList, state.setBoardList]
   );
 
+  /**
+
+  Handler function that sets the working board to the selected board and navigates to the board page.
+  @returns {void} */
   const handleOnClicked = () => {
     if (!isEditable) {
       // set the working boarde to the selected board
@@ -36,6 +40,11 @@ export default function BoardDrawerListItem({ boardData }: Props) {
     }
   };
 
+  /**
+
+  Handler function that edits a board item's title and updates it in the boardList.
+  @param {React.MouseEvent<SVGSVGElement, MouseEvent>} e - The mouse event triggering the editing.
+  @returns {Promise<void>} */
   const handleEditBoardItem = async (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>
   ) => {
@@ -60,6 +69,11 @@ export default function BoardDrawerListItem({ boardData }: Props) {
     setIsEditable(!isEditable);
   };
 
+  /**
+
+  Handler function that deletes a board item and removes it from the boardList.
+  @param {React.MouseEvent<SVGSVGElement, MouseEvent>} e - The mouse event triggering the deletion.
+  @returns {Promise<void>} */
   const handleDeleteBoardItem = async (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>
   ) => {
