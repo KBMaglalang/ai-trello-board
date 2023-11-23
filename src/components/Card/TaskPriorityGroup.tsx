@@ -19,12 +19,24 @@ export default function TaskPriorityGroup() {
     state.setTaskPriority,
   ]);
 
+  /**
+
+  Sets the task priority when the edit modal is active.
+  @param {boolean} isEditModal - Boolean flag indicating whether the edit modal is active.
+  @param {string | undefined} cardInfo?.todo?.priority - The priority of the task from the cardInfo object.
+  @param {function} setTaskPriority - The function to set the task priority.
+  @returns {void} */
   useEffect(() => {
     if (isEditModal) {
       setTaskPriority(cardInfo?.todo?.priority);
     }
   }, [isEditModal, cardInfo?.todo?.priority, setTaskPriority]);
 
+  /**
+
+  Handles the selection of a task priority.
+  @param {Event} e - The event object representing the select element.
+  @returns {void} */
   const handleSelect = (e: any) => {
     const value = e.target.value.toLowerCase();
 

@@ -24,7 +24,6 @@ import { getBoardSummary } from "@/lib/ai";
 
 export function Board({ id }: { id: string }) {
   const router = useRouter();
-
   const [
     openResponseDrawer,
     setResponseSummary,
@@ -36,8 +35,6 @@ export function Board({ id }: { id: string }) {
     state.setResponseLoading,
     state.clearResponseLoading,
   ]);
-
-  // new board test
   const [boardList, workingBoard, setWorkingBoard, workingColumn, workingCard] =
     useBoardStateStore((state) => [
       state.boardList,
@@ -47,7 +44,16 @@ export function Board({ id }: { id: string }) {
       state.workingCard,
     ]);
 
-  // when the board is selected populate the working board if it is available or return to the homepage if not found
+  /**
+
+  Checks for the existence of a working board and sets it if not already set.
+  If no board is found, redirects to the homepage.
+  @param {function} setWorkingBoard - The function to set the working board.
+  @param {object} router - The router object for redirection.
+  @param {array} boardList - The list of boards.
+  @param {string} id - The ID of the working board.
+  @param {object} workingBoard - The current working board.
+  @returns {void} */
   useEffect(() => {
     if (id && boardList.length > 0 && !workingBoard) {
       const boardData = findWorkingBoard(boardList, id);
@@ -67,6 +73,10 @@ export function Board({ id }: { id: string }) {
     }
   }, [setWorkingBoard, router, boardList, id, workingBoard]);
 
+  /**
+
+  Handles the summarization of the working board.
+  @returns {Promise<void>} */
   const handleSummarize = async () => {
     setResponseLoading(true);
     const response = await getBoardSummary(workingBoard);
@@ -75,6 +85,11 @@ export function Board({ id }: { id: string }) {
     openResponseDrawer();
   };
 
+  /**
+
+  Handles the drag and drop behavior when reordering columns or moving cards within columns.
+  @param {DropResult} result - The result object containing information about the drag and drop action.
+  @returns {Promise<void>} */
   const handleOnDragEnd = async (result: DropResult) => {
     const { destination, source, type } = result;
 
@@ -144,6 +159,9 @@ export function Board({ id }: { id: string }) {
     }
   };
 
+  /**
+
+  Checks if the workingBoard is falsy and returns a Loading component if true. */
   if (!workingBoard) return <Loading />;
 
   return (

@@ -16,6 +16,10 @@ export function CreateNewBoard() {
     state.setBoardList,
   ]);
 
+  /**
+
+  Handles the creation of a new board.
+  @returns {void} */
   const handleCreateNewBoards = async () => {
     const newBoard = await createBoard();
     const newBoardList = [...boardList, newBoard];

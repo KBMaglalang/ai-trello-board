@@ -72,7 +72,6 @@ export function Modal() {
 
     state.clearCardState,
   ]);
-
   const [isOpen, isEditModal, cardInfo, closeModal, clearCardInfo] =
     useModalStore((state) => [
       // states
@@ -85,6 +84,17 @@ export function Modal() {
       state.clearCardInfo,
     ]);
 
+  /**
+
+  useEffect function to set card title, description, and image when in edit modal.
+  @param {boolean} isEditModal - boolean to determine if in edit modal
+  @param {object} cardInfo - object containing card info
+  @param {string} cardInfo.todo.title - title of the card
+  @param {string} cardInfo.todo.description - description of the card
+  @param {string} cardInfo.todo.image - image of the card
+  @param {function} setCardTitle - function to set card title
+  @param {function} setCardDescription - function to set card description
+  @param {function} setCardImage - function to set card image */
   useEffect(() => {
     if (isEditModal) {
       setCardTitle(cardInfo?.todo?.title);
@@ -112,6 +122,10 @@ export function Modal() {
     // cardImage,
   ]);
 
+  /**
+
+  Handler function that clears the card state and closes the modals.
+  @returns {void} */
   const handleOnClose = async () => {
     setCardImage(null);
     clearCardState();
@@ -122,6 +136,11 @@ export function Modal() {
     closeTaskModal();
   };
 
+  /**
+
+  Handler function that submits the form data, either updating an existing card or creating a new card.
+  @param {any} e - The event object.
+  @returns {Promise<void>} */
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 

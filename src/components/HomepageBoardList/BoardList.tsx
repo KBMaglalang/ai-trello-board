@@ -15,6 +15,10 @@ export function BoardList() {
   const [boardList] = useBoardStateStore((state) => [state.boardList]);
   const [sortedBoardList, setSortedBoardList] = useState<any[]>([]);
 
+  /**
+
+  Executes a side effect to sort the board list by the $updatedAt property.
+  @returns {void} */
   useEffect(() => {
     if (boardList) {
       // sort the boardlist by the $updatedAt property

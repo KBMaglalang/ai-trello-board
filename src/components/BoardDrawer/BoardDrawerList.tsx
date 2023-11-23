@@ -17,10 +17,18 @@ export default function BoardDrawerList() {
   ]);
   const [sortedBoardList, setSortedBoardList] = useState<any[]>([]);
 
+  /**
+
+  useEffect hook that calls the getBoardList function when the component mounts.
+  @param {Function} getBoardList - Function that retrieves the board list. */
   useEffect(() => {
     getBoardList();
   }, [getBoardList]);
 
+  /**
+
+  useEffect hook that sorts the board list by the $updatedAt property when the boardList changes.
+  @param {Array} boardList - Array of board objects. */
   useEffect(() => {
     if (boardList) {
       // sort the boardlist by the $updatedAt property

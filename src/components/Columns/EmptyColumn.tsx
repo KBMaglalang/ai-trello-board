@@ -21,6 +21,9 @@ export const EmptyColumn = ({ boardData }: Props) => {
     (state) => [state.boardList, state.setBoardList, state.setWorkingBoard]
   );
 
+  /**
+  Handles the addition of a new column to the board.
+  @returns {void} */
   const handleAddColumn = async () => {
     // create a new column
     const newColumnData = await createColumn();
