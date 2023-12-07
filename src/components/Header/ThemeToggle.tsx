@@ -1,37 +1,34 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from 'react';
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState('dark');
 
   // set theme on initial load
   useEffect(() => {
-    const localTheme = localStorage.getItem("theme");
+    const localTheme = localStorage.getItem('theme');
     localTheme && setTheme(localTheme);
   }, []);
 
   // update localstorage on theme change
   useEffect(() => {
-    localStorage.setItem("theme", theme);
-    const localTheme = localStorage.getItem("theme");
+    localStorage.setItem('theme', theme);
+    const localTheme = localStorage.getItem('theme');
 
-    const htmlElement = document.querySelector("html");
+    const htmlElement = document.querySelector('html');
     if (htmlElement) {
-      htmlElement.setAttribute("data-theme", localTheme!);
+      htmlElement.setAttribute('data-theme', localTheme!);
     }
   }, [theme]);
 
   // update state on toggle
-  const handleToggleTheme = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setTheme(e.target.checked ? "dark" : "light");
-    },
-    []
-  );
+  const handleToggleTheme = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setTheme(e.target.checked ? 'dark' : 'light');
+  }, []);
 
   // set toggle checked value
-  const toggleChecked = theme === "light" ? false : true;
+  const toggleChecked = theme === 'light' ? false : true;
 
   return (
     <div className="form-control">

@@ -1,12 +1,7 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 // constants and functions
-import {
-  getBoards,
-  createBoard,
-  deleteBoard,
-  updateBoard,
-} from "@/lib/appwrite/boards";
+import { getBoards, createBoard, deleteBoard, updateBoard } from '@/lib/appwrite/boards';
 
 interface BoardState {
   boardList: any[];
@@ -68,11 +63,11 @@ export const useBoardStateStore = create<BoardState>((set, get) => ({
   workingColumn: null,
   workingCard: null,
 
-  cardTitle: "",
-  cardDescription: "",
-  cardStartDate: "",
-  cardEndDate: "",
-  cardPriority: "",
+  cardTitle: '',
+  cardDescription: '',
+  cardStartDate: '',
+  cardEndDate: '',
+  cardPriority: '',
   cardCompleted: false,
   cardImage: null,
 
@@ -124,19 +119,19 @@ export const useBoardStateStore = create<BoardState>((set, get) => ({
   // --- date ---
   setCardStartDate: (cardStartDate) => set({ cardStartDate }),
   setCardEndDate: (cardEndDate) => set({ cardEndDate }),
-  clearCardDate: () => set({ cardStartDate: "", cardEndDate: "" }),
+  clearCardDate: () => set({ cardStartDate: '', cardEndDate: '' }),
 
   // --- task priority ---
   setTaskPriority: (taskPriority) => set({ cardPriority: taskPriority }),
-  clearTaskPriority: () => set({ cardPriority: "" }),
+  clearTaskPriority: () => set({ cardPriority: '' }),
 
   // --- cardTitle ---
   setCardTitle: (cardTitle) => set({ cardTitle }),
-  clearCardTitle: () => set({ cardTitle: "" }),
+  clearCardTitle: () => set({ cardTitle: '' }),
 
   // --- cardDescription ---
   setCardDescription: (cardDescription) => set({ cardDescription }),
-  clearCardDescription: () => set({ cardDescription: "" }),
+  clearCardDescription: () => set({ cardDescription: '' }),
 
   // --- cardCompleted ---
   setCardCompleted: (cardCompleted) => set({ cardCompleted }),
@@ -149,11 +144,11 @@ export const useBoardStateStore = create<BoardState>((set, get) => ({
   // --- clear card state ---
   clearCardState: () =>
     set({
-      cardTitle: "",
-      cardDescription: "",
-      cardStartDate: "",
-      cardEndDate: "",
-      cardPriority: "",
+      cardTitle: '',
+      cardDescription: '',
+      cardStartDate: '',
+      cardEndDate: '',
+      cardPriority: '',
       cardCompleted: false,
       cardImage: null,
     }),

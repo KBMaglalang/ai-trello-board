@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
-import { useRouter } from "next/navigation";
+import React, { useEffect } from 'react';
+import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
+import { useRouter } from 'next/navigation';
 
 // components
-import { Column, EmptyColumn } from "../Columns";
-import { Loading } from "../Common";
+import { Column, EmptyColumn } from '../Columns';
+import { Loading } from '../Common';
 
 // store
-import { useBoardStateStore } from "@/store/BoardStateStore";
-import { useResponseDrawerStore } from "@/store/ResponseDrawerStore";
+import { useBoardStateStore } from '@/store/BoardStateStore';
+import { useResponseDrawerStore } from '@/store/ResponseDrawerStore';
 
 // constants and functions
 import {
@@ -19,30 +19,27 @@ import {
   updateBoardOrder,
   updateBoardColumns,
   sortCardOrder,
-} from "@/lib/util";
-import { getBoardSummary } from "@/lib/ai";
+} from '@/lib/util';
+import { getBoardSummary } from '@/lib/ai';
 
 export function Board({ id }: { id: string }) {
   const router = useRouter();
-  const [
-    openResponseDrawer,
-    setResponseSummary,
-    setResponseLoading,
-    clearResponseLoading,
-  ] = useResponseDrawerStore((state) => [
-    state.openResponseDrawer,
-    state.setResponseSummary,
-    state.setResponseLoading,
-    state.clearResponseLoading,
-  ]);
-  const [boardList, workingBoard, setWorkingBoard, workingColumn, workingCard] =
-    useBoardStateStore((state) => [
+  const [openResponseDrawer, setResponseSummary, setResponseLoading, clearResponseLoading] =
+    useResponseDrawerStore((state) => [
+      state.openResponseDrawer,
+      state.setResponseSummary,
+      state.setResponseLoading,
+      state.clearResponseLoading,
+    ]);
+  const [boardList, workingBoard, setWorkingBoard, workingColumn, workingCard] = useBoardStateStore(
+    (state) => [
       state.boardList,
       state.workingBoard,
       state.setWorkingBoard,
       state.workingColumn,
       state.workingCard,
-    ]);
+    ]
+  );
 
   /**
 
@@ -60,7 +57,7 @@ export function Board({ id }: { id: string }) {
 
       // return to the homepage if no board is found
       if (!boardData) {
-        router.replace("/");
+        router.replace('/');
         return;
       }
 
@@ -97,7 +94,7 @@ export function Board({ id }: { id: string }) {
     if (!destination) return;
 
     // Handle column drag
-    if (type === "column") {
+    if (type === 'column') {
       const entries = workingBoard.columns;
       const [removed] = entries.splice(source.index, 1);
       entries.splice(destination.index, 0, removed);
@@ -116,7 +113,7 @@ export function Board({ id }: { id: string }) {
       return;
     }
 
-    if (type === "card") {
+    if (type === 'card') {
       // find the card and column that is being edited on
       const columns = workingBoard.columns;
 
@@ -165,9 +162,9 @@ export function Board({ id }: { id: string }) {
   if (!workingBoard) return <Loading />;
 
   return (
-    <div className="w-full h-full p-5">
-      <div className="w-full flex items-end justify-end">
-        <button className="btn btn-accent ml:auto" onClick={handleSummarize}>
+    <div className="h-full w-full p-5">
+      <div className="flex w-full items-end justify-end">
+        <button className="ml:auto btn btn-accent" onClick={handleSummarize}>
           AI Summary
         </button>
       </div>
@@ -176,7 +173,7 @@ export function Board({ id }: { id: string }) {
         <Droppable droppableId="board" direction="horizontal" type="column">
           {(provided) => (
             <div
-              className="flex flex-row  space-x-2 w-full overflow-x-scroll h-full"
+              className="flex h-full  w-full flex-row space-x-2 overflow-x-scroll"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >

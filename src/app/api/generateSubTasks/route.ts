@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
 // constants and functions
-import openai from "@/config/openai";
+import openai from '@/config/openai';
 import {
   AI_MODEL,
   AI_TEMPERATURE,
@@ -9,7 +9,7 @@ import {
   AI_STREAM,
   AI_SYSTEM_BREAKDOWN,
   AI_USER_BREAKDOWN,
-} from "@/constants";
+} from '@/constants';
 
 export async function POST(request: Request) {
   const { card } = await request.json();
@@ -21,11 +21,11 @@ export async function POST(request: Request) {
     stream: AI_STREAM,
     messages: [
       {
-        role: "system",
+        role: 'system',
         content: AI_SYSTEM_BREAKDOWN,
       },
       {
-        role: "user",
+        role: 'user',
         content: `${AI_USER_BREAKDOWN} ${JSON.stringify(card)}`,
       },
     ],

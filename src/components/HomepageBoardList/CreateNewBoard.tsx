@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
 // components
 
 // store
-import { useBoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from '@/store/BoardStateStore';
 
 // constants and functions
-import { createBoard } from "@/lib/appwrite/boards";
+import { createBoard } from '@/lib/appwrite/boards';
 
 export function CreateNewBoard() {
   const [boardList, setBoardList] = useBoardStateStore((state) => [
@@ -30,9 +30,9 @@ export function CreateNewBoard() {
   return (
     <div
       onClick={handleCreateNewBoards}
-      className="flex flex-col space-y-2 btn bg-primary text-primary-content rounded-md shadow-md w-96 h-48"
+      className="btn flex h-48 w-96 flex-col space-y-2 rounded-md bg-primary text-primary-content shadow-md"
     >
-      <div className="card-body text-center items-center justify-center">
+      <div className="card-body items-center justify-center text-center">
         <div className="flex flex-row">
           <h1 className={`text-xl font-bold`}>Create New Board</h1>
         </div>

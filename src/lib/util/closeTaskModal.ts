@@ -2,7 +2,7 @@
 
 Closes the task modal. */
 export const closeTaskModal = () => {
-  const taskModal = document.getElementById("task_modal") as HTMLDialogElement;
+  const taskModal = document.getElementById('task_modal') as HTMLDialogElement;
   if (taskModal) {
     taskModal.close();
   }

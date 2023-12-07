@@ -1,5 +1,5 @@
-import { AI_ROUTE_BREAKDOWN } from "@/constants";
-import { formatCardDataForAI } from ".";
+import { AI_ROUTE_BREAKDOWN } from '@/constants';
+import { formatCardDataForAI } from '.';
 
 /**
 
@@ -10,9 +10,9 @@ export const getSubTasks = async (cardData: any) => {
   const formattedCardData = formatCardDataForAI(cardData);
 
   const response = await fetch(AI_ROUTE_BREAKDOWN, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ card: formattedCardData }),
   });

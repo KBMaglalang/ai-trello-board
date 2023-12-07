@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Bars4Icon } from "@heroicons/react/24/solid";
+import React from 'react';
+import { Bars4Icon } from '@heroicons/react/24/solid';
 
 // components
-import BoardDrawerList from "./BoardDrawerList";
+import BoardDrawerList from './BoardDrawerList';
 
 // store
-import { useBoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from '@/store/BoardStateStore';
 
 // constants and functions
-import { createBoard } from "@/lib/appwrite/boards";
+import { createBoard } from '@/lib/appwrite/boards';
 
 export function BoardDrawer() {
   const [boardList, setBoardList] = useBoardStateStore((state) => [
@@ -30,40 +30,28 @@ export function BoardDrawer() {
   };
 
   return (
-    <div className="drawer z-1000">
+    <div className="z-1000 drawer">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* toggle button */}
-        <label
-          htmlFor="my-drawer"
-          className="btn btn-outline btn-sm drawer-button"
-        >
-          <Bars4Icon className="w-4 h-4" />
+        <label htmlFor="my-drawer" className="btn btn-outline drawer-button btn-sm">
+          <Bars4Icon className="h-4 w-4" />
         </label>
       </div>
 
       <div className="drawer-side">
-        <label
-          htmlFor="my-drawer"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
+        <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
         {/* sidebar */}
 
-        <div className="flex flex-col menu p-4 w-80 min-h-full bg-base-200 text-base-content h-full overflow-hidden">
+        <div className="menu flex h-full min-h-full w-80 flex-col overflow-hidden bg-base-200 p-4 text-base-content">
           {/* drawer title */}
-          <h1 className="text-xl font-bold text-center text-base-content pb-4">
-            Your Boards
-          </h1>
+          <h1 className="pb-4 text-center text-xl font-bold text-base-content">Your Boards</h1>
 
           {/* boards list */}
           <BoardDrawerList />
 
           {/* new board button */}
-          <button
-            className="btn btn-primary mt-2"
-            onClick={handleCreateNewBoards}
-          >
+          <button className="btn btn-primary mt-2" onClick={handleCreateNewBoards}>
             New Board
           </button>
         </div>

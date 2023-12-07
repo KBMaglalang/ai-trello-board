@@ -1,6 +1,6 @@
 // delete card in datbabase
 
-import { databases } from "@/config/appwrite";
+import { databases } from '@/config/appwrite';
 
 /**
 

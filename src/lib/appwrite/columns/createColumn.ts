@@ -1,4 +1,4 @@
-import { databases, ID } from "@/config/appwrite";
+import { databases, ID } from '@/config/appwrite';
 
 /**
 
@@ -10,7 +10,7 @@ export const createColumn = async () => {
     process.env.NEXT_PUBLIC_COLUMNS_COLLECTION_ID!,
     ID.unique(),
     {
-      title: "New Column",
+      title: 'New Column',
     }
   );
 

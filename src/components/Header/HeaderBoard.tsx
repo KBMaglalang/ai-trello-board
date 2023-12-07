@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import { usePathname } from "next/navigation";
+import React, { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 // components
 
 // store
-import { useBoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from '@/store/BoardStateStore';
 
 // functions and constants
 
@@ -18,14 +18,14 @@ export default function HeaderBoard() {
   ]);
 
   useEffect(() => {
-    if (pathname === "/") {
+    if (pathname === '/') {
       clearWorkingBoard();
     }
   }, [pathname, clearWorkingBoard]);
 
   return (
-    <nav className="md:mx-auto flex flex-wrap items-center text-base-content justify-center">
-      <div className="flex text-md font-bold text-base-content">
+    <nav className="flex flex-wrap items-center justify-center text-base-content md:mx-auto">
+      <div className="text-md flex font-bold text-base-content">
         {workingBoard && <h1>{workingBoard.title}</h1>}
       </div>
     </nav>

@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { BuildingLibraryIcon } from "@heroicons/react/24/solid";
+import React, { useState, useEffect } from 'react';
+import { BuildingLibraryIcon } from '@heroicons/react/24/solid';
 
 // components
-import { Loading } from "../Common";
+import { Loading } from '../Common';
 
 // store
-import { useResponseDrawerStore } from "@/store/ResponseDrawerStore";
+import { useResponseDrawerStore } from '@/store/ResponseDrawerStore';
 
 // constants and functions
 
@@ -40,15 +40,10 @@ export function ResponseDrawer() {
       clearResponseSummary();
       clearResponseBreakdown();
     }
-  }, [
-    responseDrawerOpen,
-    clearResponseSummary,
-    clearResponseBreakdown,
-    responseLoading,
-  ]);
+  }, [responseDrawerOpen, clearResponseSummary, clearResponseBreakdown, responseLoading]);
 
   return (
-    <div className="drawer drawer-end z-1000">
+    <div className="z-1000 drawer drawer-end">
       <input
         id="ai-drawer"
         type="checkbox"
@@ -58,28 +53,19 @@ export function ResponseDrawer() {
       />
       <div className="drawer-content">
         {/* toggle button */}
-        <label
-          htmlFor="ai-drawer"
-          className="btn btn-outline btn-sm drawer-button hidden"
-        >
-          <BuildingLibraryIcon className="w-4 h-4" />
+        <label htmlFor="ai-drawer" className="btn btn-outline drawer-button btn-sm hidden">
+          <BuildingLibraryIcon className="h-4 w-4" />
         </label>
       </div>
 
       <div className="drawer-side">
-        <label
-          htmlFor="ai-drawer"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
+        <label htmlFor="ai-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
         {/* sidebar */}
 
-        <div className="flex flex-col menu p-4 w-80 min-h-full bg-base-200 text-base-content h-full overflow-hidden">
+        <div className="menu flex h-full min-h-full w-80 flex-col overflow-hidden bg-base-200 p-4 text-base-content">
           {/* drawer title */}
           <div className="w-full text-center">
-            <h1 className="text-xl font-bold  text-base-content pb-4">
-              AI Response
-            </h1>
+            <h1 className="pb-4 text-xl  font-bold text-base-content">AI Response</h1>
           </div>
 
           {/* loading */}

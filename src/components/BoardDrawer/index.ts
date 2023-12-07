@@ -1,1 +1,1 @@
-export * from "./BoardDrawer";
+export * from './BoardDrawer';

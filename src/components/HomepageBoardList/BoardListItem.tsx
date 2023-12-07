@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
 // components
 
@@ -17,18 +17,18 @@ export function BoardListItem({ boardData }: Props) {
   return (
     <Link
       href={`/board/${boardData.$id}`}
-      className="btn flex flex-col space-y-2 bg-base-300 text-base-content rounded-md shadow-md w-96 h-48"
+      className="btn flex h-48 w-96 flex-col space-y-2 rounded-md bg-base-300 text-base-content shadow-md"
     >
       <div className="card-body">
-        <div className="flex flex-col w-full h-full">
+        <div className="flex h-full w-full flex-col">
           {/* title */}
           <div>
             <h1 className={`text-xl font-bold `}>{boardData.title}</h1>
           </div>
 
           {/* number of columns */}
-          <div className="flex-1 flex-col flex items-center justify-center">
-            <span className="px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-md">
+          <div className="flex flex-1 flex-col items-center justify-center">
+            <span className="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700">
               Columns: {boardData.columns.length}
             </span>
           </div>
@@ -36,7 +36,7 @@ export function BoardListItem({ boardData }: Props) {
           {/* last updated */}
           {boardData.$updatedAt && (
             <div>
-              <span className="px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-md ">
+              <span className="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700 ">
                 Last Updated: {new Date(boardData.$updatedAt).toLocaleString()}
               </span>
             </div>

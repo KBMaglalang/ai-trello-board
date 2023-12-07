@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 // components
-import { Board } from "@/components/Board";
+import { Board } from '@/components/Board';
 
 type Props = {
   params: {
@@ -11,7 +11,7 @@ type Props = {
 
 export default function page({ params: { id } }: Props) {
   return (
-    <main className="flex flex-row flex-1 py-5 w-full h-full">
+    <main className="flex h-full w-full flex-1 flex-row py-5">
       <Board id={id} />
     </main>
   );

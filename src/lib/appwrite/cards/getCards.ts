@@ -1,6 +1,6 @@
 // get the cards from the database
 
-import { databases } from "@/config/appwrite";
+import { databases } from '@/config/appwrite';
 
 /**
 

@@ -1,25 +1,27 @@
-"use client";
+'use client';
 
-import React from "react";
-import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import React from 'react';
+import { PlusCircleIcon } from '@heroicons/react/24/solid';
 
 // components
 
 // store
-import { useBoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from '@/store/BoardStateStore';
 
 // constants and functions
-import { createColumn } from "@/lib/appwrite/columns";
-import { addColumnToBoard } from "@/lib/util";
+import { createColumn } from '@/lib/appwrite/columns';
+import { addColumnToBoard } from '@/lib/util';
 
 type Props = {
   boardData: any;
 };
 
 export const EmptyColumn = ({ boardData }: Props) => {
-  const [boardList, setBoardList, setWorkingBoard] = useBoardStateStore(
-    (state) => [state.boardList, state.setBoardList, state.setWorkingBoard]
-  );
+  const [boardList, setBoardList, setWorkingBoard] = useBoardStateStore((state) => [
+    state.boardList,
+    state.setBoardList,
+    state.setWorkingBoard,
+  ]);
 
   /**
   Handles the addition of a new column to the board.
@@ -45,18 +47,16 @@ export const EmptyColumn = ({ boardData }: Props) => {
   };
 
   return (
-    <div
-      className={`p-2 rounded-2xl shadow-sm w-96 flex flex-col items-center`}
-    >
+    <div className={`flex w-96 flex-col items-center rounded-2xl p-2 shadow-sm`}>
       <div>
         <h2 className="flex  w-full text-center text-xl font-bold text-base-content">
           Create New Column
         </h2>
       </div>
 
-      <div className="flex items-end justify-end p-2 w-96">
+      <div className="flex w-96 items-end justify-end p-2">
         <button className="btn btn-accent w-full" onClick={handleAddColumn}>
-          <PlusCircleIcon className="w-8 h-8" />
+          <PlusCircleIcon className="h-8 w-8" />
         </button>
       </div>
     </div>
