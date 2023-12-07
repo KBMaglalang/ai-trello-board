@@ -1,4 +1,4 @@
-import { updateColumn } from "../appwrite/columns";
+import { updateColumn } from '../appwrite/columns';
 
 /**
 

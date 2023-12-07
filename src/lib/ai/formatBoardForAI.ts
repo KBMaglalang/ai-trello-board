@@ -8,8 +8,7 @@ export const formatBoardForAI = (board: any) => {
     const { title, todos } = column;
 
     const cards = todos.map((card: any) => {
-      const { title, description, priority, startDate, endDate, completed } =
-        card;
+      const { title, description, priority, startDate, endDate, completed } = card;
 
       return {
         title,

@@ -1,2 +1,2 @@
-export * from "./EmptyColumn";
-export * from "./Column";
+export * from './EmptyColumn';
+export * from './Column';

@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
 // components
-import { Header } from "../Header";
-import { Modal } from "../Card";
+import { Header } from '../Header';
+import { Modal } from '../Card';
 
 export function Layout({ children }: any) {
   return (
-    <div className="flex flex-col h-screen w-screen">
+    <div className="flex h-screen w-screen flex-col">
       <Header />
       {children}
       <Modal />

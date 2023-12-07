@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
 // components
 
 // store
-import { useModalStore } from "@/store/ModalStore";
-import { useBoardStateStore } from "@/store/BoardStateStore";
+import { useModalStore } from '@/store/ModalStore';
+import { useBoardStateStore } from '@/store/BoardStateStore';
 
 // constants and functions
 
@@ -52,12 +52,10 @@ export default function TaskPriorityGroup() {
 
   return (
     <select
-      className="select select-bordered w-full border-gray-300 rounded-md mt-2"
+      className="select select-bordered mt-2 w-full rounded-md border-gray-300"
       onChange={handleSelect}
       value={
-        !taskPriority
-          ? "Task Priority"
-          : taskPriority[0].toUpperCase() + taskPriority.slice(1)
+        !taskPriority ? 'Task Priority' : taskPriority[0].toUpperCase() + taskPriority.slice(1)
       }
     >
       <option disabled>Task Priority</option>

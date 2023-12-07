@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 // components
-import BoardDrawerListItem from "./BoardDrawerListItem";
+import BoardDrawerListItem from './BoardDrawerListItem';
 
 // store
-import { useBoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from '@/store/BoardStateStore';
 
 // constants and functions
 
@@ -33,9 +33,7 @@ export default function BoardDrawerList() {
     if (boardList) {
       // sort the boardlist by the $updatedAt property
       const sortedList = boardList.sort((a, b) => {
-        return (
-          new Date(b?.$updatedAt).getTime() - new Date(a?.$updatedAt).getTime()
-        );
+        return new Date(b?.$updatedAt).getTime() - new Date(a?.$updatedAt).getTime();
       });
 
       setSortedBoardList(sortedList);
@@ -43,12 +41,10 @@ export default function BoardDrawerList() {
   }, [boardList]);
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden h-full space-y-2 overflow-y-scroll">
+    <div className="flex h-full flex-1 flex-col space-y-2 overflow-hidden overflow-y-scroll">
       {/* Sidebar content here */}
       {sortedBoardList &&
-        sortedBoardList.map((item) => (
-          <BoardDrawerListItem key={item.$id} boardData={item} />
-        ))}
+        sortedBoardList.map((item) => <BoardDrawerListItem key={item.$id} boardData={item} />)}
     </div>
   );
 }

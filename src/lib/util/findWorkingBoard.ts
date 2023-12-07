@@ -11,7 +11,7 @@ export const findWorkingBoard = (boardList: any[], id: string) => {
   if (boardList.length === 0) return null;
 
   // check if the id is not empty
-  if (id === "") return null;
+  if (id === '') return null;
 
   // filter through the boardlist and find the board with the id
   const boardData = boardList.filter((board) => board.$id === id);

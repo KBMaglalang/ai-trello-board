@@ -1,26 +1,22 @@
-import "./globals.css";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import './globals.css';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 // components
-import { Layout } from "@/components/Layout";
-import ClientProvider from "@/providers/ClientProvider";
+import { Layout } from '@/components/Layout';
+import ClientProvider from '@/providers/ClientProvider';
 
 // constants or functions
-import { PROJECT_NAME, PROJECT_DESCRIPTION } from "@/constants";
+import { PROJECT_NAME, PROJECT_DESCRIPTION } from '@/constants';
 
 export const metadata: Metadata = {
   title: PROJECT_NAME,
   description: PROJECT_DESCRIPTION,
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>

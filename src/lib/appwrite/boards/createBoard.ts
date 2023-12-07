@@ -1,6 +1,6 @@
 // create board on the appwrite datbase
 
-import { ID, databases } from "@/config/appwrite";
+import { ID, databases } from '@/config/appwrite';
 
 /**
 
@@ -12,7 +12,7 @@ export const createBoard = async () => {
     process.env.NEXT_PUBLIC_BOARDS_COLLECTION_ID!,
     ID.unique(),
     {
-      title: "New Board",
+      title: 'New Board',
     }
   );
 

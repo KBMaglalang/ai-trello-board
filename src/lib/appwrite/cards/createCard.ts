@@ -1,6 +1,6 @@
 // create card in database
 
-import { databases, ID } from "@/config/appwrite";
+import { databases, ID } from '@/config/appwrite';
 
 /**
 

@@ -1,28 +1,23 @@
-"use client";
+'use client';
 
-import { useRef, useEffect, useState } from "react";
-import { PhotoIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
+import { useRef, useEffect, useState } from 'react';
+import { PhotoIcon } from '@heroicons/react/24/solid';
+import Image from 'next/image';
 
 // components
-import TaskPriorityGroup from "./TaskPriorityGroup";
-import TaskDatePicker from "./TaskDatePicker";
+import TaskPriorityGroup from './TaskPriorityGroup';
+import TaskDatePicker from './TaskDatePicker';
 
 // store
-import { useModalStore } from "@/store/ModalStore";
-import { useBoardStateStore } from "@/store/BoardStateStore";
+import { useModalStore } from '@/store/ModalStore';
+import { useBoardStateStore } from '@/store/BoardStateStore';
 
 // constants and functions
 // import getUrl from "@/lib/getUrl";
 // import { getUrl } from "@/lib/ai";
 
-import {
-  getUrl,
-  uploadImage,
-  closeTaskModal,
-  addCardToColumn,
-} from "@/lib/util";
-import { createCard, updateCard } from "@/lib/appwrite/cards";
+import { getUrl, uploadImage, closeTaskModal, addCardToColumn } from '@/lib/util';
+import { createCard, updateCard } from '@/lib/appwrite/cards';
 
 export function Modal() {
   const imagePickerRef = useRef<HTMLInputElement>(null);
@@ -72,17 +67,16 @@ export function Modal() {
 
     state.clearCardState,
   ]);
-  const [isOpen, isEditModal, cardInfo, closeModal, clearCardInfo] =
-    useModalStore((state) => [
-      // states
-      state.isOpen,
-      state.isEditModal,
-      state.cardInfo,
+  const [isOpen, isEditModal, cardInfo, closeModal, clearCardInfo] = useModalStore((state) => [
+    // states
+    state.isOpen,
+    state.isEditModal,
+    state.cardInfo,
 
-      // getters
-      state.closeModal,
-      state.clearCardInfo,
-    ]);
+    // getters
+    state.closeModal,
+    state.clearCardInfo,
+  ]);
 
   /**
 
@@ -161,9 +155,7 @@ export function Modal() {
       });
 
       // find the working Column using cardInfo.id
-      editWorkingColumn = workingBoard.columns.find(
-        (column: any) => column.$id === cardInfo.id
-      );
+      editWorkingColumn = workingBoard.columns.find((column: any) => column.$id === cardInfo.id);
     } else {
       // take in the new card data and create a new card
       newCardData = await createCard({
@@ -176,10 +168,7 @@ export function Modal() {
       });
     }
     // take the return data and update the working column
-    const response = await addCardToColumn(
-      editWorkingColumn || workingColumn,
-      newCardData
-    );
+    const response = await addCardToColumn(editWorkingColumn || workingColumn, newCardData);
 
     // update the column in the working board
     const newColumnList = workingBoard.columns.map((column: any) => {
@@ -209,8 +198,8 @@ export function Modal() {
   return (
     <dialog id="task_modal" className="modal" onClose={handleOnClose}>
       <div className="modal-box">
-        <h3 className="font-bold text-lg text-center">
-          {isEditModal ? "Edit Task" : "Add a Task"}
+        <h3 className="text-center text-lg font-bold">
+          {isEditModal ? 'Edit Task' : 'Add a Task'}
         </h3>
 
         {/* task title input */}
@@ -220,7 +209,7 @@ export function Modal() {
             value={cardTitle}
             onChange={(e) => setCardTitle(e.target.value)}
             placeholder="Enter a task here..."
-            className="input w-full p-5 border border-gray-300 rounded-md outline-none"
+            className="input w-full rounded-md border border-gray-300 p-5 outline-none"
           />
         </div>
 
@@ -230,7 +219,7 @@ export function Modal() {
             value={cardDescription}
             onChange={(e) => setCardDescription(e.target.value)}
             placeholder="Enter a description here..."
-            className="textarea textarea-bordered w-full p-5 border border-gray-300 rounded-md outline-none"
+            className="textarea textarea-bordered w-full rounded-md border border-gray-300 p-5 outline-none"
           />
         </div>
 
@@ -285,9 +274,9 @@ export function Modal() {
         <button
           onClick={handleSubmit}
           disabled={!cardTitle}
-          className="btn btn-primary w-full inline-flex mt-4"
+          className="btn btn-primary mt-4 inline-flex w-full"
         >
-          {isEditModal ? "Update Task" : "Add Task"}
+          {isEditModal ? 'Update Task' : 'Add Task'}
         </button>
       </div>
 

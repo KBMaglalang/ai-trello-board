@@ -1,6 +1,6 @@
 // delete board in database
 
-import { databases } from "@/config/appwrite";
+import { databases } from '@/config/appwrite';
 
 /**
 

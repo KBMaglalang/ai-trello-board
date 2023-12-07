@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { XCircleIcon, PencilIcon } from "@heroicons/react/24/solid";
-import { useRouter } from "next/navigation";
+import React, { useState } from 'react';
+import { XCircleIcon, PencilIcon } from '@heroicons/react/24/solid';
+import { useRouter } from 'next/navigation';
 
 // components
 
 // store
-import { useBoardStateStore } from "@/store/BoardStateStore";
+import { useBoardStateStore } from '@/store/BoardStateStore';
 
 // constants and functions
-import { deleteBoard } from "@/lib/appwrite/boards";
-import { updateBoardTitle } from "@/lib/util";
+import { deleteBoard } from '@/lib/appwrite/boards';
+import { updateBoardTitle } from '@/lib/util';
 
 type Props = {
   boardData: any;
@@ -19,12 +19,14 @@ type Props = {
 
 export default function BoardDrawerListItem({ boardData }: Props) {
   const router = useRouter();
-  const [boardTitle, setBoardTitle] = useState(boardData?.title || "New Board");
+  const [boardTitle, setBoardTitle] = useState(boardData?.title || 'New Board');
   const [isEditable, setIsEditable] = useState(false);
 
-  const [setWorkingBoard, boardList, setBoardList] = useBoardStateStore(
-    (state) => [state.setWorkingBoard, state.boardList, state.setBoardList]
-  );
+  const [setWorkingBoard, boardList, setBoardList] = useBoardStateStore((state) => [
+    state.setWorkingBoard,
+    state.boardList,
+    state.setBoardList,
+  ]);
 
   /**
 
@@ -45,9 +47,7 @@ export default function BoardDrawerListItem({ boardData }: Props) {
   Handler function that edits a board item's title and updates it in the boardList.
   @param {React.MouseEvent<SVGSVGElement, MouseEvent>} e - The mouse event triggering the editing.
   @returns {Promise<void>} */
-  const handleEditBoardItem = async (
-    e: React.MouseEvent<SVGSVGElement, MouseEvent>
-  ) => {
+  const handleEditBoardItem = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.stopPropagation();
 
     // update board title
@@ -74,9 +74,7 @@ export default function BoardDrawerListItem({ boardData }: Props) {
   Handler function that deletes a board item and removes it from the boardList.
   @param {React.MouseEvent<SVGSVGElement, MouseEvent>} e - The mouse event triggering the deletion.
   @returns {Promise<void>} */
-  const handleDeleteBoardItem = async (
-    e: React.MouseEvent<SVGSVGElement, MouseEvent>
-  ) => {
+  const handleDeleteBoardItem = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.stopPropagation();
 
     await deleteBoard(boardData?.$id);
@@ -87,13 +85,13 @@ export default function BoardDrawerListItem({ boardData }: Props) {
   };
 
   return (
-    <div className="flex flex-row space-x-2 w-full" onClick={handleOnClicked}>
+    <div className="flex w-full flex-row space-x-2" onClick={handleOnClicked}>
       <div className={`btn btn-ghost flex-1 text-base-content`}>
         <input
-          className={`p-2 text-md bg-transparent w-full ${
+          className={`text-md w-full bg-transparent p-2 ${
             isEditable
-              ? "outline-2"
-              : "cursor-pointer input-disabled focus:ring-0 focus:ring-offset-0 outline-none"
+              ? 'outline-2'
+              : 'input-disabled cursor-pointer outline-none focus:ring-0 focus:ring-offset-0'
           }`}
           value={boardTitle}
           readOnly={!isEditable}
@@ -101,17 +99,12 @@ export default function BoardDrawerListItem({ boardData }: Props) {
         />
       </div>
 
-      <div className="flex space-x-2 text-base-content items-center">
+      <div className="flex items-center space-x-2 text-base-content">
         <PencilIcon
-          className={`w-6 h-6 hover:text-blue-500 ${
-            isEditable ? "text-blue-500" : ""
-          }`}
+          className={`h-6 w-6 hover:text-blue-500 ${isEditable ? 'text-blue-500' : ''}`}
           onClick={(e) => handleEditBoardItem(e)}
         />
-        <XCircleIcon
-          className="w-6 h-6 hover:text-red-500"
-          onClick={handleDeleteBoardItem}
-        />
+        <XCircleIcon className="h-6 w-6 hover:text-red-500" onClick={handleDeleteBoardItem} />
       </div>
     </div>
   );

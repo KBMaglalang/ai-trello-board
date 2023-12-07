@@ -1,4 +1,4 @@
-import { updateBoard } from "../appwrite/boards";
+import { updateBoard } from '../appwrite/boards';
 
 /**
 

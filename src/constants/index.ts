@@ -1,2 +1,2 @@
-export * from "./staticText";
-export * from "./aiSettings";
+export * from './staticText';
+export * from './aiSettings';

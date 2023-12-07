@@ -1,5 +1,5 @@
 // component
-import { BoardList } from "@/components/HomepageBoardList";
+import { BoardList } from '@/components/HomepageBoardList';
 
 export default function Home() {
   return (

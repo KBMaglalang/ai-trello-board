@@ -1,29 +1,25 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   DraggableProvidedDragHandleProps,
   DraggableProvidedDraggableProps,
-} from "react-beautiful-dnd";
-import Image from "next/image";
-import { XCircleIcon, PencilIcon } from "@heroicons/react/24/solid";
+} from 'react-beautiful-dnd';
+import Image from 'next/image';
+import { XCircleIcon, PencilIcon } from '@heroicons/react/24/solid';
 
 // components
 
 // stores
-import { useModalStore } from "@/store/ModalStore";
-import { useBoardStateStore } from "@/store/BoardStateStore";
-import { useResponseDrawerStore } from "@/store/ResponseDrawerStore";
+import { useModalStore } from '@/store/ModalStore';
+import { useBoardStateStore } from '@/store/BoardStateStore';
+import { useResponseDrawerStore } from '@/store/ResponseDrawerStore';
 
 // constants and functions
-import { getUrl } from "@/lib/util";
-import { getSubTasks } from "@/lib/ai";
-import { deleteCard } from "@/lib/appwrite/cards";
-import {
-  deleteCardFromColumn,
-  openTaskModal,
-  updateCardComplete,
-} from "@/lib/util";
+import { getUrl } from '@/lib/util';
+import { getSubTasks } from '@/lib/ai';
+import { deleteCard } from '@/lib/appwrite/cards';
+import { deleteCardFromColumn, openTaskModal, updateCardComplete } from '@/lib/util';
 
 type Props = {
   todo: Card;
@@ -55,17 +51,13 @@ export function Card({
     state.workingBoard,
     state.setWorkingBoard,
   ]);
-  const [
-    openResponseDrawer,
-    setResponseBreakdown,
-    setResponseLoading,
-    clearResponseLoading,
-  ] = useResponseDrawerStore((state) => [
-    state.openResponseDrawer,
-    state.setResponseBreakdown,
-    state.setResponseLoading,
-    state.clearResponseLoading,
-  ]);
+  const [openResponseDrawer, setResponseBreakdown, setResponseLoading, clearResponseLoading] =
+    useResponseDrawerStore((state) => [
+      state.openResponseDrawer,
+      state.setResponseBreakdown,
+      state.setResponseLoading,
+      state.clearResponseLoading,
+    ]);
 
   /**
 
@@ -110,9 +102,7 @@ export function Card({
     // update the column of local workingBoard
     const newWorkingBoard = {
       ...workingBoard,
-      columns: workingBoard.columns.map((c: any) =>
-        c.$id === columnData.$id ? newColumnData : c
-      ),
+      columns: workingBoard.columns.map((c: any) => (c.$id === columnData.$id ? newColumnData : c)),
     };
     setWorkingBoard(newWorkingBoard);
 
@@ -141,13 +131,13 @@ export function Card({
     setResponseLoading(true);
     const response = await getSubTasks(todo);
     clearResponseLoading();
-    setResponseBreakdown(response.split("\n"));
+    setResponseBreakdown(response.split('\n'));
     openResponseDrawer();
   };
 
   return (
     <div
-      className={`flex flex-col space-y-2 bg-base-300 text-base-content rounded-md  w-full shadow-md`}
+      className={`flex w-full flex-col space-y-2 rounded-md bg-base-300  text-base-content shadow-md`}
       {...draggableProps}
       {...dragHandleProps}
       ref={innerRef}
@@ -165,27 +155,18 @@ export function Card({
           </div>
 
           <div>
-            <button
-              className="btn btn-outline btn-xs"
-              onClick={handleGetSubTasks}
-            >
+            <button className="btn btn-outline btn-xs" onClick={handleGetSubTasks}>
               Breakdown Task
             </button>
           </div>
 
           <div className="flex flex-row space-x-2">
-            <button
-              onClick={handleModal}
-              className="text-base-content hover:text-blue-500"
-            >
-              <PencilIcon className="w-6 h-6" />
+            <button onClick={handleModal} className="text-base-content hover:text-blue-500">
+              <PencilIcon className="h-6 w-6" />
             </button>
 
-            <button
-              onClick={handleDeleteCard}
-              className="text-base-content hover:text-red-500"
-            >
-              <XCircleIcon className="w-6 h-6" />
+            <button onClick={handleDeleteCard} className="text-base-content hover:text-red-500">
+              <XCircleIcon className="h-6 w-6" />
             </button>
           </div>
         </div>
@@ -209,11 +190,11 @@ export function Card({
         )} */}
 
         {/* start and due date indicators */}
-        <div className="flex flex-row w-full justify-between">
+        <div className="flex w-full flex-row justify-between">
           {/* start date */}
           {todo.startDate && (
             <div className="flex items-center justify-end ">
-              <span className="px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-md">
+              <span className="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700">
                 Start: {new Date(todo.startDate).toLocaleDateString()}
               </span>
             </div>
@@ -222,7 +203,7 @@ export function Card({
           {/* end date */}
           {todo.endDate && (
             <div className="flex items-center justify-end">
-              <span className="px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-md">
+              <span className="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700">
                 Due: {new Date(todo.endDate).toLocaleDateString()}
               </span>
             </div>

@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
 // components
 
 // store
-import { useBoardStateStore } from "@/store/BoardStateStore";
-import { useModalStore } from "@/store/ModalStore";
+import { useBoardStateStore } from '@/store/BoardStateStore';
+import { useModalStore } from '@/store/ModalStore';
 
 // constants and functions
 
@@ -15,13 +15,12 @@ export default function TaskDatePicker() {
     state.cardInfo,
   ]);
 
-  const [cardStartDate, setStartDate, cardEndDate, setEndDate] =
-    useBoardStateStore((state) => [
-      state.cardStartDate,
-      state.setCardStartDate,
-      state.cardEndDate,
-      state.setCardEndDate,
-    ]);
+  const [cardStartDate, setStartDate, cardEndDate, setEndDate] = useBoardStateStore((state) => [
+    state.cardStartDate,
+    state.setCardStartDate,
+    state.cardEndDate,
+    state.setCardEndDate,
+  ]);
 
   /**
 
@@ -37,18 +36,12 @@ export default function TaskDatePicker() {
       setStartDate(cardInfo?.todo?.startDate);
       setEndDate(cardInfo?.todo?.endDate);
     }
-  }, [
-    isEditModal,
-    cardInfo?.todo?.startDate,
-    cardInfo?.todo?.endDate,
-    setStartDate,
-    setEndDate,
-  ]);
+  }, [isEditModal, cardInfo?.todo?.startDate, cardInfo?.todo?.endDate, setStartDate, setEndDate]);
 
   return (
-    <div className="flex flex-col mt-2 space-y-2 w-full">
+    <div className="mt-2 flex w-full flex-col space-y-2">
       {/* start date input */}
-      <div className="w-full form-control">
+      <div className="form-control w-full">
         <label className="label">
           <span className="label-text">Start Date</span>
         </label>
